@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<!-- Application -->
 	<string name="app_name">MovingEstimator</string>
 	<string name="action_settings">Settings</string>
 	
@@ -11,11 +12,9 @@
 	<!-- CustomerList -->
 	<string name="customerlist_empty">There is no customer on this list.</string>
 	
-	<!-- ContextMenu -->
+	<!-- MenuItems -->
+	<string name="menuitem_new">Add New Customer</string>	
 	<string name="menuitem_delete">Delete</string>
-	
-	<!-- OptionsMenu -->
-	<string name="menuitem_new">Add New Customer</string>
 	<string name="menuitem_showsubtitle">Show Subtitle</string>
 	<string name="menuitem_hidesubtitle">Hide Subtitle</string>
 	

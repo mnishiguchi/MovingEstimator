@@ -1,6 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -39,6 +40,43 @@ public class CustomerListFragment extends ListFragment
 	
 	// Remember the currently selected item.
 	private int mPositionSelected;
+	
+	// remember the reference to the hosting activity for callbacks.
+	private ListCallbacks mCallbacks;
+		
+	/**
+	 * Required interface for hosting activities.
+	 */
+	public interface ListCallbacks
+	{
+		void onListItemClicked(Customer customer);
+		void onListItemsDeleted(Customer[] selectedCustomers);
+		void onActionMode();
+	}
+		
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		
+		// Ensure that the hosting activity has implemented the callbacks.
+		try
+		{
+			mCallbacks = (ListCallbacks)activity;
+		}
+		catch (ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString()
+					+ " must implement CustomerListFragment.Callbacks");
+		}
+	}
+		
+	@Override
+	public void onDetach()
+	{
+		super.onDetach();
+		mCallbacks = null;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -252,8 +290,8 @@ public class CustomerListFragment extends ListFragment
 		// Update the action bar title.
 		setActionBarTitle(customer);
 		
-		// Call back.
-		//mCallbacks.onCustomerSelected(customer);
+		// Notify the hosting Activity.
+		mCallbacks.onListItemClicked(customer);
 	}
 	
 	/**
@@ -276,8 +314,9 @@ public class CustomerListFragment extends ListFragment
 	 */
 	private class CustomerListAdapter extends ArrayAdapter<Customer>
 	{
-		/** CONSTRUCTOR
-		 * @param crimes - An ArrayList of Crime objects to be displayed in the ListView.
+		/**
+		 * Constructor. Create a listAdapter for the passed-in customers.
+		 * @param crimes - An ArrayList of Customer objects to be displayed in the ListView.
 		 */
 		public CustomerListAdapter(ArrayList<Customer> customers)
 		{
@@ -295,7 +334,7 @@ public class CustomerListFragment extends ListFragment
 						.inflate(R.layout.listitem_customer, null);
 			}
 			
-			/* Configure the convertView for this particular Customer */
+			// --- Configure the convertView for this particular Customer ---
 			
 			// Get the crime object in question.
 			Customer customer = getItem(position);
@@ -333,10 +372,13 @@ public class CustomerListFragment extends ListFragment
 		}
 		
 		// callback
-		// mCallbacks.onCustomerSelected(customer);
+		mCallbacks.onListItemClicked(customer);
 	}
 	
-	public void updateUI()
+	/**
+	 * Update the listView's UI based on the updated list of the adapter.
+	 */
+	void updateListView()
 	{		
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
@@ -393,9 +435,10 @@ public class CustomerListFragment extends ListFragment
 		adapter.notifyDataSetChanged();
 		
 		// Call back.
-		// mCallbacks.onListItemsDeleted(selectedItems);
+		mCallbacks.onListItemsDeleted(selectedItems);
 		
-		showToast(count + " deleted");
+		// Notify the user about the result.
+		Utils.showToast(getActivity(), count + " deleted");
 		return count;
 	}
 	
@@ -426,6 +469,7 @@ public class CustomerListFragment extends ListFragment
 	{
 		// Store the selected list item that was passed in.
 		static Customer[] sSelectedItems;
+		static int sCount;
 		
 		/**
 		 * Create a new instance that is capable of deleting the specified list items.
@@ -434,6 +478,7 @@ public class CustomerListFragment extends ListFragment
 		{
 			// Store the selected items so that we can refer to it later.
 			sSelectedItems = selectedItems;
+			sCount = selectedItems.length;
 			
 			// Create a fragment.
 			DeleteDialog fragment = new DeleteDialog();
@@ -469,19 +514,11 @@ public class CustomerListFragment extends ListFragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Delete")
+				.setTitle("Deleting " + sCount + " item(s)")
 				.setMessage("Are you sure?")
 				.setPositiveButton("Yes", listener)
 				.setNegativeButton("Cancel", listener)
 				.create();
 		}
-	}
-	
-	/**
-	 * Show a toast message.
-	 */
-	private void showToast(String msg)
-	{
-		Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
 	}
 }

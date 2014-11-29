@@ -66,6 +66,10 @@ public class Customer
 		return mPrefix + " " +  mLastName;
 	}
 	
+	public String getId()
+	{
+		return mId;
+	}
 	public String getRefNumber()
 	{
 		return mRefNumber;

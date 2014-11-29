@@ -13,14 +13,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class PagerActivity extends FragmentActivity
+public class CustomerPagerActivity extends FragmentActivity
 {
 	private static final String TAG = "CriminalIntent.PagerActivity";
 	
 	private ViewPager mViewPager;
 	
-	// Reference to the list of crimes stored in CrimeLab.
-	//private ArrayList<Crime> mCrimes;
+	// Reference to the list of customers stored in the FileCabinet.
+	private ArrayList<Customer> mCustomers;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -30,11 +30,13 @@ public class PagerActivity extends FragmentActivity
 		Log.d(TAG, "onCreate()");
 		
 		mViewPager = new ViewPager(this);
-		//mViewPager.setId(R.id.viewPager);  // This id is manually defined in res/values/ids.xml
+		mViewPager.setId(R.id.viewPager);
+
+		// This id is manually defined in res/values/ids.xml
 		setContentView(mViewPager);
 		
-		// Get the list of crimes via the CrimeLab singleton.
-		//mCrimes = CrimeLab.get(this).getCrimes();
+		// Get the list of crimes via the FileCabinet singleton.
+		mCustomers = FileCabinet.get(this).getCustomers();
 		
 		// Configuration.
 		setupPagerAdapter();
@@ -46,25 +48,28 @@ public class PagerActivity extends FragmentActivity
 	{
 		Log.d(TAG, "setUpPagerAdapter()");
 		FragmentManager fm = getSupportFragmentManager();
-		//mViewPager.setAdapter( new FragmentStatePagerAdapter(fm) {
+		mViewPager.setAdapter( new FragmentStatePagerAdapter(fm) {
 			
-			//@Override
-			//public int getCount()
+			@Override
+			public int getCount()
 			{
-				//return mCrimes.size();
+				return mCustomers.size();
 			}
 			
 			/**
 			 * Returns a CrimeFragment configured to
 			 * display the crime at the specified position.
 			 */
-			//@Override
-			//public Fragment getItem(int position)
+			@Override
+			public Fragment getItem(int position)
 			{
-				//Crime crime = mCrimes.get(position);
-				//return CrimeFragment.newInstance(crime.getId() );
+				// Get the customer at the passed-in position.
+				Customer customer = mCustomers.get(position);
+				
+				//TODO - return CustomerDetailFragment.newInstance(Customer.getId());
+				return new CustomerDetailFragment();
 			}
-		//});
+		});
 	}
 	
 	/**
@@ -73,14 +78,14 @@ public class PagerActivity extends FragmentActivity
 	private void setupInitialPagerItem()
 	{
 		Log.d(TAG, "setUpInitialPagerItem()");
-		//UUID crimeid = (UUID) getIntent()
-		//	.getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
-		//for (int i = 0; i < mCrimes.size(); i++)
+		String customerId = (String)getIntent()
+			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID);
+		for (int i = 0; i < mCustomers.size(); i++)
 		{
-		//	if (mCrimes.get(i).getId().equals(crimeid) )
+			if (mCustomers.get(i).getId().equals(customerId))
 			{
-		//		mViewPager.setCurrentItem(i);
-		//		break;
+				mViewPager.setCurrentItem(i);
+				break;
 			}
 		}
 	}
@@ -96,13 +101,14 @@ public class PagerActivity extends FragmentActivity
 			{
 				Log.d(TAG, "onPageSelected(...)");
 
-				// Set the new page's crime title.
-				//Crime crime = mCrimes.get(position);
-				
-				//if (crime.getTitle() != null)
+				// Get the customer at the passed-in position.
+				Customer customer = mCustomers.get(position);
+
+				// Set the new page's title.
+				if (customer.getLastName() != null || !customer.getLastName().equals(""))
 				{
-					//Log.d(TAG, "onPageSelected - setTitle(): " + crime.getTitle());
-					//setTitle(crime.getTitle() );
+					Log.d(TAG, "onPageSelected");
+					setTitle(customer.toString());
 				}
 			}
 			
@@ -121,17 +127,8 @@ public class PagerActivity extends FragmentActivity
 		});
 	}
 	
-	public PagerAdapter getPagerAdapter()
+	PagerAdapter getPagerAdapter()
 	{
 		return mViewPager.getAdapter();
-	}
-	
-	/**
-	 * Show a toast message.
-	 */
-	@SuppressWarnings("unused")
-	private void showToast(String msg)
-	{
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
 }

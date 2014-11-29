@@ -11,7 +11,7 @@ import android.content.Context;
  * A singleton class to keep the customer data available no matter what happens
  * with activities, fragments and their lifecycles.
  */
-public class FileCabinet
+class FileCabinet
 {
 	private static final String TAG = "movingestimator.FileCabinet";
 	
@@ -46,7 +46,7 @@ public class FileCabinet
 	 * @param context This could be an Activity or another Context object like Service.
 	 * @return the FileCabinet singleton.
 	 */
-	public static FileCabinet get(Context context)
+	static FileCabinet get(Context context)
 	{
 		if (null == sFileCabinet)  // Only the first time.
 		{
@@ -56,10 +56,23 @@ public class FileCabinet
 		return sFileCabinet;
 	}
 	
+	Customer getCustomer(String id)
+	{
+		for (Customer customer : mCustomers)
+		{
+			if (customer.getId().equals(id))
+			{
+				return customer;
+			}
+		}
+		Utils.showToast(mAppContext, "No customer with this id found.");
+		return null;
+	}
+	
 	/**
 	 * @return an ArrayList of all the Customers stored in the FileCabinet.
 	 */
-	public ArrayList<Customer> getCustomers()
+	ArrayList<Customer> getCustomers()
 	{
 		return mCustomers;
 	}
@@ -68,7 +81,7 @@ public class FileCabinet
 	 * Adds a new customer to the ArrayList that stores all the customers.
 	 * @param customer
 	 */
-	public void addCustomer(Customer customer)
+	void addCustomer(Customer customer)
 	{
 		mCustomers.add(customer);
 	}
@@ -78,7 +91,7 @@ public class FileCabinet
 	 * Ensure that other things associated with this customer is deleted. (e.g. photo, db...)
 	 * @param customer
 	 */
-	public void deleteCustomer(Customer customer)
+	void deleteCustomer(Customer customer)
 	{
 		// Delete the specified customer from the list.
 		mCustomers.remove(customer);
@@ -87,7 +100,7 @@ public class FileCabinet
 	/**
 	 * Load the customers data from the device's file system.
 	 */
-	public boolean loadCustomers()
+	boolean loadCustomers()
 	{
 		// TODO
 		return true;
@@ -96,7 +109,7 @@ public class FileCabinet
 	/**
 	 * Save the customers data to a file on the device's file system.
 	 */
-	public boolean saveCustomers()
+	boolean saveCustomers()
 	{
 		// TODO
 		return true;

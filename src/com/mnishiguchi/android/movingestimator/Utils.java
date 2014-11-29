@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.widget.Toast;
 
 public class Utils
 {
@@ -30,5 +31,13 @@ public class Utils
 		PackageManager pm = activity.getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(i, 0);
 		return (activities.size() > 0);
+	}
+	
+	/**
+	 * Show a toast message.
+	 */
+	static void showToast(Context context, String msg)
+	{
+		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 	}
 }
