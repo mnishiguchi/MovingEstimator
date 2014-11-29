@@ -8,7 +8,7 @@ public class CustomerListActivity extends SingleFragmentActivity
 	protected Fragment createFragment()
 	{
 		// Return an instance of the fragment that the activity is hosting. 
-		return null; // TODO
+		return new CustomerListFragment();
 	}
 	
 	@Override

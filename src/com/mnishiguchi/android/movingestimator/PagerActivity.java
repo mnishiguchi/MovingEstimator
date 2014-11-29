@@ -30,7 +30,7 @@ public class PagerActivity extends FragmentActivity
 		Log.d(TAG, "onCreate()");
 		
 		mViewPager = new ViewPager(this);
-		mViewPager.setId(R.id.viewPager);  // This id is manually defined in res/values/ids.xml
+		//mViewPager.setId(R.id.viewPager);  // This id is manually defined in res/values/ids.xml
 		setContentView(mViewPager);
 		
 		// Get the list of crimes via the CrimeLab singleton.

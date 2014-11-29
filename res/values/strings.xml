@@ -2,7 +2,22 @@
 <resources>
 
 	<string name="app_name">MovingEstimator</string>
-	<string name="hello_world">Hello world!</string>
 	<string name="action_settings">Settings</string>
-
+	
+	<!-- ActionBar -->
+	<string name="actionbar_title">temp title</string>
+	<string name="actionbar_subtitle">temp subtitle</string>
+	
+	<!-- CustomerList -->
+	<string name="customerlist_title">This is the customerlist title</string>
+	<string name="customerlist_empty">There is no customer on this list.</string>
+	
+	<!-- ContextMenu -->
+	<string name="menuitem_delete">Delete</string>
+	
+	<!-- OptionsMenu -->
+	<string name="menuitem_new">Add New Customer</string>
+	<string name="menuitem_showsubtitle">Show Subtitle</string>
+	<string name="menuitem_hidesubtitle">Hide Subtitle</string>
+	
 </resources>

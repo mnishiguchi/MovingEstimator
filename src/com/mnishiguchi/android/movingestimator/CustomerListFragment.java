@@ -1,20 +1,13 @@
 package com.mnishiguchi.android.movingestimator;
 import java.util.ArrayList;
 
-import com.mnishiguchi.android.criminalintent.Crime;
-import com.mnishiguchi.android.criminalintent.CrimeLab;
-import com.mnishiguchi.android.criminalintent.R;
-import com.mnishiguchi.android.criminalintent.Utils;
-import com.mnishiguchi.android.criminalintent.CrimeListFragment.CrimeAdapter;
-import com.mnishiguchi.android.criminalintent.CrimeListFragment.SingleChoiceOptionsFragment;
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +24,8 @@ import android.widget.Toast;
 
 public class CustomerListFragment extends ListFragment
 {
-	//private static final String TAG = "movingestimatort.CustomerListFragment";
+	private static final String TAG = "movingestimatort.CustomerListFragment";
+	
 	private static final String DIALOG_DELETE = "delete";
 	
 	// Store reference to the current instance to this fragment.
@@ -50,23 +43,25 @@ public class CustomerListFragment extends ListFragment
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		Log.d(TAG, "onCreate");
+		
 		super.onCreate(savedInstanceState);
 		
 		// Store a reference to this instance.
 		sCustomerListFragment = this;
 	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
-		// TODO: setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 		
 		// Change what is displayed on the hosting activity's action bar.
-		// TODO - getActivity().setTitle(R.string.customerlist_title);
+		getActivity().setTitle(R.string.customerlist_title);
 	
 		// Get the list of customers via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(getActivity()).getCustomers();
 		
 		// Set the list adapter.
-		//TODO - CustomerListAdapter adapter = new CustomerListAdapter(mCustomers);
-		//TODO -setListAdapter(adapter);
+		CustomerListAdapter adapter = new CustomerListAdapter(mCustomers);
+		setListAdapter(adapter);
 		
 		// Retain this fragment.
 		setRetainInstance(true);
@@ -86,37 +81,38 @@ public class CustomerListFragment extends ListFragment
 	{
 		// Inflate a custom layout with list & empty.
 		View v = inflater.inflate(R.layout.fragment_customerlist, parent, false);
-	
+		
 		// Note:
 		// Get a ListView object by using android.R.id.list resource ID
 		// instead of getListView() because the layout view is not created yet.
+		
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
 		
-		// TODO add UI components.
-		
+		// If mSubtitleVisible == true, then set the subtitle.
 		if (mSubtitleVisible)
 		{
-			// TODO - getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
+			// temp subtitle.
+			getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
 		}
 		
 		// --- Contexual Action Bar ---
 		
-		if (Utils.hasTwoPane(getActivity()))
+		if (Utils.hasTwoPane(getActivity())) // Two-pane.
 		{
 			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		}
-		else
+		else // Single-pane.
 		{
 			// Define responce to multi-choice.
 			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-			
 			listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+				
 				@Override
 				public boolean onCreateActionMode(ActionMode mode, Menu menu)
 				{
 					// Inflate the menu using a special inflater defined in the ActionMode class.
 					MenuInflater inflater = mode.getMenuInflater();
-					// TODO - inflater.inflate(R.menu.customerlist_item_context, menu);
+					inflater.inflate(R.menu.customerlist_listitem_contextmenu, menu);
 					
 					// Call back.
 					// TODO - mCallbacks.onActionMode();
@@ -134,14 +130,13 @@ public class CustomerListFragment extends ListFragment
 				{
 					switch (item.getItemId())
 					{
-						//TODO - case R.id.actionitem_delete:
-						case 0:	
+						case R.id.contextmenu_delete:
+							
 							// Show Delete Confirmation dialog.
-							// TODO - DeleteDialog.newInstance(getSelectedItems())
-							//	.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
+							DeleteDialog.newInstance(getSelectedItems())
+								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 
 							mode.finish(); // Action picked, so close the CAB
-							
 							return true;
 						
 						default:
@@ -159,6 +154,7 @@ public class CustomerListFragment extends ListFragment
 				public void onItemCheckedStateChanged(ActionMode mode,
 						int position, long id, boolean checked)
 				{
+					// Show the number of selected items on the CAB.
 					mode.setTitle(getListView().getCheckedItemCount() + " selected");
 				}
 			});
@@ -173,12 +169,12 @@ public class CustomerListFragment extends ListFragment
 		super.onResume();
 		
 		// Reload the list.
-		// TODO - ((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
+		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 	
 	/**
 	 * Creates the options menu and populates it with the items defined
-	 * in res/menu/fragment_crime_list.xml.
+	 * in res/menu/fragment_customerlist.xml.
 	 * The setHasOptionsMenu(boolean hasMenu) must be called in the onCreate.
 	 */
 	@Override
@@ -187,15 +183,15 @@ public class CustomerListFragment extends ListFragment
 		super.onCreateOptionsMenu(menu, inflater);
 		
 		// Inflate the menu; this adds items to the action bar.
-		// TODO - inflater.inflate(R.menu.fragment_customerlist, menu);
+		inflater.inflate(R.menu.fragment_customerlist, menu);
 		
 		// Get a reference to the subtitle menu item.
-		// TODO - MenuItem showSubtitle = menu.findItem(R.id.customerlist_menuitem_showsubtitle);
+		MenuItem menuSubtitle = menu.findItem(R.id.customerlist_menuitem_subtitle);
 		
 		// Display the subtitle menu item's state based on mSubtitleVisible.
-		//  TODO - if (mSubtitleVisible && showSubtitle != null)
+		if (mSubtitleVisible && menuSubtitle != null)
 		{
-			//TODO - showSubtitle.setTitle(R.string.actionbar_hidesubtitle);
+			menuSubtitle.setTitle(R.string.menuitem_hidesubtitle);
 		}
 	}
 	
@@ -210,24 +206,27 @@ public class CustomerListFragment extends ListFragment
 			// --- NEW ---
 			
 			case R.id.customerlist_menuitem_new:
+				
 				addNewCustomer();
+				
 				return true;  // No further processing is necessary.
 			
 			// --- Show/Hide subtitle ---
 			
-			case R.id.customerlist_menuitem_showsubtitle:	
+			case R.id.customerlist_menuitem_subtitle:
+				
 				// Set the action bar's subtitle, toggling "Show subtitle" & "Hide subtitle"
 				if (getActivity().getActionBar().getSubtitle() == null)
 				{
-					getActivity().getActionBar().setSubtitle(R.string.actionbar_showsubtitle);  // Show the subtitle
+					getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);  // Show the subtitle
 					mSubtitleVisible = true;
-					item.setTitle(R.string.actionbar_hidesubtitle);  // Say "Hide subtitle"
+					item.setTitle(R.string.menuitem_hidesubtitle);  // Say "Hide subtitle"
 				}
 				else
 				{
 					getActivity().getActionBar().setSubtitle(null);  // Hide the subtitle
 					mSubtitleVisible = false;
-					item.setTitle(R.string.actionbar_showsubtitle);  // Say "Show subtitle"
+					item.setTitle(R.string.menuitem_showsubtitle);  // Say "Show subtitle"
 				}
 				return true;  // No further processing is necessary.
 				
@@ -280,19 +279,22 @@ public class CustomerListFragment extends ListFragment
 			/* Configure the convertView for this particular Customer */
 			
 			// Get the crime object in question.
-			Customer  customer = getItem(position);
+			Customer customer = getItem(position);
 			
 			// TODO - Implement with a ViewHolder.
 			
-			//TextView tvTitle = (TextView)
-			//		convertView.findViewById(R.id.tv_list_item_crime_title);
-			//tvTitle.setText(customer.toString());
+			TextView customerName = (TextView)
+					convertView.findViewById(R.id.listitem_customer_customername);
+			customerName.setText(customer.toString());
+			TextView company = (TextView)
+					convertView.findViewById(R.id.listitem_customer_company);
+			company.setText(customer.getCompanyName());
 			
 			return convertView;
 		}
 	}
 	
-	private void addNewCrime()
+	private void addNewCustomer()
 	{
 		// Create and add a new Customer object to the FileCabinet's list.
 		Customer customer = new Customer();

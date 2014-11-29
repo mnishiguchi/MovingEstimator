@@ -3,6 +3,7 @@ package com.mnishiguchi.android.movingestimator;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 import android.content.Context;
 
@@ -32,6 +33,7 @@ public class FileCabinet
 		mAppContext = appContext;
 		//mSerializer = new MovingEstimatorJSONSerializer(mAppContext, FILENAME);
 		
+		mCustomers = new ArrayList<Customer>();
 		initFakeCustomers();
 		
 		// Load customers from the file system.
@@ -110,7 +112,7 @@ public class FileCabinet
 			Customer c = new Customer();
 			c.setRefNumber(String.valueOf(r.nextInt(1000)));
 			c.setFirstName("Customer #" + i);
-			c.setLastName("Masa");
+			c.setLastName(UUID.randomUUID().toString().substring(0, 12));
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
 			c.setCompanyName("MasaTech");
