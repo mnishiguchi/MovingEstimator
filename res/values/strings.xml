@@ -5,11 +5,10 @@
 	<string name="action_settings">Settings</string>
 	
 	<!-- ActionBar -->
-	<string name="actionbar_title">temp title</string>
-	<string name="actionbar_subtitle">temp subtitle</string>
+	<string name="actionbar_title">Customer List</string>
+	<string name="actionbar_subtitle">Company Name</string>
 	
 	<!-- CustomerList -->
-	<string name="customerlist_title">This is the customerlist title</string>
 	<string name="customerlist_empty">There is no customer on this list.</string>
 	
 	<!-- ContextMenu -->

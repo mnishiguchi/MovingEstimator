@@ -115,7 +115,7 @@ public class FileCabinet
 			c.setLastName(UUID.randomUUID().toString().substring(0, 12));
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
-			c.setCompanyName("MasaTech");
+			c.setCompanyName("MasaTech - " + i);
 			c.setAddress("123456 River Rd. NW Washington, DC 20123");
 			c.setPhoneNumber(String.valueOf(r.nextLong()));
 			c.setLimitOcean(r.nextInt(30));

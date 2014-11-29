@@ -54,7 +54,7 @@ public class CustomerListFragment extends ListFragment
 		setHasOptionsMenu(true);
 		
 		// Change what is displayed on the hosting activity's action bar.
-		getActivity().setTitle(R.string.customerlist_title);
+		getActivity().setTitle(R.string.actionbar_title);
 	
 		// Get the list of customers via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(getActivity()).getCustomers();
@@ -73,7 +73,7 @@ public class CustomerListFragment extends ListFragment
 	// Note:
 	// ListFragments come with a default onCreateView() method.
 	// The default implementation of a ListFragment inflates a layout that
-	// defines a full screen ListView. */
+	// defines a full screen ListView.
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -83,17 +83,18 @@ public class CustomerListFragment extends ListFragment
 		View v = inflater.inflate(R.layout.fragment_customerlist, parent, false);
 		
 		// Note:
+		// For this app, android.R.id.list is defined in fragment_customerlist.xml.
 		// Get a ListView object by using android.R.id.list resource ID
 		// instead of getListView() because the layout view is not created yet.
 		
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
 		
 		// If mSubtitleVisible == true, then set the subtitle.
-		if (mSubtitleVisible)
-		{
+		//if (mSubtitleVisible)
+		//{
 			// temp subtitle.
-			getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
-		}
+			//getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
+		//}
 		
 		// --- Contexual Action Bar ---
 		
@@ -132,6 +133,7 @@ public class CustomerListFragment extends ListFragment
 					{
 						case R.id.contextmenu_delete:
 							
+							Log.d(TAG, "onActionItemClicked - contextmenu_delete");
 							// Show Delete Confirmation dialog.
 							DeleteDialog.newInstance(getSelectedItems())
 								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
@@ -216,17 +218,19 @@ public class CustomerListFragment extends ListFragment
 			case R.id.customerlist_menuitem_subtitle:
 				
 				// Set the action bar's subtitle, toggling "Show subtitle" & "Hide subtitle"
-				if (getActivity().getActionBar().getSubtitle() == null)
+				if (null == getActivity().getActionBar().getSubtitle())
 				{
-					getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);  // Show the subtitle
+					// Set the default subtitle
+					getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
 					mSubtitleVisible = true;
-					item.setTitle(R.string.menuitem_hidesubtitle);  // Say "Hide subtitle"
+					item.setTitle(R.string.menuitem_hidesubtitle); // Say "Hide subtitle"
 				}
 				else
 				{
-					getActivity().getActionBar().setSubtitle(null);  // Hide the subtitle
+					// Hide the subtitle
+					getActivity().getActionBar().setSubtitle(null);
 					mSubtitleVisible = false;
-					item.setTitle(R.string.menuitem_showsubtitle);  // Say "Show subtitle"
+					item.setTitle(R.string.menuitem_showsubtitle); // Say "Show subtitle"
 				}
 				return true;  // No further processing is necessary.
 				
@@ -246,10 +250,25 @@ public class CustomerListFragment extends ListFragment
 		mPositionSelected = position;
 		
 		// Update the action bar title.
-		getActivity().setTitle(customer.toString());
+		setActionBarTitle(customer);
 		
 		// Call back.
 		//mCallbacks.onCustomerSelected(customer);
+	}
+	
+	/**
+	 * Set the customer name as a title and the company name as a subtitle.
+	 */
+	private void setActionBarTitle(Customer customer)
+	{
+		getActivity().setTitle(customer.toString());
+		
+		// If mSubtitleVisible == true, then set the subtitle.
+		if (mSubtitleVisible)
+		{
+			getActivity().getActionBar().setSubtitle(customer.getCompanyName());
+		}
+		
 	}
 	
 	/**
@@ -323,7 +342,7 @@ public class CustomerListFragment extends ListFragment
 	}
 	
 	/**
-	 * @return an array of Crime objects that are selected.
+	 * @return an array of Customer objects that are selected.
 	 */
 	private Customer[] getSelectedItems()
 	{
@@ -345,7 +364,7 @@ public class CustomerListFragment extends ListFragment
 		// Get the size of the result.
 		int resultSize = list.size();
 		
-		// Convert to Integer array.
+		// Convert the ArrayList to an array.
 		Customer[] result = new Customer[resultSize];
 		result = list.toArray(result);
 		
@@ -376,7 +395,7 @@ public class CustomerListFragment extends ListFragment
 		// Call back.
 		// mCallbacks.onListItemsDeleted(selectedItems);
 		
-		showToast(count + " item(s) deleted");
+		showToast(count + " deleted");
 		return count;
 	}
 	
@@ -436,9 +455,11 @@ public class CustomerListFragment extends ListFragment
 				{ 
 					switch (which) 
 					{ 
-						case DialogInterface.BUTTON_POSITIVE: 
-							// TODO- sCustomerListFragment.deleteSelectedItems(sSelectedItems);
+						case DialogInterface.BUTTON_POSITIVE:
+							
+							sCustomerListFragment.deleteSelectedItems(sSelectedItems);
 							break; 
+							
 						case DialogInterface.BUTTON_NEGATIVE: 
 							// do nothing 
 							break; 
