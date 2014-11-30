@@ -1,8 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/scrollView1"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
+	android:layout_height="wrap_content" >
+<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 	
-	
+	<!-- CustomerName -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:text="Customer Name" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<EditText
+			android:id="@+id/editTextFirstName"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2"
+			android:ems="10"
+			android:hint="First name"
+			android:inputType="textPersonName"/>
+		<EditText
+			android:id="@+id/editTextLastName"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2"
+			android:ems="10"
+			android:hint="Last name"
+			android:inputType="textPersonName"/>
+		<Spinner
+			android:id="@+id/spinnerPrefix"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />
+	</LinearLayout>
 
-</ListView>
+	<!-- Organization -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Organization" />
+		
+	<EditText
+		android:id="@+id/editTextOrganization"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Organization"
+		android:inputType="textPersonName"/>
+
+	<!-- Home Address -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Home address" />
+	<EditText
+		android:id="@+id/editTextAddress"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Home address"
+		android:inputType="textPostalAddress" />
+	
+	<!-- E-mail -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="E-mail"
+		android:inputType="textEmailAddress"/>
+	<EditText
+		android:id="@+id/editTextEmail"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="E-mail" />	
+	
+	<!-- Phone Numbers -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Phone Number" />
+	
+	<!-- Home -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Home: " />
+		<EditText
+			android:id="@+id/editTextPhoneHome"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="5"
+			android:ems="10"
+			android:hint="Phone(Home)"
+			android:inputType="phone" />
+	</LinearLayout>
+	
+	<!-- Work -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Work: " />
+		<EditText
+			android:id="@+id/editTextPhoneWork"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="5"
+			android:ems="10"
+			android:hint="Phone(Work)"
+			android:inputType="phone" />
+	</LinearLayout>
+	
+	<!-- Cell -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Cell: " />
+		<EditText
+			android:id="@+id/editTextPhoneCell"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="5"
+			android:ems="10"
+			android:hint="Phone(Cell)"
+			android:inputType="phone" />
+	</LinearLayout>
+	
+	<!-- Moving Volume -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Moving Volume" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:orientation="horizontal">
+		<Button
+			android:id="@+id/btnVolumeOcean"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+		<Button
+			android:id="@+id/btnVolumeAir"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+	</LinearLayout>
+	<EditText
+		android:id="@+id/editTextVolumeComment"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Comment on moving volume" />
+	
+	<!-- Moving Date -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Moving Date" />
+	<Button
+		android:id="@+id/btnMovingDate"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp" />
+	<EditText
+		android:id="@+id/editTextMovingDateComment"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Comment on moving date" />
+	
+	<!-- Home Description -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Home Description." />
+	<EditText
+		android:id="@+id/editTextHomeDescription"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Description of the home" />
+	
+	<!-- Special order -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Special order" />
+	<EditText
+		android:id="@+id/editTextSpecialOrder"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="Special order" />
+	<!-- General Comment -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="General Comment" />
+	<EditText
+		android:id="@+id/editTextGeneralComment"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:ems="10"
+		android:hint="General Comment." />
+</LinearLayout>
+</ScrollView>

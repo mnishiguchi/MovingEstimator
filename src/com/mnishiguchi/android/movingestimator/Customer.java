@@ -33,7 +33,8 @@ public class Customer
 	public Customer()
 	{
 		// Generate unique identifier (Time Stamp).
-		mId = new SimpleDateFormat("yyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+		mId = new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US)
+			.format(new Date());
 	}
 	
 	/**

@@ -1,7 +1,9 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
@@ -128,7 +130,7 @@ class FileCabinet
 			c.setLastName(UUID.randomUUID().toString().substring(0, 12));
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
-			c.setCompanyName("MasaTech - " + i);
+			c.setCompanyName("MasaTech - " + new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date()));
 			c.setAddress("123456 River Rd. NW Washington, DC 20123");
 			c.setPhoneNumber(String.valueOf(r.nextLong()));
 			c.setLimitOcean(r.nextInt(30));

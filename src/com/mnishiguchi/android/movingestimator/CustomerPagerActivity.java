@@ -66,8 +66,8 @@ public class CustomerPagerActivity extends FragmentActivity
 				// Get the customer at the passed-in position.
 				Customer customer = mCustomers.get(position);
 				
-				//TODO - return CustomerDetailFragment.newInstance(Customer.getId());
-				return new CustomerDetailFragment();
+				// Create a new detailFragment with this customer's id.
+				return CustomerDetailFragment.newInstance(customer.getId());
 			}
 		});
 	}
