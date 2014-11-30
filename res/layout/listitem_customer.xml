@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:paddingLeft="4dp"
+	android:paddingRight="4dp"
+	android:paddingTop="4dp"
+	android:paddingBottom="4dp"
 	android:background="@drawable/background_activated"
 	android:orientation="vertical" >
 
@@ -10,15 +14,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:textStyle="bold"
-		android:paddingLeft="4dp"
-		android:paddingRight="4dp"
+
 		android:text="Customer Name" />
 	<TextView
 		android:id="@+id/listitem_customer_company"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingLeft="4dp"
-		android:paddingRight="4dp"
 		android:text="Company Name" />
 
 </LinearLayout>

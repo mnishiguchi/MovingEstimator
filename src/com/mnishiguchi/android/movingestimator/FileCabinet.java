@@ -130,15 +130,15 @@ class FileCabinet
 			c.setLastName(UUID.randomUUID().toString().substring(0, 12));
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
-			c.setCompanyName("MasaTech - " + new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date()));
+			c.setOrganization("MasaTech - " + new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date()));
 			c.setAddress("123456 River Rd. NW Washington, DC 20123");
-			c.setPhoneNumber(String.valueOf(r.nextLong()));
-			c.setLimitOcean(r.nextInt(30));
-			c.setLimitAir(r.nextInt(100));
-			c.setLimitNotes("This is the notes on the moving limit.");
+			c.setPhoneHome(String.valueOf(r.nextLong()));
+			c.setVolumeOcean(r.nextInt(30));
+			c.setVolumeAir(r.nextInt(100));
+			c.setVolumeComment("This is the notes on the moving limit.");
 			c.setMovingDate(new Date());
 			c.setHomeDescription("This is the home description.");
-			c.setRemarks("This is the remarks.");
+			c.setGeneralComment("This is the GeneralComment.");
 			
 			mCustomers.add(c);
 		}

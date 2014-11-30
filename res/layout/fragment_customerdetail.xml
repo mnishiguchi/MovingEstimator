@@ -6,15 +6,32 @@
 <LinearLayout
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:layout_marginLeft="16dp"
+	android:layout_marginRight="16dp"
+	android:layout_marginTop="16dp"
+	android:layout_marginBottom="16dp"
 	android:orientation="vertical">
 	
+	<!-- Reference number -->
+	<TextView
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Reference number" />
+	<EditText
+		android:id="@+id/editTextRefNumber"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:hint="Reference number"
+		android:ems="10" />
+
 	<!-- CustomerName -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
 		android:text="Customer Name" />
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -81,8 +98,7 @@
 		style="?android:listSeparatorTextViewStyle" 
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="E-mail"
-		android:inputType="textEmailAddress"/>
+		android:text="E-mail" />
 	<EditText
 		android:id="@+id/editTextEmail"
 		android:layout_width="match_parent"
@@ -90,7 +106,8 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="E-mail" />	
+		android:hint="E-mail"
+		android:inputType="textEmailAddress" />
 	
 	<!-- Phone Numbers -->
 	<TextView
@@ -259,7 +276,9 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
+		android:layout_marginBottom ="32dp"
 		android:ems="10"
 		android:hint="General Comment." />
+
 </LinearLayout>
 </ScrollView>

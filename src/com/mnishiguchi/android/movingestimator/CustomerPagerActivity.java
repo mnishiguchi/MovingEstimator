@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CustomerPagerActivity extends FragmentActivity
+	implements CustomerDetailFragment.DetailCallbacks
 {
 	private static final String TAG = "CriminalIntent.PagerActivity";
 	
@@ -130,5 +131,26 @@ public class CustomerPagerActivity extends FragmentActivity
 	PagerAdapter getPagerAdapter()
 	{
 		return mViewPager.getAdapter();
+	}
+
+	@Override
+	public void onCustomerAdded(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCustomerUpdated(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCustomerDeleted(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+	<!-- Alias resource value - sw600dp-port -->
+	<item name="activity_masterdetail" type="layout">
+		@layout/activity_fragment
+	</item>
+	
+</resources>

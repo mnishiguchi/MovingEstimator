@@ -210,6 +210,11 @@ public class CustomerListFragment extends ListFragment
 		
 		// Reload the list.
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
+		
+		if (!Utils.hasTwoPane(getActivity())) // Single=pane
+		{
+			clearListSelection();
+		}
 	}
 	
 	/**
@@ -304,7 +309,7 @@ public class CustomerListFragment extends ListFragment
 		// If mSubtitleVisible == true, then set the subtitle.
 		if (mSubtitleVisible)
 		{
-			getActivity().getActionBar().setSubtitle(customer.getCompanyName());
+			getActivity().getActionBar().setSubtitle(customer.getOrganization());
 		}
 		
 	}
@@ -346,7 +351,7 @@ public class CustomerListFragment extends ListFragment
 			customerName.setText(customer.toString());
 			TextView company = (TextView)
 					convertView.findViewById(R.id.listitem_customer_company);
-			company.setText(customer.getCompanyName());
+			company.setText(customer.getOrganization());
 			
 			return convertView;
 		}

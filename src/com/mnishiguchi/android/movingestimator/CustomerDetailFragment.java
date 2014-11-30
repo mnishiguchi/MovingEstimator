@@ -2,6 +2,7 @@ package com.mnishiguchi.android.movingestimator;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -20,8 +21,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 public class CustomerDetailFragment extends Fragment
+
 {
 	private static final String TAG = "movingestimator.CustomerDetailFragment";
 	
@@ -43,10 +48,17 @@ public class CustomerDetailFragment extends Fragment
 	private Customer mCustomer;
 	
 	// UI components
-	// TODO
-	
-	
-	
+	EditText mEtRefNumber, mEtFirstName, mEtLastName;
+	Spinner mSpinnerPrefix;
+	EditText mEtOrganization;
+	EditText mEtAddress, mEtEmail, mEtPhoneHome, mEtPhoneWork, mEtPhoneCell;
+	Button mBtnVolumeOcean, mBtnVolumeAir;
+	EditText mEtVolumeComment;
+	Button mBtnMovingDate;
+	EditText mEtMovingDateComment;
+	EditText mEtHomeDescription;
+	EditText mEtSpecialOrder;
+	EditText mEtGeneralComment;
 	
 	// Reference to CAB.
 	private ActionMode mActionMode;
@@ -57,7 +69,40 @@ public class CustomerDetailFragment extends Fragment
 	private String mPhotoFilename;
 	
 	// Remember reference to callback-registered activities.
-	//private DetailCallbacks mCallbacks;
+	private DetailCallbacks mCallbacks;
+	
+	/**
+	 * Required interface for hosting activities.
+	 */
+	public interface DetailCallbacks
+	{
+		void onCustomerAdded(Customer customer);
+		void onCustomerUpdated(Customer customer);
+		void onCustomerDeleted(Customer customer);
+	}
+	
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		
+		// Ensure that the hosting activity has implemented the callbacks
+		try
+		{
+			mCallbacks = (DetailCallbacks)activity;
+		}
+		catch (ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString() + " must implement CrimeFragment.Callbacks");
+		}
+	}
+	
+	@Override
+	public void onDetach()
+	{
+		super.onDetach();
+		mCallbacks = null;
+	}
 	
 	/**
 	 * Creates a new fragment instance and set the specified id as fragment's arguments.
@@ -117,9 +162,25 @@ public class CustomerDetailFragment extends Fragment
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 
-		
-		// TODO - UI components
-		
+		// UI components
+		EditText mEtRefNumber = (EditText)v.findViewById(R.id.editTextRefNumber);
+		EditText mEtFirstName = (EditText)v.findViewById(R.id.editTextFirstName);
+		EditText mEtLastName = (EditText)v.findViewById(R.id.editTextLastName);
+		Spinner mSpinnerPrefix = (Spinner)v.findViewById(R.id.spinnerPrefix);
+		EditText mEtOrganization = (EditText)v.findViewById(R.id.editTextOrganization);
+		EditText mEtAddress = (EditText)v.findViewById(R.id.editTextAddress);
+		EditText mEtEmail = (EditText)v.findViewById(R.id.editTextEmail);
+		EditText mEtPhoneHome = (EditText)v.findViewById(R.id.editTextPhoneHome);
+		EditText mEtPhoneWork = (EditText)v.findViewById(R.id.editTextPhoneWork);
+		EditText mEtPhoneCell = (EditText)v.findViewById(R.id.editTextPhoneCell);
+		Button mBtnVolumeOcean = (Button)v.findViewById(R.id.btnVolumeOcean);
+		Button mBtnVolumeAir = (Button)v.findViewById(R.id.btnVolumeAir);
+		EditText mEtVolumeComment = (EditText)v.findViewById(R.id.editTextVolumeComment);
+		Button mBtnMovingDate = (Button)v.findViewById(R.id.btnMovingDate);
+		EditText mEtMovingDateComment = (EditText)v.findViewById(R.id.editTextMovingDateComment);
+		EditText mEtHomeDescription = (EditText)v.findViewById(R.id.editTextHomeDescription);
+		EditText mEtSpecialOrder = (EditText)v.findViewById(R.id.editTextSpecialOrder);
+		EditText mEtGeneralComment = (EditText)v.findViewById(R.id.editTextGeneralComment);
 
 		// Return the layout.
 		return v;
@@ -168,6 +229,12 @@ public class CustomerDetailFragment extends Fragment
 	}
 	
 	@Override
+	public void onResume()
+	{
+		super.onResume();
+	}
+	
+	@Override
 	public void onPause()
 	{
 		super.onPause();
@@ -206,7 +273,7 @@ public class CustomerDetailFragment extends Fragment
 				{
 					NavUtils.navigateUpFromSameTask(getActivity());
 				}
-				return true;  // Indicate that no further processing is necessary.
+				return true; // Indicate that no further processing is necessary.
 
 			case R.id.menuitem_delete:
 				

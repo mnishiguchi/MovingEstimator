@@ -5,8 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class CustomerListActivity extends SingleFragmentActivity
-		implements CustomerListFragment.ListCallbacks
+public class CustomerListActivity extends SingleFragmentActivity implements
+		CustomerListFragment.ListCallbacks,
+		CustomerDetailFragment.DetailCallbacks
 {
 	@Override
 	protected Fragment createFragment()
@@ -87,5 +88,26 @@ public class CustomerListActivity extends SingleFragmentActivity
 		}
 
 		ft.commit();
+	}
+
+	@Override
+	public void onCustomerAdded(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCustomerUpdated(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCustomerDeleted(Customer customer)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

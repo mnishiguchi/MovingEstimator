@@ -7,8 +7,12 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class Customer
 {
+	private static String TAG = "movingestimator.Customer";
+	
 	// JSON keys
 	// TODO
 	
@@ -17,17 +21,22 @@ public class Customer
 	private String mId;
 	private String mRefNumber;
 	private String mFirstName, mLastName, mPrefix;
-	private String mCompanyName;
+	private String mOrganization;
 	private String mAddress;
-	private String mPhoneNumber;
-	private int mLimitOcean, mLimitAir;
-	private String mLimitNotes;
+	private String mEmail;
+	private String mPhoneHome;
+	private String mPhoneWork;
+	private String mPhoneCell;
+	private float mVolumeOcean, mVolumeAir;
+	private String mVolumeComment;
 	private Date mMovingDate;
+	private String mMovingDateComment;
 	private String mHomeDescription;
-	private String mRemarks;
+	private String mSpecialOrders;
+	private String mGeneralComment;
 	
 	/**
-	 * Constructor. Create a default Customer object.
+	 * Constructor. Create a default Customer object with a unique id.
 	 * Used when adding a new customer.
 	 */
 	public Customer()
@@ -54,6 +63,7 @@ public class Customer
 	public JSONObject toJSON() throws JSONException
 	{
 		// TODO
+		Log.e(TAG, getClass().getSimpleName() + " is not implemented yet.");
 		return new  JSONObject();
 	}
 	
@@ -66,113 +76,189 @@ public class Customer
 	{
 		return mPrefix + " " +  mLastName;
 	}
-	
-	public String getId()
-	{
-		return mId;
-	}
+
 	public String getRefNumber()
 	{
 		return mRefNumber;
 	}
+
 	public void setRefNumber(String refNumber)
 	{
 		mRefNumber = refNumber;
 	}
+
 	public String getFirstName()
 	{
 		return mFirstName;
 	}
+
 	public void setFirstName(String firstName)
 	{
 		mFirstName = firstName;
 	}
+
 	public String getLastName()
 	{
 		return mLastName;
 	}
+
 	public void setLastName(String lastName)
 	{
 		mLastName = lastName;
 	}
+
 	public String getPrefix()
 	{
 		return mPrefix;
 	}
+
 	public void setPrefix(String prefix)
 	{
 		mPrefix = prefix;
 	}
-	public String getCompanyName()
+
+	public String getOrganization()
 	{
-		return mCompanyName;
+		return mOrganization;
 	}
-	public void setCompanyName(String companyName)
+
+	public void setOrganization(String organization)
 	{
-		mCompanyName = companyName;
+		mOrganization = organization;
 	}
+
 	public String getAddress()
 	{
 		return mAddress;
 	}
+
 	public void setAddress(String address)
 	{
 		mAddress = address;
 	}
-	public String getPhoneNumber()
+
+	public String getEmail()
 	{
-		return mPhoneNumber;
+		return mEmail;
 	}
-	public void setPhoneNumber(String phoneNumber)
+
+	public void setEmail(String email)
 	{
-		mPhoneNumber = phoneNumber;
+		mEmail = email;
 	}
-	public int getLimitOcean()
+
+	public String getPhoneHome()
 	{
-		return mLimitOcean;
+		return mPhoneHome;
 	}
-	public void setLimitOcean(int limitOcean)
+
+	public void setPhoneHome(String phoneHome)
 	{
-		mLimitOcean = limitOcean;
+		mPhoneHome = phoneHome;
 	}
-	public int getLimitAir()
+
+	public String getPhoneWork()
 	{
-		return mLimitAir;
+		return mPhoneWork;
 	}
-	public void setLimitAir(int limitAir)
+
+	public void setPhoneWork(String phoneWork)
 	{
-		mLimitAir = limitAir;
+		mPhoneWork = phoneWork;
 	}
-	public String getLimitNotes()
+
+	public String getPhoneCell()
 	{
-		return mLimitNotes;
+		return mPhoneCell;
 	}
-	public void setLimitNotes(String limitNotes)
+
+	public void setPhoneCell(String phoneCell)
 	{
-		mLimitNotes = limitNotes;
+		mPhoneCell = phoneCell;
 	}
+
+	public float getVolumeOcean()
+	{
+		return mVolumeOcean;
+	}
+
+	public void setVolumeOcean(float volumeOcean)
+	{
+		mVolumeOcean = volumeOcean;
+	}
+
+	public float getVolumeAir()
+	{
+		return mVolumeAir;
+	}
+
+	public void setVolumeAir(float volumeAir)
+	{
+		mVolumeAir = volumeAir;
+	}
+
+	public String getVolumeComment()
+	{
+		return mVolumeComment;
+	}
+
+	public void setVolumeComment(String volumeComment)
+	{
+		mVolumeComment = volumeComment;
+	}
+
 	public Date getMovingDate()
 	{
 		return mMovingDate;
 	}
+
 	public void setMovingDate(Date movingDate)
 	{
 		mMovingDate = movingDate;
 	}
+
+	public String getMovingDateComment()
+	{
+		return mMovingDateComment;
+	}
+
+	public void setMovingDateComment(String movingDateComment)
+	{
+		mMovingDateComment = movingDateComment;
+	}
+
 	public String getHomeDescription()
 	{
 		return mHomeDescription;
 	}
+
 	public void setHomeDescription(String homeDescription)
 	{
 		mHomeDescription = homeDescription;
 	}
-	public String getRemarks()
+
+	public String getSpecialOrders()
 	{
-		return mRemarks;
+		return mSpecialOrders;
 	}
-	public void setRemarks(String remarks)
+
+	public void setSpecialOrders(String specialOrders)
 	{
-		mRemarks = remarks;
+		mSpecialOrders = specialOrders;
+	}
+
+	public String getGeneralComment()
+	{
+		return mGeneralComment;
+	}
+
+	public void setGeneralComment(String generalComment)
+	{
+		mGeneralComment = generalComment;
+	}
+
+	public String getId()
+	{
+		return mId;
 	}
 }
