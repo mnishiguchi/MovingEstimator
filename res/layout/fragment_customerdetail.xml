@@ -36,6 +36,8 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
 		android:orientation="horizontal">
 		<EditText
 			android:id="@+id/editTextFirstName"
@@ -127,7 +129,9 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Home: " />
+			android:ems="10"
+			android:text="Home:"
+			/>
 		<EditText
 			android:id="@+id/editTextPhoneHome"
 			android:layout_width="0dp"
@@ -149,7 +153,9 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Work: " />
+			android:ems="10"
+			android:text="Work:"
+			/>
 		<EditText
 			android:id="@+id/editTextPhoneWork"
 			android:layout_width="0dp"
@@ -171,7 +177,9 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Cell: " />
+			android:ems="10"
+			android:text="Cell:"
+			/>
 		<EditText
 			android:id="@+id/editTextPhoneCell"
 			android:layout_width="0dp"
@@ -180,6 +188,7 @@
 			android:ems="10"
 			android:hint="Phone(Cell)"
 			android:inputType="phone" />
+			
 	</LinearLayout>
 	
 	<!-- Moving Volume -->

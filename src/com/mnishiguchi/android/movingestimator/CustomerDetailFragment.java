@@ -278,8 +278,7 @@ public class CustomerDetailFragment extends Fragment
 			case R.id.menuitem_delete:
 				
 				// Show the delete dialog.
-				DeleteDialog.newInstance(mCustomer)
-					.show(getFragmentManager(), DIALOG_DELETE);
+				new DeleteDialog().show(getFragmentManager(), DIALOG_DELETE);
 
 			default:
 				return super.onOptionsItemSelected(item);
@@ -290,20 +289,22 @@ public class CustomerDetailFragment extends Fragment
 	 * Delete the currently shown Customer from the FileCabinet's list.
 	 * Update the Pager. Finish this fragment. Show a toast message.
 	 */
-	private void deleteCustomer(Customer customer)
+	private void deleteCustomer()
 	{
+		Log.d(TAG, "deleteCustomer() - mCustomer.getLastName(): " + mCustomer.getLastName());
+		
 		// Get the crime title.
 		String customerString =
-				(null == customer.getLastName() || customer.toString().equals("")) ?
-				"(No last name)" : customer.toString();
+				(null == mCustomer.getLastName() || mCustomer.toString().equals("")) ?
+				"(No last name)" : mCustomer.toString();
 		
 		// Delete the crime.
-		FileCabinet.get(getActivity()).deleteCustomer(customer);
+		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
 		
 		// Update the pager adapter.
 		if (Utils.hasTwoPane(getActivity())) // Two-pane.
 		{
-			// TODO - mCallbacks.onCrimeDeleted(mCrime);
+			mCallbacks.onCustomerDeleted(mCustomer);
 		}
 		else // Single-pane.
 		{
@@ -324,21 +325,21 @@ public class CustomerDetailFragment extends Fragment
 	static class DeleteDialog extends DialogFragment
 	{
 		// Store the selected list item that was passed in.
-		static Customer sCustomer;
+		//static Customer sCustomer;
 		
 		/**
 		 * Create a new instance that is capable of deleting the specified list items.
 		 */
-		static DeleteDialog newInstance(Customer customer)
+		//static DeleteDialog newInstance(Customer customer)
 		{
 			// Store the selected items so that we can refer to it later.
-			sCustomer = customer;
+			//sCustomer = customer;
 			
 			// Create a fragment.
-			DeleteDialog fragment = new DeleteDialog();
-			fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+			//DeleteDialog fragment = new DeleteDialog();
+			//fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 			
-			return fragment;
+			//return fragment;
 		}
 		
 		/*
@@ -356,7 +357,7 @@ public class CustomerDetailFragment extends Fragment
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							sCustomerDetailFragment.deleteCustomer(sCustomer);
+							sCustomerDetailFragment.deleteCustomer();
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -368,7 +369,7 @@ public class CustomerDetailFragment extends Fragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Deleting " + sCustomer.toString())
+				.setTitle("Deleting this customer")
 				.setMessage("Are you sure?")
 				.setPositiveButton("Yes", listener)
 				.setNegativeButton("Cancel", listener)

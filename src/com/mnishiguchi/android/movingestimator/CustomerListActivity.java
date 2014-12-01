@@ -100,14 +100,29 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	@Override
 	public void onCustomerUpdated(Customer customer)
 	{
-		// TODO Auto-generated method stub
-		
+		FragmentManager fm = getSupportFragmentManager();
+		CustomerListFragment listFragment = (CustomerListFragment)
+				fm.findFragmentById(R.id.fragmentContainer);
+		listFragment.updateListView();
 	}
 
 	@Override
 	public void onCustomerDeleted(Customer customer)
 	{
-		// TODO Auto-generated method stub
+		// Clear the action bar title.
+		setTitle("");
 		
+		// Clear the detailFragmentContainer.
+		removeDetailFragment();
+		
+		// Access the listFragment.
+		FragmentManager fm = getSupportFragmentManager();
+		CustomerListFragment listFragment = (CustomerListFragment)fm.findFragmentById(R.id.fragmentContainer);
+
+		// Clear the selection.
+		listFragment.clearListSelection();
+		
+		// Update the listView
+		listFragment.updateListView();
 	}
 }
