@@ -1,15 +1,10 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
@@ -68,9 +63,9 @@ public class CustomerDetailFragment extends Fragment
 	private ActionMode mActionMode;
 	
 	// Default camera
-	private Uri mPhotoFileUri;
-	private String mPhotoFilepath;
-	private String mPhotoFilename;
+	//private Uri mPhotoFileUri;
+	//private String mPhotoFilepath;
+	//private String mPhotoFilename;
 	
 	// Remember reference to callback-registered activities.
 	private DetailCallbacks mCallbacks;
@@ -138,14 +133,13 @@ public class CustomerDetailFragment extends Fragment
 		
 		
 		if (null == getArguments()){
-			Log.d(TAG, "null == getArguments()");
+			Log.e(TAG, "null == getArguments()");
 			return;
 		}
 		
 		// Retrieve the arguments.
 		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 
-	
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 		
@@ -452,6 +446,7 @@ public class CustomerDetailFragment extends Fragment
 		// --- mBtnMovingDate ---
 		
 		mBtnMovingDate = (Button)v.findViewById(R.id.btnMovingDate);
+		mBtnMovingDate.setText(mCustomer.getMovingDate().toString());
 		
 		// --- mEtMovingDateComment ---
 		

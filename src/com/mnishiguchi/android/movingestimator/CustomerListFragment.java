@@ -91,8 +91,8 @@ public class CustomerListFragment extends ListFragment
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
 		
-		// Change what is displayed on the hosting activity's action bar.
-		getActivity().setTitle(R.string.actionbar_title);
+		// Set the action-bar title.
+		getActivity().setTitle(R.string.actionbar_title_list);
 	
 		// Get the list of customers via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(getActivity()).getCustomers();
@@ -293,7 +293,7 @@ public class CustomerListFragment extends ListFragment
 		mPositionSelected = position;
 		
 		// Update the action bar title.
-		setActionBarTitle(customer);
+		// setActionBarTitle(customer);
 		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(customer);

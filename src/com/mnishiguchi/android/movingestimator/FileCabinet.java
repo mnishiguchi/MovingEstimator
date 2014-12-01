@@ -125,19 +125,24 @@ class FileCabinet
 		for (int i = 0; i < 12; i++)
 		{
 			Customer c = new Customer();
-			c.setRefNumber(String.valueOf(r.nextInt(1000)));
-			c.setFirstName("Customer #" + i);
-			c.setLastName(UUID.randomUUID().toString().substring(0, 12));
+			c.setRefNumber(String.valueOf(r.nextInt(999999)));
+			c.setFirstName("My First Name #" + i);
+			c.setLastName(UUID.randomUUID().toString().substring(0, 6));
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
-			c.setOrganization("MasaTech - " + new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date()));
-			c.setAddress("123456 River Rd. NW Washington, DC 20123");
-			c.setPhoneHome(String.valueOf(r.nextLong()));
+			c.setOrganization("My Company - " + i);
+			c.setAddress(String.valueOf(r.nextInt(1000)) + " Random Rd. NW Washington, DC 20123");
+			c.setEmail(UUID.randomUUID().toString().substring(0, 6) + "@" + "mnishiguchi.com");
+			c.setPhoneHome("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
+			c.setPhoneWork("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
+			c.setPhoneCell("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
 			c.setVolumeOcean(r.nextInt(30));
 			c.setVolumeAir(r.nextInt(100));
 			c.setVolumeComment("This is the notes on the moving limit.");
 			c.setMovingDate(new Date());
+			c.setMovingDateComment("Some comment on moving date.");
 			c.setHomeDescription("This is the home description.");
+			c.setSpecialOrders("Something special ;)");
 			c.setGeneralComment("This is the GeneralComment.");
 			
 			mCustomers.add(c);
