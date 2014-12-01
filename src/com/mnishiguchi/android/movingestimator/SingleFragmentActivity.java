@@ -31,9 +31,10 @@ public abstract class SingleFragmentActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResId());
 		
-		/*FragmentManager - Maintains a back stack of fragment transactions. */
-		/*FragmentTransaction - Used to add, remove, attach, detach,
-				or replace fragments in the fragment list. */
+		// Note:
+		// FragmentManager - Maintains a back stack of fragment transactions.
+		// FragmentTransaction - Used to add, remove, attach, detach,
+		// or replace fragments in the fragment list.
 		
 		// Get a FragmentManager
 		FragmentManager fm = getSupportFragmentManager();

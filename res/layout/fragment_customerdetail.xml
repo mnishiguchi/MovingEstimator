@@ -32,6 +32,7 @@
 		style="?android:listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
 		android:text="Customer Name" />
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -64,7 +65,8 @@
 
 	<!-- Organization -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Organization" />
@@ -81,7 +83,8 @@
 
 	<!-- Home Address -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Home address" />
@@ -97,7 +100,8 @@
 	
 	<!-- E-mail -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="E-mail" />
@@ -113,7 +117,8 @@
 	
 	<!-- Phone Numbers -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Phone Number" />
@@ -130,8 +135,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Home:"
-			/>
+			android:text="Home:" />
 		<EditText
 			android:id="@+id/editTextPhoneHome"
 			android:layout_width="0dp"
@@ -154,8 +158,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Work:"
-			/>
+			android:text="Work:" />
 		<EditText
 			android:id="@+id/editTextPhoneWork"
 			android:layout_width="0dp"
@@ -178,8 +181,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Cell:"
-			/>
+			android:text="Cell:" />
 		<EditText
 			android:id="@+id/editTextPhoneCell"
 			android:layout_width="0dp"
@@ -188,12 +190,12 @@
 			android:ems="10"
 			android:hint="Phone(Cell)"
 			android:inputType="phone" />
-			
 	</LinearLayout>
 	
 	<!-- Moving Volume -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp" 
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Moving Volume" />
@@ -225,7 +227,8 @@
 	
 	<!-- Moving Date -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Moving Date" />
@@ -246,7 +249,8 @@
 	
 	<!-- Home Description -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Home Description." />
@@ -261,7 +265,8 @@
 	
 	<!-- Special order -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Special order" />
@@ -273,9 +278,11 @@
 		android:layout_marginRight="16dp"
 		android:ems="10"
 		android:hint="Special order" />
+	
 	<!-- General Comment -->
 	<TextView
-		style="?android:listSeparatorTextViewStyle" 
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="General Comment" />
