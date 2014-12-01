@@ -18,4 +18,12 @@
 	<string name="menuitem_showsubtitle">Show Subtitle</string>
 	<string name="menuitem_hidesubtitle">Hide Subtitle</string>
 	
+	<!-- mSpinnerPrefix -->
+	<string-array name="prefixes">
+		<item>Mr.</item>
+		<item>Ms.</item>
+		<item>Miss</item>
+		<item>Mrs.</item>
+	</string-array>
+	
 </resources>

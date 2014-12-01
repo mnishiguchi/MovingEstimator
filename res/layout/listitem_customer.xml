@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:paddingLeft="4dp"
-	android:paddingRight="4dp"
-	android:paddingTop="4dp"
-	android:paddingBottom="4dp"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp"
+	android:paddingTop="16dp"
+	android:paddingBottom="16dp"
 	android:background="@drawable/background_activated"
 	android:orientation="vertical" >
 
@@ -13,7 +13,7 @@
 		android:id="@+id/listitem_customer_customername"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textStyle="bold"
+		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:text="Customer Name" />
 	<TextView
 		android:id="@+id/listitem_customer_company"
