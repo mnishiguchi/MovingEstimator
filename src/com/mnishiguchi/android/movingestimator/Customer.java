@@ -32,7 +32,7 @@ public class Customer
 	private Date mMovingDate;
 	private String mMovingDateComment;
 	private String mHomeDescription;
-	private String mSpecialOrders;
+	private String mSpecialOrder;
 	private String mGeneralComment;
 	
 	/**
@@ -237,14 +237,14 @@ public class Customer
 		mHomeDescription = homeDescription;
 	}
 
-	public String getSpecialOrders()
+	public String getSpecialOrder()
 	{
-		return mSpecialOrders;
+		return mSpecialOrder;
 	}
 
-	public void setSpecialOrders(String specialOrders)
+	public void setSpecialOrder(String specialOrders)
 	{
-		mSpecialOrders = specialOrders;
+		mSpecialOrder = specialOrders;
 	}
 
 	public String getGeneralComment()

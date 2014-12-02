@@ -7,13 +7,12 @@
 	
 	<!-- ActionBar -->
 	<string name="actionbar_title_list">Customer List</string>
-	<string name="actionbar_subtitle">Company Name</string>
 	
 	<!-- CustomerList -->
 	<string name="customerlist_empty">There is no customer on this list.</string>
 	
 	<!-- MenuItems -->
-	<string name="menuitem_new">Add New Customer</string>	
+	<string name="menuitem_new">New</string>	
 	<string name="menuitem_delete">Delete</string>
 	<string name="menuitem_edit">Edit</string>
 	<string name="menuitem_estimate">Estimate</string>

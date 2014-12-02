@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class CustomerDetailFragment extends Fragment
 
@@ -49,17 +50,11 @@ public class CustomerDetailFragment extends Fragment
 	private Customer mCustomer;
 	
 	// UI components
-	EditText mEtRefNumber, mEtFirstName, mEtLastName;
-	Spinner mSpinnerPrefix;
-	EditText mEtOrganization;
-	EditText mEtAddress, mEtEmail, mEtPhoneHome, mEtPhoneWork, mEtPhoneCell;
-	Button mBtnVolumeOcean, mBtnVolumeAir;
-	EditText mEtVolumeComment;
-	Button mBtnMovingDate;
-	EditText mEtMovingDateComment;
-	EditText mEtHomeDescription;
-	EditText mEtSpecialOrder;
-	EditText mEtGeneralComment;
+	TextView mTvRefNumber, mTvCustomerName,mTvOrganization,
+		mTvAddress, mTvEmail, mTvPhoneHome, mTvPhoneWork, mTvPhoneCell,
+		mTvVolumeOcean, mTvVolumeAir, mTvVolumeComment,
+		mTvMovingDate, mTvMovingDateComment,
+		mTvHomeDescription, mTvSpecialOrder, mTvGeneralComment;
 	
 	// Reference to CAB.
 	private ActionMode mActionMode;
@@ -162,393 +157,88 @@ public class CustomerDetailFragment extends Fragment
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 
-		// --- mEtRefNumber ---
+		// --- RefNumber ---
 		
-		mEtRefNumber = (EditText)v.findViewById(R.id.editTextRefNumber);
-		mEtRefNumber.setText(mCustomer.getRefNumber());
-		mEtRefNumber.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setRefNumber(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-
-		// --- mEtFirstName ---
+		mTvRefNumber = (TextView)v.findViewById(R.id.textViewRefNumber);
+		mTvRefNumber.setText(mCustomer.getRefNumber());
 		
-		mEtFirstName = (EditText)v.findViewById(R.id.editTextFirstName);
-		mEtFirstName.setText(mCustomer.getFirstName());
-		mEtFirstName.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setFirstName(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- Customer name ---
 		
-		// --- mEtLastName ---
+		this.mTvCustomerName = (TextView)v.findViewById(R.id.textViewCustomerName);
+		String customerString = mCustomer.getPrefix() + " "
+				+ mCustomer.getFirstName() + " "
+				+ mCustomer.getLastName();
+		mTvCustomerName.setText(customerString);
 		
-		mEtLastName = (EditText)v.findViewById(R.id.editTextLastName);
-		mEtLastName.setText(mCustomer.getLastName());
-		mEtLastName.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setLastName(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- Organization ---
 		
-		// --- mSpinnerPrefix ---
+		mTvOrganization = (TextView)v.findViewById(R.id.textViewOrganization);
+		mTvOrganization.setText(mCustomer.getOrganization());
 		
-		mSpinnerPrefix = (Spinner)v.findViewById(R.id.spinnerPrefix);
+		// --- Address ---
 		
-		// Create an ArrayAdapter using the string array.
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				getActivity(),
-				R.array.prefixes, // a string-array defined in res/values/strings.xml
-				android.R.layout.simple_spinner_item); // the default layout
+		mTvAddress = (TextView)v.findViewById(R.id.textViewAddress);
+		mTvAddress.setText(mCustomer.getAddress());
 		
-		// Specify the dropdown layout to use.
-		// The standard layout defined by the platform.
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+		// --- Email ---
 		
-		// Apply the adapter to the spinner
-		mSpinnerPrefix.setAdapter(adapter);
+		mTvEmail = (TextView)v.findViewById(R.id.textViewEmail);
+		mTvEmail.setText(mCustomer.getEmail());
 		
-		mSpinnerPrefix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				mCustomer.setPrefix(parent.getItemAtPosition(position).toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- PhoneHome ---
 		
-		// --- mEtOrganization ---
+		mTvPhoneHome = (TextView)v.findViewById(R.id.textViewPhoneHome);
+		mTvPhoneHome.setText(mCustomer.getPhoneHome());
 		
-		mEtOrganization = (EditText)v.findViewById(R.id.editTextOrganization);
-		mEtOrganization.setText(mCustomer.getOrganization());
-		mEtOrganization.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setOrganization(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- PhoneWork ---
 		
-		// --- mEtAddress ---
-		
-		mEtAddress = (EditText)v.findViewById(R.id.editTextAddress);
-		mEtAddress.setText(mCustomer.getAddress());
-		mEtAddress.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setAddress(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
-		// --- mEtEmail ---
-		
-		mEtEmail = (EditText)v.findViewById(R.id.editTextEmail);
-		mEtEmail.setText(mCustomer.getEmail());
-		mEtEmail.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setEmail(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
-		// --- mEtPhoneHome ---
-		
-		mEtPhoneHome = (EditText)v.findViewById(R.id.editTextPhoneHome);
-		mEtPhoneHome.setText(mCustomer.getPhoneHome());
-		mEtPhoneHome.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setPhoneHome(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
-		// --- mEtPhoneWork ---
-		
-		mEtPhoneWork = (EditText)v.findViewById(R.id.editTextPhoneWork);
-		mEtPhoneWork.setText(mCustomer.getPhoneWork());
-		mEtPhoneWork.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setPhoneWork(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		mTvPhoneWork = (TextView)v.findViewById(R.id.textViewPhoneWork);
+		mTvPhoneWork.setText(mCustomer.getPhoneWork());
 		
 		// --- mEtPhoneCell ---
 		
-		mEtPhoneCell = (EditText)v.findViewById(R.id.editTextPhoneCell);
-		mEtPhoneCell.setText(mCustomer.getPhoneCell());
-		mEtPhoneCell.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setPhoneCell(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		mTvPhoneCell = (TextView)v.findViewById(R.id.textViewPhoneCell);
+		mTvPhoneCell.setText(mCustomer.getPhoneCell());
 		
-		// --- mBtnVolumeOcean ---
+		// --- VolumeOcean ---
 		
-		mBtnVolumeOcean = (Button)v.findViewById(R.id.btnVolumeOcean);
-		mBtnVolumeOcean.setText(String.valueOf(mCustomer.getVolumeOcean()));
+		mTvVolumeOcean = (TextView)v.findViewById(R.id.textViewVolumeOcean);
+		mTvVolumeOcean.setText(String.valueOf(mCustomer.getVolumeOcean()));
 		
-		// --- mBtnVolumeAir ---
+		// --- VolumeAir ---
 		
-		mBtnVolumeAir = (Button)v.findViewById(R.id.btnVolumeAir);
-		mBtnVolumeAir.setText(String.valueOf(mCustomer.getVolumeAir()));
+		mTvVolumeAir = (TextView)v.findViewById(R.id.textViewVolumeAir);
+		mTvVolumeAir.setText(String.valueOf(mCustomer.getVolumeAir()));
 		
-		// --- mEtVolumeComment ---
-		mEtVolumeComment = (EditText)v.findViewById(R.id.editTextVolumeComment);
-		mEtVolumeComment.setText(mCustomer.getVolumeComment());
-		mEtVolumeComment.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setVolumeComment(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- VolumeComment ---
+		mTvVolumeComment = (TextView)v.findViewById(R.id.textViewVolumeComment);
+		mTvVolumeComment.setText(String.valueOf(mCustomer.getVolumeComment()));
 		
-		// --- mBtnMovingDate ---
+		// --- MovingDate ---
 		
-		mBtnMovingDate = (Button)v.findViewById(R.id.btnMovingDate);
-		
+		mTvMovingDate = (TextView)v.findViewById(R.id.textViewMovingDate);
 		String movingDateString = (null == mCustomer.getMovingDate()) ?
-				"Moving date" : mCustomer.getMovingDate().toString();
-		mBtnMovingDate.setText(movingDateString);
+				"TBD" : mCustomer.getMovingDate().toString();
+		mTvMovingDate.setText(String.valueOf(mCustomer.getVolumeComment()));
 		
 		// --- mEtMovingDateComment ---
 		
-		mEtMovingDateComment = (EditText)v.findViewById(R.id.editTextMovingDateComment);
-		mEtMovingDateComment.setText(mCustomer.getMovingDateComment());
-		mEtMovingDateComment.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setMovingDateComment(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		mTvMovingDateComment = (TextView)v.findViewById(R.id.textViewMovingDateComment);
+		mTvMovingDateComment.setText(mCustomer.getMovingDateComment());
+
+		// --- HomeDescription ---
 		
-		// --- mEtHomeDescription ---
+		mTvHomeDescription = (TextView)v.findViewById(R.id.textViewHomeDescription);
+		mTvHomeDescription.setText(mCustomer.getHomeDescription());
 		
-		mEtHomeDescription = (EditText)v.findViewById(R.id.editTextHomeDescription);
-		mEtHomeDescription.setText(mCustomer.getHomeDescription());
-		mEtHomeDescription.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setHomeDescription(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
+		// --- SpecialOrder ---
+		mTvSpecialOrder = (TextView)v.findViewById(R.id.textViewSpecialOrder);
+		mTvSpecialOrder.setText(mCustomer.getSpecialOrder());
 		
-		// --- mEtSpecialOrder ---
+		// --- GeneralComment ---
 		
-		mEtSpecialOrder = (EditText)v.findViewById(R.id.editTextSpecialOrder);
-		mEtSpecialOrder.setText(mCustomer.getSpecialOrders());
-		mEtSpecialOrder.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setHomeDescription(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
-		// --- mEtGeneralComment ---
-		
-		mEtGeneralComment = (EditText)v.findViewById(R.id.editTextGeneralComment);
-		mEtGeneralComment.setText(mCustomer.getGeneralComment());
-		mEtGeneralComment.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setGeneralComment(input.toString());
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
+		mTvGeneralComment = (TextView)v.findViewById(R.id.textViewGeneralComment);
+		mTvGeneralComment.setText(mCustomer.getGeneralComment());
 		
 		// Return the root-layout.
 		return v;

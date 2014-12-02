@@ -138,12 +138,12 @@ class FileCabinet
 			c.setPhoneCell("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
 			c.setVolumeOcean(r.nextInt(30));
 			c.setVolumeAir(r.nextInt(100));
-			c.setVolumeComment("This is the notes on the moving limit.");
+			//c.setVolumeComment("This is the notes on the moving limit.");
 			c.setMovingDate(new Date());
-			c.setMovingDateComment("Some comment on moving date.");
-			c.setHomeDescription("This is the home description.");
-			c.setSpecialOrders("Something special ;)");
-			c.setGeneralComment("This is the GeneralComment.");
+			//c.setMovingDateComment("Some comment on moving date.");
+			//c.setHomeDescription("This is the home description.");
+			//c.setSpecialOrders("Something special ;)");
+			//c.setGeneralComment("This is the GeneralComment.");
 			
 			mCustomers.add(c);
 		}
