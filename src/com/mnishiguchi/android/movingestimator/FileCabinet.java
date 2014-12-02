@@ -126,8 +126,8 @@ class FileCabinet
 		{
 			Customer c = new Customer();
 			c.setRefNumber(String.valueOf(r.nextInt(999999)));
-			c.setFirstName("My First Name #" + i);
-			c.setLastName(UUID.randomUUID().toString().substring(0, 6));
+			c.setFirstName("Masa" + UUID.randomUUID().toString().toLowerCase().substring(0, 4));
+			c.setLastName("Nishiguchi" + i);
 			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
 			c.setPrefix(prefix);
 			c.setOrganization("My Company - " + i);

@@ -53,7 +53,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		{
 			// Start the CrimePagerActivity.
 			Intent i = new Intent(this, CustomerPagerActivity.class);
-			i.putExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID, customer.getId());
+			i.putExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL, customer.getId());
 			startActivity(i);
 		}
 	}
@@ -132,5 +132,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		// Update the listView
 		listFragment.updateListView();
 	}
+
+
 
 }

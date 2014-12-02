@@ -1,11 +1,13 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -31,18 +33,9 @@ public class CustomerDetailFragment extends Fragment
 
 {
 	private static final String TAG = "movingestimator.CustomerDetailFragment";
-	
-	//public static final String EXTRA_DATE = "com.mnishiguchi.android.movingestimator.date";
-	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.customer_id";
-
-	//private static final String DIALOG_DATETIME = "datetime";
-	//private static final String DIALOG_IMAGE = "image";
+	public static final String EXTRA_CUSTOMER_ID_DETAIL = "com.mnishiguchi.android.movingestimator.customer_id_detail";
 	private static final String DIALOG_DELETE = "delete";
-	
-	//public static final int REQUEST_DATE = 0;
-	//public static final int REQUEST_CAMERA = 1;
-	//public static final int REQUEST_CONTACT = 2;
-	
+
 	// Store reference to an instance of this fragment that is currently working..
 	private static CustomerDetailFragment sCustomerDetailFragment;
 		
@@ -58,11 +51,6 @@ public class CustomerDetailFragment extends Fragment
 	
 	// Reference to CAB.
 	private ActionMode mActionMode;
-	
-	// Default camera
-	//private Uri mPhotoFileUri;
-	//private String mPhotoFilepath;
-	//private String mPhotoFilename;
 	
 	// Remember reference to callback-registered activities.
 	private DetailCallbacks mCallbacks;
@@ -109,7 +97,7 @@ public class CustomerDetailFragment extends Fragment
 	{
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
-		args.putString(EXTRA_CUSTOMER_ID, customerId);
+		args.putString(EXTRA_CUSTOMER_ID_DETAIL, customerId);
 		
 		// Creates a fragment instance and sets its arguments.
 		CustomerDetailFragment fragment = new CustomerDetailFragment();
@@ -123,8 +111,6 @@ public class CustomerDetailFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		
-		Log.d(TAG, "onCreate()");
-		
 		// Store a reference to this instance.
 		sCustomerDetailFragment = this;
 		
@@ -135,15 +121,16 @@ public class CustomerDetailFragment extends Fragment
 		}
 		
 		// Retrieve the arguments.
-		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
+		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID_DETAIL);
 
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 		
+		Log.d(TAG, "onCreate() - mCustomer: " + mCustomer.getLastName());
+		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
 	}
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -157,6 +144,9 @@ public class CustomerDetailFragment extends Fragment
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 
+		// Reuse
+		String temp;
+		
 		// --- RefNumber ---
 		
 		mTvRefNumber = (TextView)v.findViewById(R.id.textViewRefNumber);
@@ -164,11 +154,11 @@ public class CustomerDetailFragment extends Fragment
 		
 		// --- Customer name ---
 		
-		this.mTvCustomerName = (TextView)v.findViewById(R.id.textViewCustomerName);
-		String customerString = mCustomer.getPrefix() + " "
-				+ mCustomer.getFirstName() + " "
-				+ mCustomer.getLastName();
-		mTvCustomerName.setText(customerString);
+		mTvCustomerName = (TextView)v.findViewById(R.id.textViewCustomerName);
+		temp = mCustomer.getPrefix() + " "
+				+ mCustomer.getLastName().toUpperCase(Locale.US) + ", "
+				+ mCustomer.getFirstName();
+		mTvCustomerName.setText(temp);
 		
 		// --- Organization ---
 		
@@ -212,33 +202,43 @@ public class CustomerDetailFragment extends Fragment
 		
 		// --- VolumeComment ---
 		mTvVolumeComment = (TextView)v.findViewById(R.id.textViewVolumeComment);
-		mTvVolumeComment.setText(String.valueOf(mCustomer.getVolumeComment()));
+		String volumeComment = (null == mCustomer.getVolumeComment()) ?
+				"" : mCustomer.getVolumeComment();
+		mTvVolumeComment.setText(volumeComment);
 		
 		// --- MovingDate ---
 		
 		mTvMovingDate = (TextView)v.findViewById(R.id.textViewMovingDate);
-		String movingDateString = (null == mCustomer.getMovingDate()) ?
+		temp = (null == mCustomer.getMovingDate()) ?
 				"TBD" : mCustomer.getMovingDate().toString();
-		mTvMovingDate.setText(String.valueOf(mCustomer.getVolumeComment()));
+		mTvMovingDate.setText(temp);
 		
 		// --- mEtMovingDateComment ---
 		
 		mTvMovingDateComment = (TextView)v.findViewById(R.id.textViewMovingDateComment);
-		mTvMovingDateComment.setText(mCustomer.getMovingDateComment());
+		temp = (null == mCustomer.getVolumeComment()) ?
+				"" : mCustomer.getVolumeComment();
+		mTvMovingDateComment.setText(temp);
 
 		// --- HomeDescription ---
 		
 		mTvHomeDescription = (TextView)v.findViewById(R.id.textViewHomeDescription);
-		mTvHomeDescription.setText(mCustomer.getHomeDescription());
+		temp = (null == mCustomer.getHomeDescription()) ?
+				"" : mCustomer.getHomeDescription();
+		mTvHomeDescription.setText(temp);
 		
 		// --- SpecialOrder ---
 		mTvSpecialOrder = (TextView)v.findViewById(R.id.textViewSpecialOrder);
-		mTvSpecialOrder.setText(mCustomer.getSpecialOrder());
+		temp = (null == mCustomer.getSpecialOrder()) ?
+				"" : mCustomer.getSpecialOrder();
+		mTvSpecialOrder.setText(temp);
 		
 		// --- GeneralComment ---
 		
 		mTvGeneralComment = (TextView)v.findViewById(R.id.textViewGeneralComment);
-		mTvGeneralComment.setText(mCustomer.getGeneralComment());
+		temp = (null == mCustomer.getGeneralComment()) ?
+				"" : mCustomer.getGeneralComment();
+		mTvGeneralComment.setText(temp);
 		
 		// Return the root-layout.
 		return v;
@@ -298,7 +298,17 @@ public class CustomerDetailFragment extends Fragment
 		super.onPause();
 		Log.d(TAG, "onPause()");
 		
+
 		// TODO - FileCabinet.get(getActivity()).saveCustomers();
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu)
+	{
+		super.onPrepareOptionsMenu(menu);
+		
+		// Show delete item only in the two-pane mode.
+		menu.findItem(R.id.optionsmenu_delete).setVisible(Utils.hasTwoPane(getActivity()));
 	}
 	
 	/**
@@ -333,11 +343,22 @@ public class CustomerDetailFragment extends Fragment
 				}
 				return true; // Indicate that no further processing is necessary.
 
-			case R.id.optionsitem_delete:
+			case R.id.optionsmenu_delete:
 				
 				// Show the delete dialog.
 				new DeleteDialog().show(getFragmentManager(), DIALOG_DELETE);
-
+				
+			case R.id.optionsmenu_edit:
+				
+				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
+				
+				if (mCustomer.getId() != null)
+				{
+					i.putExtra(EXTRA_CUSTOMER_ID_DETAIL, mCustomer.getId());
+					Log.e(TAG, "mCustomer.getId()" + mCustomer.getId());
+					startActivity(i);
+				}
+				
 			default:
 				return super.onOptionsItemSelected(item);
 	 	}
@@ -350,13 +371,13 @@ public class CustomerDetailFragment extends Fragment
 	private void deleteCustomer()
 	{
 		Log.d(TAG, "deleteCustomer() - mCustomer.getLastName(): " + mCustomer.getLastName());
-		
+	
 		// Get the crime title.
 		String customerString =
 				(null == mCustomer.getLastName() || mCustomer.toString().equals("")) ?
 				"(No last name)" : mCustomer.toString();
 		
-		// Delete the crime.
+		// Delete the customer.
 		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
 		
 		// Update the pager adapter.
@@ -366,13 +387,12 @@ public class CustomerDetailFragment extends Fragment
 		}
 		else // Single-pane.
 		{
-			// Update the pager data.
-			((CustomerPagerActivity)getActivity()).getPagerAdapter().notifyDataSetChanged();
+			((CustomerPagerActivity)getActivity()).getPagerAdapter()
+				.notifyDataSetChanged();
 			
-			// Notify the user about the result.
+			// Toast a message and finish this activity.
 			Utils.showToast(getActivity(), customerString + " has been deleted.");
-			
-			// Finish this activity.
+
 			getActivity().finish();
 		}
 	}
@@ -382,24 +402,6 @@ public class CustomerDetailFragment extends Fragment
 	 */
 	static class DeleteDialog extends DialogFragment
 	{
-		// Store the selected list item that was passed in.
-		//static Customer sCustomer;
-		
-		/**
-		 * Create a new instance that is capable of deleting the specified list items.
-		 */
-		//static DeleteDialog newInstance(Customer customer)
-		{
-			// Store the selected items so that we can refer to it later.
-			//sCustomer = customer;
-			
-			// Create a fragment.
-			//DeleteDialog fragment = new DeleteDialog();
-			//fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-			
-			//return fragment;
-		}
-		
 		/*
 		 * Configure the dialog.
 		 */

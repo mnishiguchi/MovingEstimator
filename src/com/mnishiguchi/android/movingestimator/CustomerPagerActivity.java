@@ -11,12 +11,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 public class CustomerPagerActivity extends FragmentActivity
 	implements CustomerDetailFragment.DetailCallbacks
 {
 	private static final String TAG = "CriminalIntent.PagerActivity";
+	
+	private int mPosition;
 	
 	private ViewPager mViewPager;
 	
@@ -80,7 +83,7 @@ public class CustomerPagerActivity extends FragmentActivity
 	{
 		Log.d(TAG, "setUpInitialPagerItem()");
 		String customerId = (String)getIntent()
-			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID);
+			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL);
 		for (int i = 0; i < mCustomers.size(); i++)
 		{
 			if (mCustomers.get(i).getId().equals(customerId))
@@ -102,6 +105,8 @@ public class CustomerPagerActivity extends FragmentActivity
 			{
 				Log.d(TAG, "onPageSelected(...)");
 
+				mPosition = position;
+				
 				// Get the customer at the passed-in position.
 				Customer customer = mCustomers.get(position);
 
@@ -153,4 +158,7 @@ public class CustomerPagerActivity extends FragmentActivity
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 }

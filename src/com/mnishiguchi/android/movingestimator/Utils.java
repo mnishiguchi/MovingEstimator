@@ -15,9 +15,10 @@ public class Utils
 	 * Determine which interface was inflated, single-pane or two-pane.
 	 * @return true if in the two-pane mode, else false.
 	 */
-	static boolean hasTwoPane(Context context)
+	static boolean hasTwoPane(Activity a)
 	{
-		return context.getResources().getBoolean(R.bool.has_two_panes);
+		//return c.getResources().getBoolean(R.bool.has_two_panes);
+		return (a.findViewById(R.id.detailFragmentContainer) != null);
 	}
 	
 	/**

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	
-	<!-- Layout values - Default -->
-	<bool name="has_two_panes">true</bool>
-	<bool name="has_datetime_picker">false</bool>
-	
-</resources>
