@@ -10,6 +10,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,9 +38,6 @@ public class CustomerListFragment extends ListFragment
 	// Reference to the list of customers stored in FileCabinet.
 	private ArrayList<Customer> mCustomers;
 	
-	// The state of the Action Bar's subtitle.
-	private boolean mSubtitleVisible;
-	
 	// Remember the currently selected item.
 	private int mPositionSelected;
 	
@@ -50,8 +50,8 @@ public class CustomerListFragment extends ListFragment
 	public interface ListCallbacks
 	{
 		void onListItemClicked(Customer customer);
+		void onListItemsDeleted(Customer[] customers);
 		void onListReset();
-		void onListItemsDeleted(Customer[] selectedCustomers);
 		void onActionMode();
 	}
 		
@@ -104,9 +104,6 @@ public class CustomerListFragment extends ListFragment
 		
 		// Retain this fragment.
 		setRetainInstance(true);
-		
-		// The action bar's subtitle initially hidden.
-		mSubtitleVisible = false;
 	}
 	
 	// Note:
@@ -121,19 +118,10 @@ public class CustomerListFragment extends ListFragment
 		// Inflate a custom layout with list & empty.
 		View v = inflater.inflate(R.layout.fragment_customerlist, parent, false);
 		
-		// Note:
 		// For this app, android.R.id.list is defined in fragment_customerlist.xml.
 		// Get a ListView object by using android.R.id.list resource ID
 		// instead of getListView() because the layout view is not created yet.
-		
 		ListView listView = (ListView)v.findViewById(android.R.id.list);
-		
-		// If mSubtitleVisible == true, then set the subtitle.
-		//if (mSubtitleVisible)
-		//{
-			// temp subtitle.
-			//getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
-		//}
 		
 		// --- Contexual Action Bar ---
 		
@@ -201,9 +189,15 @@ public class CustomerListFragment extends ListFragment
 			});
 		}
 		
+		// Activate the floating context menu, if in the two-pane mode.
+		if (Utils.hasTwoPane(getActivity())) // Two-pane
+		{
+			registerForContextMenu (listView);
+		}
+		
 		return v;
 	}
-	
+
 	@Override
 	public void onResume()
 	{
@@ -224,9 +218,34 @@ public class CustomerListFragment extends ListFragment
 		}
 	}
 	
+	/*
+	 * Respond to a short click on a list item.
+	 */
+	@Override
+	public void onListItemClick(ListView lv, View v, int position, long id)
+	{
+		// Get the selected item.
+		Customer customer = ((CustomerListAdapter)getListAdapter()).getItem(position);
+		
+		// Remember the selected position
+		mPositionSelected = position;
+		
+		// Notify the hosting Activity.
+		mCallbacks.onListItemClicked(customer);
+	}
+	
 	/**
-	 * Creates the options menu and populates it with the items defined
-	 * in res/menu/fragment_customerlist.xml.
+	 * Set the customer name as a title and the company name as a subtitle.
+	 */
+	private void setActionBarTitle(Customer customer)
+	{
+		getActivity().setTitle(customer.toString());
+		getActivity().getActionBar().setSubtitle(customer.getOrganization());
+	}
+	
+	/* Options Menu on the ActionBar.
+	 * Creates the options menu and populates it with the items
+	 * defined in res/menu/fragment_customerlist.xml.
 	 * The setHasOptionsMenu(boolean hasMenu) must be called in the onCreate.
 	 */
 	@Override
@@ -242,9 +261,6 @@ public class CustomerListFragment extends ListFragment
 		
 	}
 	
-	/* 
-	 * Responds to menu selection.
-	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -252,53 +268,61 @@ public class CustomerListFragment extends ListFragment
 		{
 			// --- NEW ---
 			
-			case R.id.customerlist_menuitem_new:
+			case R.id.optionsmenu_new:
 				
 				addNewCustomer();
-				
 				return true;  // No further processing is necessary.
-			
-			// --- Show/Hide subtitle ---
-			
-			//case R.id.customerlist_menuitem_subtitle:
-				//return true;  // No further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 	
-	/* Respond to a short click on a list item. */
+	/*
+	 * Floating Context Menu on list items.
+	 */
+	
 	@Override
-	public void onListItemClick(ListView lv, View v, int position, long id)
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo )
 	{
-		// Get the selected item.
-		Customer customer = ((CustomerListAdapter) getListAdapter()).getItem(position);
-		
-		// Remember the selected position
-		mPositionSelected = position;
-		
-		// Update the action bar title.
-		// setActionBarTitle(customer);
-		
-		// Notify the hosting Activity.
-		mCallbacks.onListItemClicked(customer);
+		getActivity().getMenuInflater().inflate(R.menu.context_customerlist_listitem, menu);
 	}
 	
-	/**
-	 * Set the customer name as a title and the company name as a subtitle.
-	 */
-	private void setActionBarTitle(Customer customer)
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
 	{
-		getActivity().setTitle(customer.toString());
-		
-		// If mSubtitleVisible == true, then set the subtitle.
-		if (mSubtitleVisible)
-		{
-			getActivity().getActionBar().setSubtitle(customer.getOrganization());
-		}
-		
+	// Get the selected list position.
+	AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+	int position = info.position;
+
+	// Get the selected list item.
+	CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
+	Customer selectedCustomer = adapter.getItem(position);
+
+	// Get the selected menu item and respond to it.
+	switch (item.getItemId())
+	{
+		case R.id.contextmenu_delete:
+	
+			FileCabinet.get(getActivity()).deleteCustomer(selectedCustomer);
+			adapter.notifyDataSetChanged() ;
+			return true ;
+			
+		case R.id.contextmenu_edit:
+			
+			// TODO
+
+			return true ;
+			
+		case R.id.contextmenu_estimate:
+			
+			// TODO
+			
+			return true ;
 	}
+	return super.onContextItemSelected(item);
+	}
+
 	
 	/**
 	 * A custom ArrayAdapter designed to display Customer-specific list items.

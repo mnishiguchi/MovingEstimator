@@ -17,8 +17,7 @@
 	<string name="menuitem_delete">Delete</string>
 	<string name="menuitem_edit">Edit</string>
 	<string name="menuitem_estimate">Estimate</string>
-	<string name="menuitem_showsubtitle">Show Subtitle</string>
-	<string name="menuitem_hidesubtitle">Hide Subtitle</string>
+	<string name="menuitem_getlocation">Get Location</string>
 	
 	<!-- mSpinnerPrefix -->
 	<string-array name="prefixes">

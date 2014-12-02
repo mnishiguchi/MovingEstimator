@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	
-	<item 	android:id="@+id/menuitem_delete"
-		android:icon="@android:drawable/ic_menu_delete"
+	<item android:id="@+id/optionsitem_estimate"
+		android:icon="@drawable/ic_menu_agenda"
+		android:title="@string/menuitem_estimate"
+		android:showAsAction="ifRoom|withText" />
+
+	<item android:id="@+id/optionsitem_getlocation"
+		android:title="@string/menuitem_getlocation"
+		android:showAsAction="never" />
+		
+	<item android:id="@+id/optionsitem_delete"
 		android:title="@string/menuitem_delete"
 		android:showAsAction="never" />
 	

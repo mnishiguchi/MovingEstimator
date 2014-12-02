@@ -643,7 +643,7 @@ public class CustomerDetailFragment extends Fragment
 				}
 				return true; // Indicate that no further processing is necessary.
 
-			case R.id.menuitem_delete:
+			case R.id.optionsitem_delete:
 				
 				// Show the delete dialog.
 				new DeleteDialog().show(getFragmentManager(), DIALOG_DELETE);
