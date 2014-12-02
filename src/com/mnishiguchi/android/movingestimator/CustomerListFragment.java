@@ -50,6 +50,7 @@ public class CustomerListFragment extends ListFragment
 	public interface ListCallbacks
 	{
 		void onListItemClicked(Customer customer);
+		void onListReset();
 		void onListItemsDeleted(Customer[] selectedCustomers);
 		void onActionMode();
 	}
@@ -151,7 +152,7 @@ public class CustomerListFragment extends ListFragment
 				{
 					// Inflate the menu using a special inflater defined in the ActionMode class.
 					MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.customerlist_listitem_contextmenu, menu);
+					inflater.inflate(R.menu.context_customerlist_listitem, menu);
 					
 					// Call back.
 					// TODO - mCallbacks.onActionMode();
@@ -209,11 +210,17 @@ public class CustomerListFragment extends ListFragment
 		super.onResume();
 		
 		// Reload the list.
-		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
+		((CustomerListAdapter)getListAdapter()).notifyDataSetChanged();
 		
 		if (!Utils.hasTwoPane(getActivity())) // Single=pane
 		{
 			clearListSelection();
+		}
+		
+		// If no list item is selected, don't show the detail.
+		if (getSelectedItems().length <= 0)
+		{
+			mCallbacks.onListReset();
 		}
 	}
 	
@@ -231,13 +238,8 @@ public class CustomerListFragment extends ListFragment
 		inflater.inflate(R.menu.fragment_customerlist, menu);
 		
 		// Get a reference to the subtitle menu item.
-		MenuItem menuSubtitle = menu.findItem(R.id.customerlist_menuitem_subtitle);
+		//MenuItem menuSubtitle = menu.findItem(R.id.customerlist_menuitem_subtitle);
 		
-		// Display the subtitle menu item's state based on mSubtitleVisible.
-		if (mSubtitleVisible && menuSubtitle != null)
-		{
-			menuSubtitle.setTitle(R.string.menuitem_hidesubtitle);
-		}
 	}
 	
 	/* 
@@ -258,24 +260,8 @@ public class CustomerListFragment extends ListFragment
 			
 			// --- Show/Hide subtitle ---
 			
-			case R.id.customerlist_menuitem_subtitle:
-				
-				// Set the action bar's subtitle, toggling "Show subtitle" & "Hide subtitle"
-				if (null == getActivity().getActionBar().getSubtitle())
-				{
-					// Set the default subtitle
-					getActivity().getActionBar().setSubtitle(R.string.actionbar_subtitle);
-					mSubtitleVisible = true;
-					item.setTitle(R.string.menuitem_hidesubtitle); // Say "Hide subtitle"
-				}
-				else
-				{
-					// Hide the subtitle
-					getActivity().getActionBar().setSubtitle(null);
-					mSubtitleVisible = false;
-					item.setTitle(R.string.menuitem_showsubtitle); // Say "Show subtitle"
-				}
-				return true;  // No further processing is necessary.
+			//case R.id.customerlist_menuitem_subtitle:
+				//return true;  // No further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);

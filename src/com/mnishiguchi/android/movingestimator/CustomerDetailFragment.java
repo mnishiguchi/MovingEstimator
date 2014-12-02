@@ -1,5 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -446,7 +448,10 @@ public class CustomerDetailFragment extends Fragment
 		// --- mBtnMovingDate ---
 		
 		mBtnMovingDate = (Button)v.findViewById(R.id.btnMovingDate);
-		mBtnMovingDate.setText(mCustomer.getMovingDate().toString());
+		
+		String movingDateString = (null == mCustomer.getMovingDate()) ?
+				"Moving date" : mCustomer.getMovingDate().toString();
+		mBtnMovingDate.setText(movingDateString);
 		
 		// --- mEtMovingDateComment ---
 		

@@ -69,14 +69,22 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	}
 
 	@Override
+	public void onListReset()
+	{
+		removeDetailFragment();
+	}
+	
+	@Override
 	public void onActionMode()
 	{
 		removeDetailFragment();
 	}
 	
+	/**
+	 * Remove the detail pane, if one exists.
+	 */
 	private void removeDetailFragment()
 	{
-		// Remove the detail pane, if any.
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		
@@ -94,7 +102,6 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	public void onCustomerAdded(Customer customer)
 	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -125,4 +132,5 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		// Update the listView
 		listFragment.updateListView();
 	}
+
 }

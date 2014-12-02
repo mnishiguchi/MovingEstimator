@@ -6,8 +6,4 @@
 		android:title="@string/menuitem_new" 
 		android:showAsAction="ifRoom|withText" />
 	
-	<item android:id="@+id/customerlist_menuitem_subtitle"
-		android:title="@string/menuitem_showsubtitle"
-		android:showAsAction="never" />
-	
 </menu>
