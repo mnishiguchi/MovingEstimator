@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,7 +17,7 @@ public class CustomerEditActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
 		
-		mId = getIntent().getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL);
+		mId = getIntent().getStringExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT);
 		
 		Log.e(TAG, "mId: " + mId);
 		

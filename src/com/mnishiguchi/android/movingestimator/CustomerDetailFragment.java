@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -12,8 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -22,18 +19,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class CustomerDetailFragment extends Fragment
 
 {
 	private static final String TAG = "movingestimator.CustomerDetailFragment";
+	
 	public static final String EXTRA_CUSTOMER_ID_DETAIL = "com.mnishiguchi.android.movingestimator.customer_id_detail";
+	
 	private static final String DIALOG_DELETE = "delete";
 
 	// Store reference to an instance of this fragment that is currently working..
@@ -155,9 +149,19 @@ public class CustomerDetailFragment extends Fragment
 		// --- Customer name ---
 		
 		mTvCustomerName = (TextView)v.findViewById(R.id.textViewCustomerName);
-		temp = mCustomer.getPrefix() + " "
-				+ mCustomer.getLastName().toUpperCase(Locale.US) + ", "
-				+ mCustomer.getFirstName();
+		
+		String prefix = (null == mCustomer.getPrefix()) ? "" : mCustomer.getPrefix();
+		String lastName = (null == mCustomer.getLastName()) ? "" : mCustomer.getLastName();
+		String firstName = (null == mCustomer.getFirstName()) ? "" : mCustomer.getFirstName();
+		if (null == prefix && null == lastName && null == firstName)
+		{
+			temp = "";
+		}
+		else
+		{
+			temp = prefix + " " + lastName.toUpperCase(Locale.US) + ", " + firstName;
+		}
+		
 		mTvCustomerName.setText(temp);
 		
 		// --- Organization ---
@@ -354,7 +358,7 @@ public class CustomerDetailFragment extends Fragment
 				
 				if (mCustomer.getId() != null)
 				{
-					i.putExtra(EXTRA_CUSTOMER_ID_DETAIL, mCustomer.getId());
+					i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, mCustomer.getId());
 					Log.e(TAG, "mCustomer.getId()" + mCustomer.getId());
 					startActivity(i);
 				}

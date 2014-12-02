@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
@@ -23,7 +24,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class CustomerListFragment extends ListFragment
@@ -31,6 +31,8 @@ public class CustomerListFragment extends ListFragment
 	private static final String TAG = "movingestimatort.CustomerListFragment";
 	
 	private static final String DIALOG_DELETE = "delete";
+	
+	//public static final String EXTRA_CUSTOMER_ID_LIST = "com.mnishiguchi.android.movingestimator.customer_id_list";
 	
 	// Store reference to the current instance to this fragment.
 	private static CustomerListFragment sCustomerListFragment;
@@ -371,23 +373,32 @@ public class CustomerListFragment extends ListFragment
 	{
 		// Create and add a new Customer object to the FileCabinet's list.
 		Customer customer = new Customer();
-		FileCabinet.get(getActivity() ).addCustomer(customer) ;
+		FileCabinet.get(getActivity()).addCustomer(customer) ;
 		
 		// Update the listView.
 		((CustomerListAdapter)getListAdapter()).notifyDataSetChanged();
 		
-		// For tablets only.
-		if (Utils.hasTwoPane(getActivity()))
+		Intent i = new Intent(getActivity(), CustomerEditActivity.class);
+		
+		if (customer.getId() != null)
 		{
-			// Update the selection.
-			setLastItemSelected();
-			
-			// Clear the action bar title.
-			getActivity().setTitle("");
+			i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, customer.getId());
+			Log.e(TAG, "mCustomer.getId()" + customer.getId());
+			startActivity(i);
 		}
 		
+		// For tablets only.
+		//if (Utils.hasTwoPane(getActivity()))
+		//{
+			// Update the selection.
+			//setLastItemSelected();
+			
+			// Clear the action bar title.
+			//getActivity().setTitle("");
+		//}
+		
 		// callback
-		mCallbacks.onListItemClicked(customer);
+		//mCallbacks.onListItemClicked(customer);
 	}
 	
 	/**

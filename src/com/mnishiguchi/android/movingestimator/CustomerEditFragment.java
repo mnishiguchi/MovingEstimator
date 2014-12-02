@@ -1,19 +1,11 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.util.Date;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,7 +51,7 @@ public class CustomerEditFragment extends Fragment
 	public static CustomerEditFragment newInstance(String customerId)
 	{
 		// Prepare arguments.
-		Bundle args = new Bundle();  // Contains key-value pairs.
+		Bundle args = new Bundle(); // Contains key-value pairs.
 		args.putString(EXTRA_CUSTOMER_ID_EDIT, customerId);
 		
 		// Creates a fragment instance and sets its arguments.
