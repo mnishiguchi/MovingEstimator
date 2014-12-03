@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -486,8 +487,12 @@ public class CustomerEditFragment extends Fragment
 	
 	private void showUpdatedDate()
 	{
+		// Get the user's preferred default format.
+		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(
+				getActivity().getApplicationContext());
+		
 		String movingDateString = (null == mCustomer.getMovingDate()) ?
-				"TBD" : mCustomer.getMovingDate().toString();
+				"TBD" : dateFormat.format(mCustomer.getMovingDate());
 		mBtnMovingDate.setText(movingDateString);
 	}
 

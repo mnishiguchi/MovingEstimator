@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.text.DateFormat;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -109,7 +110,8 @@ public class CustomerDetailFragment extends Fragment
 		sCustomerDetailFragment = this;
 		
 		
-		if (null == getArguments()){
+		if (null == getArguments())
+		{
 			Log.e(TAG, "null == getArguments()");
 			return;
 		}
@@ -213,8 +215,12 @@ public class CustomerDetailFragment extends Fragment
 		// --- MovingDate ---
 		
 		mTvMovingDate = (TextView)v.findViewById(R.id.textViewMovingDate);
+		
+		// Get the user's preferred default format.
+		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(
+				getActivity().getApplicationContext());
 		temp = (null == mCustomer.getMovingDate()) ?
-				"TBD" : mCustomer.getMovingDate().toString();
+				"TBD" : dateFormat.format(mCustomer.getMovingDate());
 		mTvMovingDate.setText(temp);
 		
 		// --- mEtMovingDateComment ---

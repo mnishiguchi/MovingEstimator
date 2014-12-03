@@ -67,7 +67,7 @@ public class DateTimeEditDialog extends DialogFragment
 				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) { } // Do nothing.
-				} )
+				})
 				.setItems(options, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -173,7 +173,7 @@ class DatePickerDialog extends DialogFragment
 				
 				updateDate();
 			}
-		} );
+		});
 
 		// Configure it and return it.
 		return new AlertDialog.Builder(getActivity() )
@@ -188,7 +188,7 @@ class DatePickerDialog extends DialogFragment
 								updateDate();
 								sendResult(Activity.RESULT_OK);
 							}
-						} )
+						})
 				.create();
 	}
 	
@@ -287,7 +287,7 @@ class TimePickerDialog extends DialogFragment
 				
 				updateDate();
 			}
-		} );
+		});
 
 		// Configure it and return it.
 		return new AlertDialog.Builder(getActivity() )
@@ -302,7 +302,7 @@ class TimePickerDialog extends DialogFragment
 								updateDate();
 								sendResult(Activity.RESULT_OK);
 							}
-						} )
+						})
 				.create();
 	}
 	
