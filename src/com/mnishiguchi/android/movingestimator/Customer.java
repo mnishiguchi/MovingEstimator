@@ -74,7 +74,10 @@ public class Customer
 	@Override
 	public String toString()
 	{
-		return mPrefix + " " +  mLastName;
+		String prefix = (null == mPrefix) ? "" : mPrefix;
+		String lastName = (null == mLastName) ? "" : mLastName.toUpperCase(Locale.US);
+		
+		return prefix + " " + lastName;
 	}
 
 	public String getRefNumber()

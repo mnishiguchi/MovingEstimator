@@ -18,6 +18,11 @@
 	<string name="menuitem_estimate">Estimate</string>
 	<string name="menuitem_getlocation">Get Location</string>
 	
+	<!-- Date/time picker -->
+	<string name="date_picker_title">date_picker_title</string>
+	<string name="time_picker_title">time_picker_title</string>
+	
+	
 	<!-- mSpinnerPrefix -->
 	<string-array name="prefixes">
 		<item>Mr.</item>

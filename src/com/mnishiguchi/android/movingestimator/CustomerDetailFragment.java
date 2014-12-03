@@ -351,17 +351,14 @@ public class CustomerDetailFragment extends Fragment
 				
 				// Show the delete dialog.
 				new DeleteDialog().show(getFragmentManager(), DIALOG_DELETE);
-				
+				return true; // Indicate that no further processing is necessary.
+			
 			case R.id.optionsmenu_edit:
 				
 				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
-				
-				if (mCustomer.getId() != null)
-				{
-					i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, mCustomer.getId());
-					Log.e(TAG, "mCustomer.getId()" + mCustomer.getId());
-					startActivity(i);
-				}
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, mCustomer.getId());
+				startActivity(i);
+				return true; // Indicate that no further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);

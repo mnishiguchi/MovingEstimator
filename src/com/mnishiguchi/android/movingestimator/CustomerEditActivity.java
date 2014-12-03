@@ -18,14 +18,7 @@ public class CustomerEditActivity extends FragmentActivity
 		setContentView(R.layout.activity_fragment);
 		
 		mId = getIntent().getStringExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT);
-		
-		Log.e(TAG, "mId: " + mId);
-		
-		// Note:
-		// FragmentManager - Maintains a back stack of fragment transactions.
-		// FragmentTransaction - Used to add, remove, attach, detach,
-		// or replace fragments in the fragment list.
-		
+
 		// Get a FragmentManager
 		FragmentManager fm = getSupportFragmentManager();
 		

@@ -1,7 +1,13 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.util.Date;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +31,11 @@ public class CustomerEditFragment extends Fragment
 	private static final String TAG = "movingestimator.CustomerEditFragment";
 	
 	public static final String EXTRA_CUSTOMER_ID_EDIT = "com.mnishiguchi.android.movingestimator.customer_id_edit";
-		
+	
+	public static final int REQUEST_DATE = 1;
+	
+	public static final String DIALOG_DATETIME = "dialogDateTime";
+	
 	// Reference to the Customer object stored in the FileCabinet(model layer)
 	private Customer mCustomer;
 	
@@ -362,10 +373,27 @@ public class CustomerEditFragment extends Fragment
 		// --- mBtnMovingDate ---
 		
 		mBtnMovingDate = (Button)v.findViewById(R.id.btnMovingDate);
+		showUpdatedDate();
+
+		mBtnMovingDate.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				DialogFragment dialog;
+				
+				dialog = DateTimeEditDialog.newInstance(mCustomer.getMovingDate());
+			
+				// Build a connection with the dialog to get the result returned later on.
+				dialog.setTargetFragment(CustomerEditFragment.this, REQUEST_DATE);
+				
+				// Show the DatePickerFragment.
+				dialog.show(fm, DIALOG_DATETIME);
+			}
+		} );
 		
-		String movingDateString = (null == mCustomer.getMovingDate()) ?
-				"Moving date" : mCustomer.getMovingDate().toString();
-		mBtnMovingDate.setText(movingDateString);
+		
+		
 		
 		// --- mEtMovingDateComment ---
 		
@@ -456,6 +484,13 @@ public class CustomerEditFragment extends Fragment
 		return v;
 	}
 	
+	private void showUpdatedDate()
+	{
+		String movingDateString = (null == mCustomer.getMovingDate()) ?
+				"TBD" : mCustomer.getMovingDate().toString();
+		mBtnMovingDate.setText(movingDateString);
+	}
+
 	/**
 	 * If a parent activity is registered in the manifest file,
 	 * enable the Up button.
@@ -524,4 +559,26 @@ public class CustomerEditFragment extends Fragment
 				return super.onOptionsItemSelected(item);
 	 	}
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent resultData)
+	{
+		if (resultCode != Activity.RESULT_OK) return;
+		
+		// --- Retrieve updated date ---
+		
+		if (requestCode == REQUEST_DATE)
+		{
+			// Retrieve data from the passed-in Intent.
+			Date date = (Date) resultData.getSerializableExtra(DateTimeEditDialog.EXTRA_DATE);
+			
+			// Update the date in the model layer(FileCabinet)
+			mCustomer.setMovingDate(date);
+			
+			// Set the updated date on the button.
+			showUpdatedDate();
+		}
+	}
+	
+	
 }
