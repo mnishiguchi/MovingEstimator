@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.Locale;
 
@@ -8,9 +9,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.ActionMode;
@@ -19,7 +26,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CustomerDetailFragment extends Fragment
@@ -29,8 +40,11 @@ public class CustomerDetailFragment extends Fragment
 	
 	public static final String EXTRA_CUSTOMER_ID_DETAIL = "com.mnishiguchi.android.movingestimator.customer_id_detail";
 	
-	private static final String DIALOG_DELETE = "delete";
+	private static final String DIALOG_DELETE = "deleteDialog";
+	private static final String DIALOG_IMAGE = "imageDialog";
 
+	public static final int REQUEST_DEFAULT_CAMERA = 1;
+	
 	// Store reference to an instance of this fragment that is currently working..
 	private static CustomerDetailFragment sCustomerDetailFragment;
 		
@@ -43,6 +57,13 @@ public class CustomerDetailFragment extends Fragment
 		mTvVolumeOcean, mTvVolumeAir, mTvVolumeComment,
 		mTvMovingDate, mTvMovingDateComment,
 		mTvHomeDescription, mTvSpecialOrder, mTvGeneralComment;
+	ImageView mThumbnail;
+	ImageButton mBtnPhoto;
+	
+	// Default camera
+	private Uri mPhotoFileUri;
+	private String mPhotoFilepath;
+	private String mPhotoFilename;
 	
 	// Reference to CAB.
 	private ActionMode mActionMode;
@@ -247,37 +268,129 @@ public class CustomerDetailFragment extends Fragment
 				"" : mCustomer.getGeneralComment();
 		mTvGeneralComment.setText(temp);
 		
+		// --- mThumbnail ---
+		
+		mThumbnail = (ImageView)v.findViewById(R.id.imageViewThumbnail);
+		mThumbnail.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v)
+			{
+				Photo photo = mCustomer.getPhoto();
+				if (null == photo) return;
+				
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				
+				// Get the absolute path for this crime's photo.
+				String path = photo.getAbsolutePath(getActivity());
+				if (null == path)
+				{
+					Log.e(TAG, "Couldn't get this photo's filepath");
+					return;
+				}
+				
+				// Show an ImageFragment
+				ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
+			}
+		});
+		
+		// Long click => Contextual action for deleting photo.
+				final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+
+					@Override
+					public boolean onCreateActionMode(ActionMode mode, Menu menu)
+					{
+						// Remember reference to action mode.
+						mActionMode = mode;
+						
+						// Inflate the menu using a special inflater defined in the ActionMode class.
+						MenuInflater inflater = mode.getMenuInflater();
+						inflater.inflate(R.menu.context_thumbnail, menu);
+						return true;
+					}
+					
+					@Override
+					public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+					{
+						mode.setTitle("Photo Checked");
+						return false;
+					}
+					
+					@Override
+					public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+					{
+						switch (item.getItemId())
+						{
+							case R.id.contextmenu_delete_photo: // Delete menu item.
+								
+								deletePhoto();
+
+								// Prepare the action mode to be destroyed.
+								mode.finish(); // Action picked, so close the CAB
+								return true;
+							
+							default:
+								return false;
+						}
+					}
+
+					@Override
+					public void onDestroyActionMode(ActionMode mode)
+					{
+						// Set it to null because we exited the action mode.
+						mActionMode = null;
+					}
+				};
+				
+				// Listen for long clicks. Start the CAB.
+				mThumbnail.setOnLongClickListener(new OnLongClickListener() {
+
+					@Override
+					public boolean onLongClick(View v)
+					{
+						// Ignore the long click if already in the ActionMode.
+						if (mActionMode != null) return false;
+						
+						// Check if a photo is set on the ImageView.
+						boolean hasDrawable = (mThumbnail.getDrawable() != null);
+						if (hasDrawable)
+						{
+							// Show the Contexual Action Bar.
+							getActivity().startActionMode(actionModeCallback);
+						}
+						
+						return true; // Long click was consumed.
+					}
+				});
+		
+		// --- Photo Button ---
+				
+		mBtnPhoto = (ImageButton)v.findViewById(R.id.btnPhoto);
+		mBtnPhoto.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v)
+			{
+				startDefaultCamera();
+			}
+		});
+		
+		// --- Checking For Camera Availability ---
+		
+		// if camera is not available, disable camera functionality.
+		
+		PackageManager pm = getActivity().getPackageManager();
+		boolean hasCamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
+				pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
+				Camera.getNumberOfCameras() > 0;
+		if (!hasCamera)
+		{
+			mBtnPhoto.setEnabled(false);
+		}
+		
+		
 		// Return the root-layout.
 		return v;
-	}
-	
-	/**
-	 * If a parent activity is registered in the manifest file,
-	 * enable the Up button.
-	 */
-	private void setupActionBarUpButton()
-	{
-		if (!Utils.hasTwoPane(getActivity()) &&
-				NavUtils.getParentActivityIntent(getActivity() ) != null)
-		{
-			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-		else
-		{
-			Log.d(TAG, "Couldn't enable the Up button");
-		}
-	}
-	
-	/**
-	 * Remove the Contextual Action Bar if any.
-	 */
-	void finishCAB()
-	{
-		if (mActionMode != null) 
-		{
-			mActionMode.finish();
-			mActionMode = null;
-		}
 	}
 	
 	/*
@@ -291,6 +404,17 @@ public class CustomerDetailFragment extends Fragment
 		{
 			finishCAB();
 		}
+	}
+	
+	/*
+	 * Have the photo ready as soon as this Fragment's view becomes visible to the user.
+	 */
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		
+		showThumbnail();
 	}
 	
 	@Override
@@ -309,6 +433,206 @@ public class CustomerDetailFragment extends Fragment
 		// TODO - FileCabinet.get(getActivity()).saveCustomers();
 	}
 	
+	/*
+	 * Unload the photo as soon as this Fragment's view becomes invisible to the user.
+	 */
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		
+		ImageUtils.cleanImageView(mThumbnail);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent resultData)
+	{
+		if (resultCode != Activity.RESULT_OK) return;
+
+		// --- Built-in Camera ---
+		
+		if (requestCode == REQUEST_DEFAULT_CAMERA)
+		{
+			Log.d(TAG, "After camera activity, mPhotoPath: " + mPhotoFilepath);
+			
+			// Delete the old photo, if any.
+			if (mCustomer.getPhoto() != null)
+			{
+				deletePhoto();
+			}
+
+			Uri photoUri = null;
+
+			if (null == resultData)
+			{
+				// A known bug here! The image should have saved in fileUri
+				Utils.showToast(getActivity(), "Image saved successfully");
+				photoUri  = mPhotoFileUri;
+			}
+			else
+			{
+				photoUri  = resultData.getData();
+				Utils.showToast(getActivity(), "Image saved successfully in: " + resultData.getData());
+			}
+
+			if (photoUri != null)
+			{
+				Photo photo = new Photo(mPhotoFilename);
+				mCustomer.setPhoto(photo);
+				Log.d(TAG, "photo.getFilename(): " + photo.getFilename());
+				
+				// Notify it.
+				mCallbacks.onCustomerUpdated(mCustomer);
+				
+				// Set the photo on the imageView.
+				showThumbnail();
+				
+				// Forget the filepath.
+				mPhotoFilepath = null;
+			}
+			else
+			{
+				Utils.showToast(getActivity(), "Error saving photo: " + mPhotoFilepath);
+			}
+		}
+		
+	}
+	
+	/**
+	 * Remove the Contextual Action Bar if any.
+	 */
+	void finishCAB()
+	{
+		if (mActionMode != null) 
+		{
+			mActionMode.finish();
+			mActionMode = null;
+		}
+	}
+
+	private void startDefaultCamera()
+	{
+		// Camera exists? Then proceed...
+		Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+	
+		// Ensure that there's a camera activity to handle the intent
+		if (Utils.isIntentSafe(getActivity(), i))
+		{
+			// Create the File where the photo should go.
+			// If you don't do this, you may get a crash in some devices.
+			File photoFile = null;
+			
+			// Create a file, where we save a photo.
+			mPhotoFilename = ImageUtils.generateImageFileName(getActivity());
+			photoFile = ImageUtils.createImageFile(getActivity(), mPhotoFilename);
+			
+			// Remember the filepath.
+			mPhotoFilepath = photoFile.getAbsolutePath();
+			Log.e(TAG, "After createImageFile(): " + mPhotoFilepath);
+			
+			// Continue only if the File was successfully created
+			if (photoFile != null)
+			{
+				mPhotoFileUri = Uri.fromFile(photoFile);
+				i.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoFileUri);
+				startActivityForResult(i, REQUEST_DEFAULT_CAMERA);
+			}
+		}
+	}
+
+	/**
+	 * If a parent activity is registered in the manifest file,
+	 * enable the Up button.
+	 */
+	private void setupActionBarUpButton()
+	{
+		if (!Utils.hasTwoPane(getActivity()) &&
+				NavUtils.getParentActivityIntent(getActivity() ) != null)
+		{
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		else
+		{
+			Log.d(TAG, "Couldn't enable the Up button");
+		}
+	}
+
+	/**
+	 * Get the current crime's photo image from file storage and show it on the ImageView.
+	 * Loading images in onStart() and them unloading in onStop is a good practice.
+	 */
+	private void showThumbnail()
+	{
+		// Ensure that this Crime has a photo.
+		if (null == mCustomer.getPhoto())
+		{
+			mCustomer.setPhoto(null);
+			return ; // Fail.
+		}
+		
+		// Get a scaled bitmap.
+		Photo photo = mCustomer.getPhoto();
+		BitmapDrawable bitmap = photo.loadBitmapDrawable(getActivity());
+	
+		// Set the image on the ImageView.
+		mThumbnail.setImageDrawable(bitmap);
+	}
+
+	/**
+	 * Delete the currently shown Customer from the FileCabinet's list.
+	 * Update the Pager. Finish this fragment. Show a toast message.
+	 */
+	private void deleteCustomer()
+	{
+		Log.d(TAG, "deleteCustomer() - mCustomer.getLastName(): " + mCustomer.getLastName());
+	
+		// Get the crime title.
+		String customerString =
+				(null == mCustomer.getLastName() || mCustomer.toString().equals("")) ?
+				"(No last name)" : mCustomer.toString();
+		
+		// Delete the customer.
+		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
+		
+		// Notify the user..
+		Utils.showToast(getActivity(), customerString + " has been deleted.");
+	
+		if (Utils.hasTwoPane(getActivity())) // Two-pane.
+		{
+			mCallbacks.onCustomerDeleted(mCustomer);
+		}
+	}
+
+	/**
+	 * Delete from disk and from CrimeLab  the photo of the currently shown Crime.
+	 * Show a toast message.
+	 */
+	private void deletePhoto()
+	{
+		if (null == mCustomer.getPhoto())
+		{
+			Utils.showToast(getActivity(), "No photo found");
+			return ; // Fail.
+		}
+		
+		// Clean up the ImageView.
+		ImageUtils.cleanImageView(mThumbnail);
+		
+		// Delete the image data file on disk.
+		boolean success = mCustomer.getPhoto().deletePhoto(getActivity());
+		if (success)
+		{
+			Utils.showToast(getActivity(), "1 photo deleted");
+			
+			// Set the reference to null.
+			mCustomer.setPhoto(null);
+		}
+		else
+		{
+			Utils.showToast(getActivity(), "Couldn't delete the photo");
+		}
+	}
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu)
 	{
@@ -366,41 +690,6 @@ public class CustomerDetailFragment extends Fragment
 			default:
 				return super.onOptionsItemSelected(item);
 	 	}
-	}
-	
-	/**
-	 * Delete the currently shown Customer from the FileCabinet's list.
-	 * Update the Pager. Finish this fragment. Show a toast message.
-	 */
-	private void deleteCustomer()
-	{
-		Log.d(TAG, "deleteCustomer() - mCustomer.getLastName(): " + mCustomer.getLastName());
-	
-		// Get the crime title.
-		String customerString =
-				(null == mCustomer.getLastName() || mCustomer.toString().equals("")) ?
-				"(No last name)" : mCustomer.toString();
-		
-		// Delete the customer.
-		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
-		
-		// Notify the user..
-		Utils.showToast(getActivity(), customerString + " has been deleted.");
-
-		if (Utils.hasTwoPane(getActivity())) // Two-pane.
-		{
-			mCallbacks.onCustomerDeleted(mCustomer);
-		}
-		//else // Single-pane.
-		//{
-			//((CustomerPagerActivity)getActivity()).getPagerAdapter()
-				//.notifyDataSetChanged();
-			
-			// Toast a message and finish this activity.
-			//Utils.showToast(getActivity(), customerString + " has been deleted.");
-
-			//getActivity().finish();
-		//}
 	}
 	
 	/**

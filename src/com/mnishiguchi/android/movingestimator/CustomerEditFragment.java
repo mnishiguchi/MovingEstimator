@@ -398,10 +398,7 @@ public class CustomerEditFragment extends Fragment
 				// Show the DatePickerFragment.
 				dialog.show(fm, DIALOG_DATETIME);
 			}
-		} );
-		
-		
-		
+		});
 		
 		// --- mEtMovingDateComment ---
 		

@@ -34,6 +34,7 @@ public class Customer
 	private String mHomeDescription;
 	private String mSpecialOrder;
 	private String mGeneralComment;
+	private Photo mPhoto;
 	
 	/**
 	 * Constructor. Create a default Customer object with a unique id.
@@ -270,4 +271,16 @@ public class Customer
 	{
 		return mId;
 	}
+
+	public Photo getPhoto()
+	{
+		return mPhoto;
+	}
+
+	public void setPhoto(Photo photo)
+	{
+		mPhoto = photo;
+	}
+	
+	
 }
