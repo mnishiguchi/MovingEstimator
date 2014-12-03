@@ -216,11 +216,8 @@ public class CustomerDetailFragment extends Fragment
 		
 		mTvMovingDate = (TextView)v.findViewById(R.id.textViewMovingDate);
 		
-		// Get the user's preferred default format.
-		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(
-				getActivity().getApplicationContext());
 		temp = (null == mCustomer.getMovingDate()) ?
-				"TBD" : dateFormat.format(mCustomer.getMovingDate());
+				"TBD" : mCustomer.getMovingDateString();
 		mTvMovingDate.setText(temp);
 		
 		// --- mEtMovingDateComment ---

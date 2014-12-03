@@ -79,6 +79,12 @@ public class Customer
 		
 		return prefix + " " + lastName;
 	}
+	
+	public String getMovingDateString()
+	{
+		return (String) android.text.format.DateFormat
+				.format("yyyy-MM-dd hh:mm", mMovingDate);
+	}
 
 	public String getRefNumber()
 	{

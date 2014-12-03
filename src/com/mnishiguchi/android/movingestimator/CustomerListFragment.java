@@ -93,9 +93,6 @@ public class CustomerListFragment extends ListFragment
 	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
-		
-		// Set the action-bar title.
-		getActivity().setTitle(R.string.actionbar_title_list);
 	
 		// Get the list of customers via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(getActivity()).getCustomers();
@@ -144,15 +141,17 @@ public class CustomerListFragment extends ListFragment
 					MenuInflater inflater = mode.getMenuInflater();
 					inflater.inflate(R.menu.context_customerlist_listitem, menu);
 					
-					// Call back.
-					// TODO - mCallbacks.onActionMode();
 					return true;
 				}
 					
 				@Override
 				public boolean onPrepareActionMode(ActionMode mode, Menu menu)
 				{
-					return false; // Return false if nothing is done
+					// Remove unnecessay menu items.
+					menu.findItem(R.id.contextmenu_edit).setVisible(false);
+					menu.findItem(R.id.contextmenu_estimate).setVisible(false);
+					
+					return true;
 				}
 				
 				@Override
@@ -163,6 +162,7 @@ public class CustomerListFragment extends ListFragment
 						case R.id.contextmenu_delete:
 							
 							Log.d(TAG, "onActionItemClicked - contextmenu_delete");
+							
 							// Show Delete Confirmation dialog.
 							DeleteDialog.newInstance(getSelectedItems())
 								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
@@ -171,7 +171,7 @@ public class CustomerListFragment extends ListFragment
 							return true;
 						
 						default:
-							return false;
+							return false; // Return false if nothing is done
 					}
 				}
 				
@@ -205,6 +205,9 @@ public class CustomerListFragment extends ListFragment
 	{
 		super.onResume();
 		
+		// Set the action-bar title.
+		getActivity().setTitle(R.string.actionbar_title_list);
+		
 		// Reload the list.
 		((CustomerListAdapter)getListAdapter()).notifyDataSetChanged();
 		
@@ -213,7 +216,7 @@ public class CustomerListFragment extends ListFragment
 			clearListSelection();
 		}
 		
-		// If no list item is selected, don't show the detail.
+		// If no list item is selected, don't show the detailFragment.
 		if (getSelectedItems().length <= 0)
 		{
 			mCallbacks.onListReset();
@@ -274,6 +277,16 @@ public class CustomerListFragment extends ListFragment
 				
 				addNewCustomer();
 				return true;  // No further processing is necessary.
+			
+			// --- ABOUT ---
+				
+			case R.id.optionsmenu_about:
+					
+				// TODO
+				//new AboutDialog().show(getFragmentManager(), "");
+				AboutDialog.newInstance().show(getFragmentManager(), "");
+				
+				return true;  // No further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);
@@ -293,36 +306,37 @@ public class CustomerListFragment extends ListFragment
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
-	// Get the selected list position.
-	AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-	int position = info.position;
-
-	// Get the selected list item.
-	CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-	Customer selectedCustomer = adapter.getItem(position);
-
-	// Get the selected menu item and respond to it.
-	switch (item.getItemId())
-	{
-		case R.id.contextmenu_delete:
+		// Get the selected list position.
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		int position = info.position;
 	
-			FileCabinet.get(getActivity()).deleteCustomer(selectedCustomer);
-			adapter.notifyDataSetChanged() ;
-			return true ;
-			
-		case R.id.contextmenu_edit:
-			
-			// TODO
-
-			return true ;
-			
-		case R.id.contextmenu_estimate:
-			
-			// TODO
-			
-			return true ;
-	}
-	return super.onContextItemSelected(item);
+		// Get the selected list item.
+		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
+		Customer selectedCustomer = adapter.getItem(position);
+	
+		// Get the selected menu item and respond to it.
+		switch (item.getItemId())
+		{
+			case R.id.contextmenu_edit:
+				
+				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, selectedCustomer.getId());
+				startActivity(i);
+				return true; // No further processing is necessary.
+				
+			case R.id.contextmenu_estimate:
+				
+				// TODO
+				
+				return true;
+				
+			case R.id.contextmenu_delete:
+				
+				FileCabinet.get(getActivity()).deleteCustomer(selectedCustomer);
+				adapter.notifyDataSetChanged() ;
+				return true;
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	

@@ -42,6 +42,8 @@ public class CustomerPagerActivity extends FragmentActivity
 		// Get the list of crimes via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(this).getCustomers();
 		
+		setTitle(R.string.actionbar_title_customer_info);
+		
 		// Configuration.
 		setupPagerAdapter();
 		setupInitialPagerItem();

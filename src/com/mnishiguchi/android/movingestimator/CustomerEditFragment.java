@@ -52,8 +52,8 @@ public class CustomerEditFragment extends Fragment
 	EditText mEtSpecialOrder;
 	EditText mEtGeneralComment;
 	
+	// Remember the original prefix.
 	String mPrefix;
-	
 	
 	/**
 	 * Creates a new fragment instance and set the specified id as fragment's arguments.
@@ -163,6 +163,7 @@ public class CustomerEditFragment extends Fragment
 			public void onTextChanged(CharSequence input, int start, int before, int count)
 			{
 				mCustomer.setLastName(input.toString());
+				setActionBarTitle();
 			}
 			
 			@Override
@@ -208,6 +209,7 @@ public class CustomerEditFragment extends Fragment
 					int position, long id)
 			{
 				mCustomer.setPrefix(parent.getItemAtPosition(position).toString());
+				setActionBarTitle();
 			}
 
 			@Override
@@ -225,6 +227,7 @@ public class CustomerEditFragment extends Fragment
 			public void onTextChanged(CharSequence input, int start, int before, int count)
 			{
 				mCustomer.setOrganization(input.toString());
+				setActionBarTitle();
 			}
 			
 			@Override
@@ -487,12 +490,8 @@ public class CustomerEditFragment extends Fragment
 	
 	private void showUpdatedDate()
 	{
-		// Get the user's preferred default format.
-		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(
-				getActivity().getApplicationContext());
-		
 		String movingDateString = (null == mCustomer.getMovingDate()) ?
-				"TBD" : dateFormat.format(mCustomer.getMovingDate());
+				"TBD" : mCustomer.getMovingDateString();
 		mBtnMovingDate.setText(movingDateString);
 	}
 
@@ -513,10 +512,20 @@ public class CustomerEditFragment extends Fragment
 		}
 	}
 	
+	private void setActionBarTitle()
+	{
+		// Set the ActionBar's title.
+		getActivity().getActionBar().setTitle(mCustomer.toString());
+		getActivity().getActionBar().setSubtitle(mCustomer.getOrganization());
+	}
+	
 	@Override
 	public void onResume()
 	{
 		super.onResume();
+		
+		// Set the ActionBar's title.
+		setActionBarTitle();
 	}
 	
 	@Override

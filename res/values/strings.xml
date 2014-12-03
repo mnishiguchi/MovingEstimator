@@ -7,6 +7,7 @@
 	
 	<!-- ActionBar -->
 	<string name="actionbar_title_list">Customer List</string>
+	<string name="actionbar_title_customer_info">Customer Information</string>
 	
 	<!-- CustomerList -->
 	<string name="customerlist_empty">There is no customer on this list.</string>
@@ -17,11 +18,11 @@
 	<string name="menuitem_edit">Edit</string>
 	<string name="menuitem_estimate">Estimate</string>
 	<string name="menuitem_getlocation">Get Location</string>
+	<string name="menuitem_about">About</string>
 	
 	<!-- Date/time picker -->
 	<string name="date_picker_title">date_picker_title</string>
 	<string name="time_picker_title">time_picker_title</string>
-	
 	
 	<!-- mSpinnerPrefix -->
 	<string-array name="prefixes">
@@ -30,5 +31,12 @@
 		<item>Miss</item>
 		<item>Mrs.</item>
 	</string-array>
+	
+	<!-- AboutDialog -->
+	<string name="aboutdialog_text">
+		Creating new instances of SimpleDateFormat every time you need to format a date can get very expensive. You can fix this by only creating one instance and sharing it, but then you run into another problem - SimpleDateFormat is not threadsafe.
+		Both of these problems are solveable, but this is why we recommend using android.text.format.DateFormat.format(...) method instead for simple formatting. I promise that it works fine.
+	</string>
+		
 	
 </resources>
