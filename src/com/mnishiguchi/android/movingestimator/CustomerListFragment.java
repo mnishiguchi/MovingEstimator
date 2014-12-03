@@ -30,7 +30,8 @@ public class CustomerListFragment extends ListFragment
 {
 	private static final String TAG = "movingestimatort.CustomerListFragment";
 	
-	private static final String DIALOG_DELETE = "delete";
+	private static final String DIALOG_DELETE = "deleteDialog";
+	private static final String DIALOG_ABOUT = "aboutDialog";
 	
 	//public static final String EXTRA_CUSTOMER_ID_LIST = "com.mnishiguchi.android.movingestimator.customer_id_list";
 	
@@ -282,10 +283,7 @@ public class CustomerListFragment extends ListFragment
 				
 			case R.id.optionsmenu_about:
 					
-				// TODO
-				//new AboutDialog().show(getFragmentManager(), "");
-				AboutDialog.newInstance().show(getFragmentManager(), "");
-				
+				AboutDialog.newInstance().show(getFragmentManager(), DIALOG_ABOUT);
 				return true;  // No further processing is necessary.
 				
 			default:

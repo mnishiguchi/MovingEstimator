@@ -386,7 +386,11 @@ public class CustomerEditFragment extends Fragment
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				DialogFragment dialog;
 				
-				dialog = DateTimeEditDialog.newInstance(mCustomer.getMovingDate());
+				// If the moving date is not initialized, create one.
+				Date date = (null == mCustomer.getMovingDate()) ?
+						new Date() : mCustomer.getMovingDate();
+
+				dialog = DateTimeEditDialog.newInstance(date);
 			
 				// Build a connection with the dialog to get the result returned later on.
 				dialog.setTargetFragment(CustomerEditFragment.this, REQUEST_DATE);

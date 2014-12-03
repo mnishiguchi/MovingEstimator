@@ -116,9 +116,6 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	@Override
 	public void onCustomerDeleted(Customer customer)
 	{
-		// Clear the action bar title.
-		setTitle("");
-		
 		// Clear the detailFragmentContainer.
 		removeDetailFragment();
 		

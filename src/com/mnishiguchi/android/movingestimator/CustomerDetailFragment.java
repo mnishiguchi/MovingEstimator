@@ -384,21 +384,23 @@ public class CustomerDetailFragment extends Fragment
 		// Delete the customer.
 		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
 		
-		// Update the pager adapter.
+		// Notify the user..
+		Utils.showToast(getActivity(), customerString + " has been deleted.");
+
 		if (Utils.hasTwoPane(getActivity())) // Two-pane.
 		{
 			mCallbacks.onCustomerDeleted(mCustomer);
 		}
-		else // Single-pane.
-		{
-			((CustomerPagerActivity)getActivity()).getPagerAdapter()
-				.notifyDataSetChanged();
+		//else // Single-pane.
+		//{
+			//((CustomerPagerActivity)getActivity()).getPagerAdapter()
+				//.notifyDataSetChanged();
 			
 			// Toast a message and finish this activity.
-			Utils.showToast(getActivity(), customerString + " has been deleted.");
+			//Utils.showToast(getActivity(), customerString + " has been deleted.");
 
-			getActivity().finish();
-		}
+			//getActivity().finish();
+		//}
 	}
 	
 	/**
