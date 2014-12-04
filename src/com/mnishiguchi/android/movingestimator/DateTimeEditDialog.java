@@ -59,11 +59,12 @@ public class DateTimeEditDialog extends DialogFragment
 		mDate = (Date)getArguments().getSerializable(EXTRA_DATE);
 		
 		// Option list items.
-		String[] options = { "Set Date", "Set Time"};
+		String[] options = {"Set Date", "Set Time"};
 		
 		// Configure the AlertDialog and return it.
 		return new AlertDialog.Builder(getActivity() )
-				.setTitle(mDate.toString())
+				.setTitle((String) android.text.format.DateFormat
+						.format("yyyy-MM-dd hh:mma", mDate))
 				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) { } // Do nothing.

@@ -14,8 +14,26 @@ public class Customer
 	private static String TAG = "movingestimator.Customer";
 	
 	// JSON keys
-	// TODO
-	
+	private static final String JSON_ID = "id";
+	private static final String JSON_REF_NUMBER = "refNumber";
+	private static final String JSON_FIRST_NAME = "firstName";
+	private static final String JSON_LAST_NAME = "lastName";
+	private static final String JSON_PREFIX = "prefix";
+	private static final String JSON_ORGANIZATION = "organization";
+	private static final String JSON_ADDRESS = "address";
+	private static final String JSON_EMAIL = "email";
+	private static final String JSON_PHONE_HOME = "phoneHome";
+	private static final String JSON_PHONE_WORK = "phoneWork";
+	private static final String JSON_PHONE_CELL = "phoneCell";
+	private static final String JSON_VOLUME_OCEAN = "volumeOcean";
+	private static final String JSON_VOLUME_AIR = "volumeAir";
+	private static final String JSON_VOLUME_COMMENT = "volumeComment";
+	private static final String JSON_MOVING_DATE = "movingDate";
+	private static final String JSON_MOVING_DATE_COMMENT = "movingDateComment";
+	private static final String JSON_HOME_DESCRIPTION = "homeDescription";
+	private static final String JSON_SPECIAL_ORDER = "specialOrder";
+	private static final String JSON_GENERAL_COMMENT = "generalComment";
+	private static final String JSON_PHOTO = "photo";
 	
 	// Instance Variables.
 	private String mId;
@@ -55,7 +73,30 @@ public class Customer
 	 */
 	public Customer(JSONObject json) throws JSONException
 	{
-		// TODO
+		mId =json.getString(JSON_ID);
+		mRefNumber = json.getString(JSON_REF_NUMBER);
+		mFirstName = json.getString(JSON_FIRST_NAME);
+		mLastName = json.getString(JSON_LAST_NAME);
+		mPrefix = json.getString(JSON_PREFIX);
+		mOrganization = json.getString(JSON_ORGANIZATION);
+		mAddress = json.getString(JSON_ADDRESS);
+		mEmail = json.getString(JSON_EMAIL);
+		mPhoneHome = json.getString(JSON_PHONE_HOME);
+		mPhoneWork = json.getString(JSON_PHONE_WORK);
+		mPhoneCell = json.getString(JSON_PHONE_CELL);
+		mVolumeOcean = (float)json.getDouble(JSON_VOLUME_OCEAN);
+		mVolumeAir = (float)json.getDouble(JSON_VOLUME_AIR);
+		mVolumeComment = json.getString(JSON_VOLUME_COMMENT);
+		mMovingDate = new Date(json.getLong(JSON_MOVING_DATE));
+		mMovingDateComment = json.getString(JSON_MOVING_DATE_COMMENT);
+		mHomeDescription = json.getString(JSON_HOME_DESCRIPTION);
+		mSpecialOrder = json.getString(JSON_SPECIAL_ORDER);
+		mGeneralComment = json.getString(JSON_GENERAL_COMMENT);
+
+		if (json.has(JSON_PHOTO))
+		{
+			mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+		}
 	}
 	
 	/**
@@ -63,8 +104,36 @@ public class Customer
 	 */
 	public JSONObject toJSON() throws JSONException
 	{
-		// TODO
-		Log.e(TAG, getClass().getSimpleName() + " is not implemented yet.");
+		// Create a new JSONObject.
+		JSONObject json = new JSONObject();
+		
+		// Map name to value.
+		json.put(JSON_ID, mId);
+		json.put(JSON_REF_NUMBER, mRefNumber);
+		json.put(JSON_FIRST_NAME, mFirstName);
+		json.put(JSON_LAST_NAME, mLastName);
+		json.put(JSON_PREFIX, mPrefix);
+		json.put(JSON_ORGANIZATION, mOrganization);
+		json.put(JSON_ADDRESS, mAddress);
+		json.put(JSON_EMAIL, mEmail);
+		json.put(JSON_PHONE_HOME, mPhoneHome);
+		json.put(JSON_PHONE_WORK, mPhoneWork);
+		json.put(JSON_PHONE_CELL, mPhoneCell);
+		json.put(JSON_VOLUME_OCEAN, mVolumeOcean);
+		json.put(JSON_VOLUME_AIR, mVolumeAir);
+		json.put(JSON_VOLUME_COMMENT, mVolumeComment);
+		if (mMovingDate != null)
+		{
+			json.put(JSON_MOVING_DATE, mMovingDate.getTime()); // convert Date to long
+		}
+		json.put(JSON_MOVING_DATE_COMMENT, mMovingDateComment);
+		json.put(JSON_HOME_DESCRIPTION, mHomeDescription);
+		json.put(JSON_SPECIAL_ORDER, mSpecialOrder);
+		json.put(JSON_GENERAL_COMMENT, mGeneralComment);
+		if (mPhoto != null)
+		{
+			json.put(JSON_PHOTO, mPhoto.toJSON());
+		}
 		return new  JSONObject();
 	}
 	
@@ -84,7 +153,7 @@ public class Customer
 	public String getMovingDateString()
 	{
 		return (String) android.text.format.DateFormat
-				.format("yyyy-MM-dd hh:mm", mMovingDate);
+				.format("yyyy-MM-dd hh:mma", mMovingDate);
 	}
 
 	public String getRefNumber()

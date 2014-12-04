@@ -2,26 +2,43 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/scrollView1"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content" >
+	android:layout_height="match_parent"
+	android:background="@android:color/darker_gray" >
 <LinearLayout
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_height="wrap_content"
 	android:layout_marginLeft="16dp"
 	android:layout_marginRight="16dp"
 	android:layout_marginTop="16dp"
 	android:layout_marginBottom="16dp"
+	android:padding="8dp"
+	android:background="@android:color/background_light" 
 	android:orientation="vertical">
+	
+	<!-- Section1 : Customer Information -->
 
-	<!-- Thumbnail -->
-			<LinearLayout
+	<TextView
+		style="?android:listSeparatorTextViewStyle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="4dp"
+		android:text="Customer Information" />
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal">
+		
+		<!-- Thumbnail -->
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			android:layout_marginRight="4dp">
+			android:padding="16dp">
 			<ImageView
 				android:id="@+id/imageViewThumbnail"
-				android:layout_width="80dp"
-				android:layout_height="80dp"
+				android:layout_width="120dp"
+				android:layout_height="120dp"
 				android:scaleType="centerInside"
 				android:background="@android:color/darker_gray"
 				android:cropToPadding="true"
@@ -33,207 +50,178 @@
 				android:src="@android:drawable/ic_menu_camera" />
 		</LinearLayout>
 		
+		<TableLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:shrinkColumns="0"
+			android:padding="8dp">
+			
+			<!-- Reference number -->
+			<TableRow
+				android:id="@+id/tableRow0"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Ref#:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewRefNumber"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
 	
-		
-	<!-- Section1 : Customer Information -->
+			<!-- CustomerName -->
+			<TableRow
+				android:id="@+id/tableRow1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Name:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewCustomerName"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
+	
+			<!-- Organization -->
+			<TableRow
+				android:id="@+id/tableRow2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Organization:  " />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewOrganization"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
+	
+			<!-- E-mail -->
+			<TableRow
+				android:id="@+id/tableRow3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="E-mail:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewEmail"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
+			
+			<!-- Phone -->
+			<TableRow
+				android:id="@+id/tableRow4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Home:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewPhoneHome"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>	
+			<TableRow
+				android:id="@+id/tableRow5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Work:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewPhoneWork"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>	
+			<TableRow
+				android:id="@+id/tableRow6"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Cell:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewPhoneCell"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
+			
+			<!-- Home Address -->
+			<TableRow
+				android:id="@+id/tableRow7"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="4dp">
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="Address:" />
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:id="@+id/textViewAddress"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:ems="10" />
+			</TableRow>
+		</TableLayout>
+	</LinearLayout>
 
-	<TextView
-		style="?android:listSeparatorTextViewStyle"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="4dp"
-		android:text="Customer Information" />
-	
-	<!-- Reference number -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Ref#:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewRefNumber"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:textSize="16dp"
-			android:hint="Reference number"
-			android:ems="10" />
-	</LinearLayout>
-	
-	<!-- CustomerName -->
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Name:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewCustomerName"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="CustomerName"
-			android:ems="10" />
-	</LinearLayout>
-
-	<!-- Organization -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Organization:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewOrganization"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Organization"
-			android:ems="10" />
-	</LinearLayout>
-	
-	<!-- Home Address -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Address:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewAddress"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Home Address"
-			android:ems="10" />
-	</LinearLayout>
-	
-	<!-- E-mail -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="E-mail:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewEmail"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Email"
-			android:ems="10" />
-	</LinearLayout>
-	
-	<!-- Phone Numbers -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Tel(Home):" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewPhoneHome"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Tel(Home)"
-			android:ems="10" />
-	</LinearLayout>
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Tel(Work):" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewPhoneWork"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Tel(Work)"
-			android:ems="10" />
-	</LinearLayout>
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Tel(Cell):" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewPhoneCell"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="Tel(Cell)"
-			android:ems="10" />
-	</LinearLayout>
 	
 	
 	<!-- Section2 : Moving Information -->
@@ -416,4 +404,6 @@
 		android:ems="10" />
 
 </LinearLayout>
+
+
 </ScrollView>

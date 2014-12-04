@@ -15,7 +15,7 @@ import android.util.Log;
  */
 class Photo
 {
-	private static final String TAG = "CriminalIntent.Photo";
+	private static final String TAG = "movingestimator.Photo";
 	
 	// JSON keys
 	private static final String JSON_FILENAME ="filename";
@@ -69,10 +69,10 @@ class Photo
 		//File dir = context.getApplicationContext()
 				//.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 		File dir = ImageUtils.getPictureStorageDir(context);
-		if (null == dir) return null;
+		//if (null == dir) return null;
 		
 		File file = new File(dir, getFilename());
-		if (null == file) return null;
+		//if (null == file) return null;
 		
 		return file.getAbsolutePath(); // Convert the filepath to string.
 	}

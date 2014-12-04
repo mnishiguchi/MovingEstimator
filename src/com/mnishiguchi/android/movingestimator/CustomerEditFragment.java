@@ -535,7 +535,7 @@ public class CustomerEditFragment extends Fragment
 		super.onPause();
 		Log.d(TAG, "onPause()");
 		
-		// TODO - FileCabinet.get(getActivity()).saveCustomers();
+		FileCabinet.get(getActivity()).saveCustomers();
 	}
 	
 	/**

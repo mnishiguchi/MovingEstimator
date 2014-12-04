@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * A singleton class to keep the customer data available no matter what happens
@@ -25,7 +26,7 @@ class FileCabinet
 	// Instance variables.
 	private Context mAppContext;
 	private ArrayList<Customer> mCustomers;
-	//private MovingEstimatorJSONSerializer mSerializer;
+	private MovingEstimatorJSONSerializer mSerializer;
 	
 	/**
 	 * Constructor.
@@ -33,16 +34,35 @@ class FileCabinet
 	private FileCabinet(Context appContext)
 	{
 		mAppContext = appContext;
-		//mSerializer = new MovingEstimatorJSONSerializer(mAppContext, FILENAME);
+		mSerializer = new MovingEstimatorJSONSerializer(mAppContext, FILENAME);
 		
 		mCustomers = new ArrayList<Customer>();
-		initFakeCustomers();
+		// initFakeCustomers();
 		
 		// Load customers from the file system.
-		// TODO
-		
+		loadCustomers();
 	}
 	
+	/**
+	 * Load the customers data from the device's file system.
+	 */
+	private boolean loadCustomers()
+	{
+		try
+		{
+			mCustomers = mSerializer.loadCustomers();
+			Utils.showToast(mAppContext, "Customers successfully loaded.");
+			return true;
+		}
+		catch (Exception e)
+		{
+			mCustomers = new ArrayList<Customer>();
+			Log.e(TAG, "Error loading customers", e);
+			Utils.showToast(mAppContext, "Error loading customers.");
+			return false;
+		}
+	}
+
 	/**
 	 * Get a reference to the FileCabinet singleton.
 	 * @param context This could be an Activity or another Context object like Service.
@@ -100,21 +120,22 @@ class FileCabinet
 	}
 	
 	/**
-	 * Load the customers data from the device's file system.
-	 */
-	boolean loadCustomers()
-	{
-		// TODO
-		return true;
-	}
-	
-	/**
 	 * Save the customers data to a file on the device's file system.
 	 */
 	boolean saveCustomers()
 	{
-		// TODO
-		return true;
+		try
+		{
+			mSerializer.saveCustomers(mCustomers);
+			Utils.showToast(mAppContext, "Customers saved to file");
+			return true;
+		}
+		catch (Exception e)
+		{
+			Utils.showToast(mAppContext, "Error saving customer");
+			Log.e(TAG, "Error saving customer", e);
+			return false;
+		}
 	}
 	
 	@SuppressWarnings("unused")
