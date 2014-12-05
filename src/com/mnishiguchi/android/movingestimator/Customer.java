@@ -38,21 +38,25 @@ public class Customer
 	// Instance Variables.
 	private String mId;
 	private String mRefNumber;
-	private String mFirstName, mLastName, mPrefix;
-	private String mOrganization;
-	private String mAddress;
-	private String mEmail;
-	private String mPhoneHome;
-	private String mPhoneWork;
-	private String mPhoneCell;
-	private float mVolumeOcean, mVolumeAir;
+	
+	private String mFirstName = "";
+	private String mLastName = "";
+	private String mPrefix = "";
+	private String mOrganization = "";
+	private String mAddress = "";
+	private String mEmail = "";
+	private String mPhoneHome = "";
+	private String mPhoneWork = "";
+	private String mPhoneCell = "";
+	private double mVolumeOcean = 0.0;
+	private double mVolumeAir = 0.0;
 	private String mVolumeComment;
-	private Date mMovingDate;
+	private Date mMovingDate = null;
 	private String mMovingDateComment;
 	private String mHomeDescription;
 	private String mSpecialOrder;
 	private String mGeneralComment;
-	private Photo mPhoto;
+	private Photo mPhoto = null;
 	
 	/**
 	 * Constructor. Create a default Customer object with a unique id.
@@ -63,6 +67,9 @@ public class Customer
 		// Generate unique identifier (Time Stamp).
 		mId = new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US)
 			.format(new Date());
+		
+		// Ref# initially the same as id.
+		mRefNumber = mId;
 	}
 	
 	/**
@@ -73,7 +80,10 @@ public class Customer
 	 */
 	public Customer(JSONObject json) throws JSONException
 	{
-		mId =json.getString(JSON_ID);
+		Log.e(TAG, json.toString());
+		
+		mId = json.getString(JSON_ID);
+
 		mRefNumber = json.getString(JSON_REF_NUMBER);
 		mFirstName = json.getString(JSON_FIRST_NAME);
 		mLastName = json.getString(JSON_LAST_NAME);
@@ -81,13 +91,18 @@ public class Customer
 		mOrganization = json.getString(JSON_ORGANIZATION);
 		mAddress = json.getString(JSON_ADDRESS);
 		mEmail = json.getString(JSON_EMAIL);
-		mPhoneHome = json.getString(JSON_PHONE_HOME);
+		mPhoneHome = json.getString(JSON_PHONE_WORK);
 		mPhoneWork = json.getString(JSON_PHONE_WORK);
 		mPhoneCell = json.getString(JSON_PHONE_CELL);
 		mVolumeOcean = (float)json.getDouble(JSON_VOLUME_OCEAN);
 		mVolumeAir = (float)json.getDouble(JSON_VOLUME_AIR);
 		mVolumeComment = json.getString(JSON_VOLUME_COMMENT);
-		mMovingDate = new Date(json.getLong(JSON_MOVING_DATE));
+
+		if (json.has(JSON_MOVING_DATE))
+		{
+			mMovingDate = new Date(json.getLong(JSON_MOVING_DATE));
+		}
+
 		mMovingDateComment = json.getString(JSON_MOVING_DATE_COMMENT);
 		mHomeDescription = json.getString(JSON_HOME_DESCRIPTION);
 		mSpecialOrder = json.getString(JSON_SPECIAL_ORDER);
@@ -109,6 +124,7 @@ public class Customer
 		
 		// Map name to value.
 		json.put(JSON_ID, mId);
+		
 		json.put(JSON_REF_NUMBER, mRefNumber);
 		json.put(JSON_FIRST_NAME, mFirstName);
 		json.put(JSON_LAST_NAME, mLastName);
@@ -122,19 +138,23 @@ public class Customer
 		json.put(JSON_VOLUME_OCEAN, mVolumeOcean);
 		json.put(JSON_VOLUME_AIR, mVolumeAir);
 		json.put(JSON_VOLUME_COMMENT, mVolumeComment);
+		
 		if (mMovingDate != null)
 		{
 			json.put(JSON_MOVING_DATE, mMovingDate.getTime()); // convert Date to long
 		}
+		
 		json.put(JSON_MOVING_DATE_COMMENT, mMovingDateComment);
 		json.put(JSON_HOME_DESCRIPTION, mHomeDescription);
 		json.put(JSON_SPECIAL_ORDER, mSpecialOrder);
 		json.put(JSON_GENERAL_COMMENT, mGeneralComment);
+		
 		if (mPhoto != null)
 		{
 			json.put(JSON_PHOTO, mPhoto.toJSON());
 		}
-		return new  JSONObject();
+		
+		return json;
 	}
 	
 	/**
@@ -256,7 +276,7 @@ public class Customer
 		mPhoneCell = phoneCell;
 	}
 
-	public float getVolumeOcean()
+	public double getVolumeOcean()
 	{
 		return mVolumeOcean;
 	}
@@ -266,7 +286,7 @@ public class Customer
 		mVolumeOcean = volumeOcean;
 	}
 
-	public float getVolumeAir()
+	public double getVolumeAir()
 	{
 		return mVolumeAir;
 	}

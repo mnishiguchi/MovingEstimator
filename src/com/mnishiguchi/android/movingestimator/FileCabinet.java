@@ -33,6 +33,8 @@ class FileCabinet
 	 */
 	private FileCabinet(Context appContext)
 	{
+		Log.d(TAG, "FileCabinet constructor");
+		
 		mAppContext = appContext;
 		mSerializer = new MovingEstimatorJSONSerializer(mAppContext, FILENAME);
 		
@@ -51,12 +53,15 @@ class FileCabinet
 		try
 		{
 			mCustomers = mSerializer.loadCustomers();
+			
 			Utils.showToast(mAppContext, "Customers successfully loaded.");
 			return true;
 		}
 		catch (Exception e)
 		{
+			// Create a new arraylist
 			mCustomers = new ArrayList<Customer>();
+			
 			Log.e(TAG, "Error loading customers", e);
 			Utils.showToast(mAppContext, "Error loading customers.");
 			return false;
@@ -70,7 +75,7 @@ class FileCabinet
 	 */
 	static FileCabinet get(Context context)
 	{
-		if (null == sFileCabinet)  // Only the first time.
+		if (null == sFileCabinet) // Only the first time.
 		{
 			// Create one and only instance of the FileCabinet.
 			sFileCabinet = new FileCabinet(context.getApplicationContext());

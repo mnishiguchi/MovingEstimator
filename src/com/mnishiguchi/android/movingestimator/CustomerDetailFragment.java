@@ -429,7 +429,7 @@ public class CustomerDetailFragment extends Fragment
 		super.onPause();
 		Log.d(TAG, "onPause()");
 		
-		FileCabinet.get(getActivity()).saveCustomers();
+		// FileCabinet.get(getActivity()).saveCustomers();
 	}
 	
 	/*

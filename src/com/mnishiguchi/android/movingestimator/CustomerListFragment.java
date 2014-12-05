@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 public class CustomerListFragment extends ListFragment
 {
-	private static final String TAG = "movingestimatort.CustomerListFragment";
+	private static final String TAG = "movingestimator.CustomerListFragment";
 	
 	private static final String DIALOG_DELETE = "deleteDialog";
 	private static final String DIALOG_ABOUT = "aboutDialog";
