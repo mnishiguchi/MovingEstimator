@@ -37,7 +37,7 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 		"DROP TABLE IF EXISTS " + EstimateContract.EstimateTable.TABLE_NAME;
 	
 	/**
-	 * Constructor.
+	 * Constructor. Initialize underlying database.
 	 */
 	public EstimateDatabaseHelper(Context context)
 	{
@@ -54,9 +54,18 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// Implement schema changes and data message here when upgrading.
+		// This database is only a cache for online data, so its upgrade policy is
+		// to simply to discard the data and start over
+		db.execSQL(SQL_DELETE_ESTIMATES);
+		onCreate(db);
 	}
 	
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
+	{
+		onUpgrade(db, oldVersion, newVersion);
+	}
+
 	public long insertMovingItem(MovingItem item)
 	{
 		ContentValues cv = new ContentValues();

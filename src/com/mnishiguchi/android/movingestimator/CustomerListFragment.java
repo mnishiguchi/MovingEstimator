@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -565,6 +566,35 @@ public class CustomerListFragment extends ListFragment
 				.setPositiveButton("Yes", listener)
 				.setNegativeButton("Cancel", listener)
 				.create();
+		}
+	}
+	
+	static class AboutDialog extends DialogFragment
+	{
+		TextView mTextView;
+		
+		static AboutDialog newInstance()
+		{
+			// Instantiate the fragment with the arguments.
+			AboutDialog fragment = new AboutDialog();
+			fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+			
+			return fragment;
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState)
+		{
+			// Dynamically create an mTextView from scratch.
+			mTextView = new TextView(getActivity());
+			
+			String text = getActivity().getString(R.string.aboutdialog_text);
+			
+			// Set text on the TextView.
+			mTextView.setText(text);
+			mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+			
+			return mTextView;
 		}
 	}
 }
