@@ -4,25 +4,16 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@android:color/darker_gray" >
+	
 <LinearLayout
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginLeft="16dp"
-	android:layout_marginRight="16dp"
-	android:layout_marginTop="16dp"
-	android:layout_marginBottom="16dp"
+	android:layout_marginLeft="1dp"
 	android:padding="8dp"
 	android:background="@android:color/background_light" 
 	android:orientation="vertical">
 	
 	<!-- Section1 : Customer Information -->
-
-	<TextView
-		style="?android:listSeparatorTextViewStyle"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="4dp"
-		android:text="Customer Information" />
 	
 	<LinearLayout
 		android:layout_width="match_parent"

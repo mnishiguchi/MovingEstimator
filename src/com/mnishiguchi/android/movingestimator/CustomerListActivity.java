@@ -51,7 +51,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		}
 		else // Single-pane
 		{
-			// Start the CrimePagerActivity.
+			// Start the PagerActivity.
 			Intent i = new Intent(this, CustomerPagerActivity.class);
 			i.putExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL, customer.getId());
 			startActivity(i);
@@ -66,6 +66,8 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		CustomerListFragment listFragment = (CustomerListFragment)
 				fm.findFragmentById(R.id.fragmentContainer);
 		listFragment.updateListView();
+		
+		removeDetailFragment();
 	}
 
 	@Override

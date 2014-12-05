@@ -330,8 +330,16 @@ public class CustomerListFragment extends ListFragment
 				
 			case R.id.contextmenu_delete:
 				
+				// Delete the selectedCustomer from Modal-layer.
 				FileCabinet.get(getActivity()).deleteCustomer(selectedCustomer);
-				adapter.notifyDataSetChanged() ;
+				
+				// Update the listView.
+				adapter.notifyDataSetChanged();
+				
+				// Notify the hosting activity.
+				Customer[] c = {selectedCustomer};
+				mCallbacks.onListItemsDeleted(c);
+				
 				return true;
 		}
 		return super.onContextItemSelected(item);

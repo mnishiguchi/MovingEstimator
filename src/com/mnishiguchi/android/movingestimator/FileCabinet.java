@@ -120,8 +120,25 @@ class FileCabinet
 	 */
 	void deleteCustomer(Customer customer)
 	{
+		// If the customer has a photo, delete it from disk.
+		if (customer.getPhoto() != null)
+		{
+			// Delete the photo file on disk.
+			if (!customer.getPhoto().deletePhoto(mAppContext))
+			{
+				Utils.showToast(mAppContext, "Couldn't delete the photo");
+			}
+		}
+		
 		// Delete the specified customer from the list.
-		mCustomers.remove(customer);
+		if (mCustomers.remove(customer))
+		{
+			Utils.showToast(mAppContext, customer.toString() + " deleted");
+		}
+		else
+		{
+			Utils.showToast(mAppContext, "Couldn't delete the customer");
+		}
 	}
 	
 	/**

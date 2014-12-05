@@ -7,7 +7,8 @@
 		android:showAsAction="ifRoom|withText" />
 	
 	<item android:id="@+id/optionsmenu_about"
-		android:title="@string/menuitem_about" 
+		android:title="@string/menuitem_about"
+		android:orderInCategory="10" 
 		android:showAsAction="never" />
 	
 </menu>

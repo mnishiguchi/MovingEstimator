@@ -34,9 +34,13 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		Creating new instances of SimpleDateFormat every time you need to format a date can get very expensive. You can fix this by only creating one instance and sharing it, but then you run into another problem - SimpleDateFormat is not threadsafe.
-		Both of these problems are solveable, but this is why we recommend using android.text.format.DateFormat.format(...) method instead for simple formatting. I promise that it works fine.
+		#USAGE\n
+		- Manage customers information.\n
+		- Survey customers moving volume.\n
+		\n
+		#DEVELOPER\n
+		- Masatoshi Nishiguchi\n
+		- masatoshi.nishiguchi@udc.edu
 	</string>
-		
 	
 </resources>

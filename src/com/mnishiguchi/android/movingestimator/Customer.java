@@ -35,9 +35,9 @@ public class Customer
 	private static final String JSON_GENERAL_COMMENT = "generalComment";
 	private static final String JSON_PHOTO = "photo";
 	
-	// Instance Variables.
-	private String mId;
-	private String mRefNumber;
+	// Instance Variables, initially empty/0.0 (except date and photo)
+	private String mId = "";
+	private String mRefNumber = "";
 	
 	private String mFirstName = "";
 	private String mLastName = "";
@@ -50,12 +50,12 @@ public class Customer
 	private String mPhoneCell = "";
 	private double mVolumeOcean = 0.0;
 	private double mVolumeAir = 0.0;
-	private String mVolumeComment;
+	private String mVolumeComment = "";
 	private Date mMovingDate = null;
-	private String mMovingDateComment;
-	private String mHomeDescription;
-	private String mSpecialOrder;
-	private String mGeneralComment;
+	private String mMovingDateComment = "";
+	private String mHomeDescription = "";
+	private String mSpecialOrder = "";
+	private String mGeneralComment = "";
 	private Photo mPhoto = null;
 	
 	/**
@@ -83,7 +83,6 @@ public class Customer
 		Log.e(TAG, json.toString());
 		
 		mId = json.getString(JSON_ID);
-
 		mRefNumber = json.getString(JSON_REF_NUMBER);
 		mFirstName = json.getString(JSON_FIRST_NAME);
 		mLastName = json.getString(JSON_LAST_NAME);
@@ -159,15 +158,15 @@ public class Customer
 	
 	/**
 	 * Create a string representation of this Customer.
-	 * e.g. Mr. Nishiguchi
+	 * e.g. Mr. NISHIGUCHI
 	 */
 	@Override
 	public String toString()
 	{
-		String prefix = (null == mPrefix) ? "" : mPrefix;
-		String lastName = (null == mLastName) ? "" : mLastName.toUpperCase(Locale.US);
+		// No last name => (No Name)
+		if (mLastName.equals("")) return "(No name)";
 		
-		return prefix + " " + lastName;
+		return mPrefix + " " + mLastName.toUpperCase(Locale.US);
 	}
 	
 	public String getMovingDateString()

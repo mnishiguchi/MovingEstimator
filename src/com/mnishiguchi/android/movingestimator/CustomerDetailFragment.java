@@ -593,6 +593,9 @@ public class CustomerDetailFragment extends Fragment
 		// Delete the customer.
 		FileCabinet.get(getActivity()).deleteCustomer(mCustomer);
 		
+		// Delete photo too, if there's one.
+		deletePhoto();
+		
 		// Notify the user..
 		Utils.showToast(getActivity(), customerString + " has been deleted.");
 	
@@ -610,7 +613,7 @@ public class CustomerDetailFragment extends Fragment
 	{
 		if (null == mCustomer.getPhoto())
 		{
-			Utils.showToast(getActivity(), "No photo found");
+			Utils.showToast(getActivity(), "Couldn't find any photo to delete");
 			return ; // Fail.
 		}
 		
@@ -621,14 +624,14 @@ public class CustomerDetailFragment extends Fragment
 		boolean success = mCustomer.getPhoto().deletePhoto(getActivity());
 		if (success)
 		{
-			Utils.showToast(getActivity(), "1 photo deleted");
+			Utils.showToast(getActivity(), "old photo deleted");
 			
 			// Set the reference to null.
 			mCustomer.setPhoto(null);
 		}
 		else
 		{
-			Utils.showToast(getActivity(), "Couldn't delete the photo");
+			Utils.showToast(getActivity(), "Couldn't delete the old photo");
 		}
 	}
 
