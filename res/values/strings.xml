@@ -34,13 +34,13 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		#USAGE\n
+		#USAGE:\n
+		- For Moving companies.\n
 		- Manage customers information.\n
 		- Survey customers moving volume.\n
-		\n
-		#DEVELOPER\n
+		\n#DEVELOPED BY:\n
 		- Masatoshi Nishiguchi\n
-		- masatoshi.nishiguchi@udc.edu
+		- (masatoshi.nishiguchi@udc.edu)
 	</string>
 	
 </resources>
