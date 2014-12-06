@@ -694,6 +694,7 @@ public class CustomerDetailFragment extends Fragment
 			case R.id.optionsmenu_estimate:
 				
 				i = new Intent(getActivity(), RoomListActivity.class);
+				i.putExtra(RoomListFragment.EXTRA_CUSTOMER_ID_ROOM, mCustomer.getId());
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				

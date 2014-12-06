@@ -35,59 +35,54 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		#USAGE:\n
-		- For Moving companies.\n
-		- Manage customers information.\n
-		- Survey customers moving volume.\n
-		\n#DEVELOPED BY:\n
-		- Masatoshi Nishiguchi\n
-		- (masatoshi.nishiguchi@udc.edu)
+		#DEVELOPED BY: Masatoshi Nishiguchi\n
+		(masatoshi.nishiguchi@udc.edu)
 	</string>
 	
 	<!-- Default Rooms -->
 	<string-array name="rooms_default">
-		<item>dining room</item>
-		<item>kitchen</item>
-		<item>living room</item>
-		<item>master bedroom</item>
+		<item>Entrance Hall</item>
+		<item>Living Room</item>
+		<item>Dining Room</item>
+		<item>Kitchen</item>
 	</string-array>
 		
 	<!-- Room Names -->
 	<string-array name="rooms">
-		<item>attic</item>
-		<item>back yard</item>
-		<item>basement</item>
-		<item>bathroom</item>
-		<item>bedroom-1</item>
-		<item>bedroom-2</item>
-		<item>bedroom-3</item>
-		<item>bedroom-4</item>
-		<item>cellar</item>
-		<item>closet</item>
-		<item>den</item>
-		<item>dining room</item>
-		<item>entrance hall</item>
-		<item>foyer</item>
-		<item>front yard</item>
-		<item>garage</item>
-		<item>hall</item>
-		<item>hallway</item>
-		<item>kitchen</item>
-		<item>laundry</item>
-		<item>living room</item>
-		<item>master bedroom</item>
-		<item>office</item>
-		<item>pantry</item>
-		<item>patio</item>
-		<item>playroom</item>
-		<item>porch</item>
-		<item>shed</item>
-		<item>staircase</item>
-		<item>storage area</item>
-		<item>study</item>
-		<item>sun room</item>
-		<item>TV room</item>
-		<item>workshop</item>
+		<item>Attic</item>
+		<item>Back Yard</item>
+		<item>Basement</item>
+		<item>Bathroom</item>
+		<item>Bedroom-1</item>
+		<item>Bedroom-2</item>
+		<item>Bedroom-3</item>
+		<item>Bedroom-4</item>
+		<item>Cellar</item>
+		<item>Closet</item>
+		<item>Den</item>
+		<item>Dining room</item>
+		<item>Entrance Hall</item>
+		<item>Foyer</item>
+		<item>Front Yard</item>
+		<item>Garage</item>
+		<item>Hall</item>
+		<item>Hallway</item>
+		<item>Kitchen</item>
+		<item>Laundry</item>
+		<item>Living Room</item>
+		<item>Master Bedroom</item>
+		<item>Office</item>
+		<item>Pantry</item>
+		<item>Patio</item>
+		<item>Playroom</item>
+		<item>Porch</item>
+		<item>Shed</item>
+		<item>Staircase</item>
+		<item>Storage Area</item>
+		<item>Study</item>
+		<item>Sun Room</item>
+		<item>TV Room</item>
+		<item>Workshop</item>
 	</string-array>
 	
 </resources>

@@ -26,12 +26,13 @@ public class RoomListFragment extends ListFragment
 	
 	private static final String DIALOG_ADD_ROOM = "addRoomDialog";
 	
-	//public static final String EXTRA_CUSTOMER_ID_LIST = "com.mnishiguchi.android.movingestimator.customer_id_list";
+	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
 	
 	// Store reference to the current instance to this fragment.
 	//private static EstimateRoomListFragment sEstimateRoomListFragment;
 	
 	// Reference to the list of rooms stored in FileCabinet.
+	private Customer mCustomer;
 	private ArrayList<String> mRooms;
 	
 	// Remember the currently selected item.
@@ -73,6 +74,27 @@ public class RoomListFragment extends ListFragment
 		mCallbacks = null;
 	}
 	
+	/**
+	 * Create a new instance associated with the passed-in id.
+	 */
+	public static RoomListFragment newInstance(String customerId)
+	{
+		// Set the customer's id on the arguments.
+		Bundle args = new Bundle();
+		args.putString(EXTRA_CUSTOMER_ID_ROOM, customerId);
+		
+		// Instantiate the fragment with the arguments.
+		RoomListFragment fragment = new RoomListFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+	
+	/**
+	 * Private constructor so that nobody accidentally would instantiate.
+	 */
+	private RoomListFragment()
+	{}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -80,32 +102,37 @@ public class RoomListFragment extends ListFragment
 		
 		super.onCreate(savedInstanceState);
 		
-		// Store a reference to this instance.
-		//sEstimateRoomListFragment = this;
+		// Retrieve the passed-in customerId.
+		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID_ROOM);
+		
+		// Get the customer with that id.
+		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
 	
 		// Get the list of customer's rooms.
-		//mRooms = mCustomer.getRooms();
-		
-		// TODO
-		mRooms = new ArrayList<String>(); // TEMP
-		String[] rooms = getActivity().getResources().getStringArray(R.array.rooms);
-		for (String each : rooms)
+		if (mCustomer.getRooms().isEmpty())
 		{
-			mRooms.add(each);
+			// Create a new list.
+			mRooms = new ArrayList<String>();
+			String[] rooms = getActivity().getResources().getStringArray(R.array.rooms_default);
+			Log.d(TAG, "getStringArray(R.array.rooms_default).length: " + rooms.length);
+			
+			for (String each : rooms)
+			{
+				mRooms.add(each);
+			}
 		}
-		
+		else
+		{
+			mRooms = mCustomer.getRooms();
+		}
 		
 		// Set the list adapter. (Default)
 		setListAdapter(new ArrayAdapter<String> (getActivity(),
 				android.R.layout.simple_list_item_1, // the default list item layout.
-				mRooms // the data source
-				));
-		
-		// If a parent activity is registered in the manifest file, enable the Up button.
-		setupActionBarUpButton();
+				mRooms)); // the data source
 		
 		// Retain this fragment.
 		setRetainInstance(true);
@@ -121,9 +148,12 @@ public class RoomListFragment extends ListFragment
 	{
 		super.onResume();
 		
+		// If a parent activity is registered in the manifest file,
+		// enable the Up button.
+		setupActionBarUpButton();
+		
 		// Set the action-bar title.
-		getActivity().setTitle("customerName");
-		getActivity().getActionBar().setSubtitle("roomName");
+		setActionBarTitle(mCustomer.toString(), "current room");
 		
 		// Reload the list.
 		((ArrayAdapter<String>)getListAdapter()).notifyDataSetChanged();
@@ -162,9 +192,9 @@ public class RoomListFragment extends ListFragment
 	/**
 	 * Set the customer name as a title and the company name as a subtitle.
 	 */
-	private void setActionBarTitle(Customer customer, String room)
+	private void setActionBarTitle(String customerName, String room)
 	{
-		getActivity().setTitle(customer.toString());
+		getActivity().setTitle("Estimate for " + customerName);
 		getActivity().getActionBar().setSubtitle(room);
 	}
 	

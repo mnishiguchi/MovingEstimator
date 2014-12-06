@@ -8,8 +8,10 @@ public class RoomListActivity extends SingleFragmentActivity implements
 	@Override
 	protected Fragment createFragment()
 	{
+		// Retrieve the customerId from intent.
 		// Return an instance of the fragment that the activity is hosting. 
-		return new RoomListFragment();
+		String customerId = getIntent().getStringExtra(RoomListFragment.EXTRA_CUSTOMER_ID_ROOM);
+		return RoomListFragment.newInstance(customerId);
 	}
 
 	@Override

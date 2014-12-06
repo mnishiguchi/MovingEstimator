@@ -389,6 +389,16 @@ public class Customer
 	{
 		mPhoto = photo;
 	}
+
+	public ArrayList<String> getRooms()
+	{
+		return mRooms;
+	}
+
+	public void setRooms(ArrayList<String> rooms)
+	{
+		mRooms = rooms;
+	}
 	
 	
 }
