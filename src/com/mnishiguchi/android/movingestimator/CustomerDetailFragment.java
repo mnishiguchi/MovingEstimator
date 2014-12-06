@@ -663,10 +663,12 @@ public class CustomerDetailFragment extends Fragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-	 	// Check the selected menu item and respond to it.
+		Intent i;
+		
+		// Check the selected menu item and respond to it.
 		switch (item.getItemId() )
-	 	{
-	 		// Respond to the enabled Up icon as if it were an existing options menu item.
+		{
+			// Respond to the enabled Up icon as if it were an existing options menu item.
 			case android.R.id.home:
 				
 				// If a parent activity is registered in the manifest file, move up the app hierarchy.
@@ -684,8 +686,14 @@ public class CustomerDetailFragment extends Fragment
 			
 			case R.id.optionsmenu_edit:
 				
-				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
+				i = new Intent(getActivity(), CustomerEditActivity.class);
 				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, mCustomer.getId());
+				startActivity(i);
+				return true; // Indicate that no further processing is necessary.
+				
+			case R.id.optionsmenu_estimate:
+				
+				i = new Intent(getActivity(), RoomListActivity.class);
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
