@@ -1,9 +1,11 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,8 @@ public class Customer
 	private static final String JSON_GENERAL_COMMENT = "generalComment";
 	private static final String JSON_PHOTO = "photo";
 	
+	private static final String JSON_ROOMS = "rooms";
+	
 	// Instance Variables, initially empty/0.0 (except date and photo)
 	private String mId = "";
 	private String mRefNumber = "";
@@ -57,6 +61,8 @@ public class Customer
 	private String mSpecialOrder = "";
 	private String mGeneralComment = "";
 	private Photo mPhoto = null;
+	
+	private ArrayList<String> mRooms = new ArrayList<String>();
 	
 	/**
 	 * Constructor. Create a default Customer object with a unique id.
@@ -111,6 +117,13 @@ public class Customer
 		{
 			mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
 		}
+		
+		JSONArray rooms = json.getJSONArray(JSON_ROOMS);
+		for (int i = 0, size = rooms.length();
+				i < size; i++)
+		{
+			mRooms.add(rooms.get(i).toString());
+		}
 	}
 	
 	/**
@@ -152,6 +165,13 @@ public class Customer
 		{
 			json.put(JSON_PHOTO, mPhoto.toJSON());
 		}
+		
+		JSONArray rooms = new JSONArray();
+		for (String each : mRooms)
+		{
+			rooms.put(each);
+		}
+		json.put(JSON_ROOMS, rooms);
 		
 		return json;
 	}
