@@ -24,8 +24,7 @@
 				android:layout_height="80dp"
 				android:scaleType="centerInside"
 				android:background="@android:color/darker_gray"
-				android:cropToPadding="true"
-				/>
+				android:cropToPadding="true" />
 			<ImageButton
 				android:id="@+id/btnPhoto"
 				android:layout_width="match_parent"
@@ -260,7 +259,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
-		android:text="Comment:" />
+		android:text="" />
 	<TextView
 		android:id="@+id/textViewVolumeComment"
 		android:layout_width="wrap_content"
@@ -300,7 +299,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
-		android:text="Comment:" />
+		android:text="" />
 	<TextView
 		android:id="@+id/textViewMovingDateComment"
 		android:layout_width="match_parent"

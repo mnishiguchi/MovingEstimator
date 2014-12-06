@@ -114,7 +114,7 @@ public class RoomListFragment extends ListFragment
 		// Get the list of customer's rooms.
 		if (mCustomer.getRooms().isEmpty())
 		{
-			// Create a new list.
+			// Create a new list and add a set of default rooms.
 			mRooms = new ArrayList<String>();
 			String[] rooms = getActivity().getResources().getStringArray(R.array.rooms_default);
 			Log.d(TAG, "getStringArray(R.array.rooms_default).length: " + rooms.length);
@@ -123,6 +123,10 @@ public class RoomListFragment extends ListFragment
 			{
 				mRooms.add(each);
 			}
+			
+			// Save the updated entire customers data to disk.
+			mCustomer.setRooms(mRooms);
+			FileCabinet.get(getActivity()).saveCustomers();
 		}
 		else
 		{
@@ -148,12 +152,11 @@ public class RoomListFragment extends ListFragment
 	{
 		super.onResume();
 		
-		// If a parent activity is registered in the manifest file,
-		// enable the Up button.
+		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 		
-		// Set the action-bar title.
-		setActionBarTitle(mCustomer.toString(), "current room");
+		// Set the customer name on the Actionbar.
+		getActivity().setTitle("Estimate for " + mCustomer.toString());
 		
 		// Reload the list.
 		((ArrayAdapter<String>)getListAdapter()).notifyDataSetChanged();
@@ -162,6 +165,19 @@ public class RoomListFragment extends ListFragment
 		{
 			clearListSelection();
 		}
+	}
+	
+	/**
+	 * @return The currently selected room, "" if none selected.
+	 */
+	private String getCurrentRoom()
+	{
+		int pos = getListView().getCheckedItemPosition();
+		if (pos == ListView.INVALID_POSITION)
+		{
+			return "";
+		}
+		return (String)getListView().getAdapter().getItem(pos);
 	}
 	
 	/**
@@ -185,17 +201,11 @@ public class RoomListFragment extends ListFragment
 		// Remember the selected position
 		mPositionSelected = position;
 		
+		// Set the room on the Actionbar subtitle.
+		getActivity().getActionBar().setSubtitle("Currently at: " + room);
+		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(room);
-	}
-	
-	/**
-	 * Set the customer name as a title and the company name as a subtitle.
-	 */
-	private void setActionBarTitle(String customerName, String room)
-	{
-		getActivity().setTitle("Estimate for " + customerName);
-		getActivity().getActionBar().setSubtitle(room);
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -230,8 +240,8 @@ public class RoomListFragment extends ListFragment
 			// --- NEW ROOM ---
 			case R.id.optionsmenu_new_room:
 				
-				new AddRoomDialog()
-				.show(getActivity().getSupportFragmentManager(), DIALOG_ADD_ROOM);
+				new AddRoomDialog().show(
+						getActivity().getSupportFragmentManager(), DIALOG_ADD_ROOM);
 				
 				return true;  // No further processing is necessary.
 				
@@ -240,14 +250,21 @@ public class RoomListFragment extends ListFragment
 		}
 	}
 
-	private void addRoom(Customer customer, String room)
+	/**
+	 * Add the specified room to this customer's attributes.
+	 * Update the listView and save the whole customer data to disk.
+	 * @param room
+	 */
+	private void addRoom(String room)
 	{
-		// Create and add a new room to the FileCabinet's list.
-		// FileCabinet.get(getActivity()).addRoom(mCustomer, room) ;
+		// Access the customer's room list and add a new room.
+		mCustomer.getRooms().add(room);
 		
-		// TODO
 		// Update the listView.
 		((ArrayAdapter<String>)getListAdapter()).notifyDataSetChanged();
+		
+		// Save the updated entire customers data to disk.
+		FileCabinet.get(getActivity()).saveCustomers();
 	}
 	
 	/**
@@ -275,6 +292,9 @@ public class RoomListFragment extends ListFragment
 	 */
 	class AddRoomDialog extends DialogFragment
 	{
+		private AutoCompleteTextView mTextView;
+		
+		// The room list for autoComplete.
 		private final String[] mRooms = RoomListFragment.this.getActivity()
 				.getResources().getStringArray(R.array.rooms);
 		
@@ -294,7 +314,7 @@ public class RoomListFragment extends ListFragment
 						case DialogInterface.BUTTON_POSITIVE:
 							
 							// TODO
-							// do something
+							addRoom(mTextView.getText().toString());
 							
 							break; 
 							
@@ -312,9 +332,8 @@ public class RoomListFragment extends ListFragment
 					android.R.layout.simple_dropdown_item_1line,
 					this.mRooms);
 			View v = inflater.inflate(R.layout.dialog_addroom, null);
-			AutoCompleteTextView textView = (AutoCompleteTextView)
-					v.findViewById(R.id.AutoCompleteTextViewRooms);
-			textView.setAdapter(adapter);
+			mTextView = (AutoCompleteTextView)v.findViewById(R.id.AutoCompleteTextViewRooms);
+			mTextView.setAdapter(adapter);
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
