@@ -294,5 +294,12 @@ public class RoomListFragment extends ListFragment
 				.setNegativeButton("Cancel", listener)
 				.create();
 		}
+		
+		@Override
+		public void onPause()
+		{
+			dismiss();
+			super.onPause();
+		}
 	}
 }
