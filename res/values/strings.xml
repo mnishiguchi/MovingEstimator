@@ -44,9 +44,18 @@
 		- (masatoshi.nishiguchi@udc.edu)
 	</string>
 	
+	<!-- Default Rooms -->
+	<string-array name="rooms_default">
+		<item>dining room</item>
+		<item>kitchen</item>
+		<item>living room</item>
+		<item>master bedroom</item>
+	</string-array>
+		
 	<!-- Room Names -->
 	<string-array name="rooms">
 		<item>attic</item>
+		<item>back yard</item>
 		<item>basement</item>
 		<item>bathroom</item>
 		<item>bedroom-1</item>
@@ -79,7 +88,6 @@
 		<item>sun room</item>
 		<item>TV room</item>
 		<item>workshop</item>
-		<item></item>
 	</string-array>
 	
 </resources>

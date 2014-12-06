@@ -17,6 +17,18 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	}
 	
 	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		
+		// clear the selection.
+		FragmentManager fm = getSupportFragmentManager();
+		CustomerListFragment listFragment = (CustomerListFragment)
+				fm.findFragmentById(R.id.fragmentContainer);
+		listFragment.clearListSelection();
+	}
+	
+	@Override
 	protected int getLayoutResId()
 	{
 		// an alias resource defined in res/values/refs.xml
