@@ -1,6 +1,8 @@
 package com.mnishiguchi.android.movingestimator;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -24,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -157,7 +161,8 @@ public class CustomerListFragment extends ListFragment
 							Log.d(TAG, "onActionItemClicked - contextmenu_delete");
 							
 							// Show Delete Confirmation dialog.
-							DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedItems())
+							//DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedItems())
+							DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedListItems())
 								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 
 							mode.finish(); // Action picked, so close the CAB
@@ -201,19 +206,12 @@ public class CustomerListFragment extends ListFragment
 		// Set the action-bar title.
 		getActivity().setTitle(R.string.actionbar_title_list);
 		
-		// Reload the list.
+		// Reload the listView.
 		((CustomerListAdapter)getListAdapter()).notifyDataSetChanged();
 		
-		if (!Utils.hasTwoPane(getActivity())) // Single=pane
-		{
-			clearListSelection();
-		}
-		
-		// If no list item is selected, don't show the detailFragment.
-		if (getMultiSelectedItems().length <= 0)
-		{
-			mCallbacks.onListReset();
-		}
+		// Clear the list.
+		clearListSelection();
+		mCallbacks.onListReset(); // Request removing the detailFragment.
 	}
 	
 	/*
@@ -302,7 +300,8 @@ public class CustomerListFragment extends ListFragment
 	
 		// Get the selected list item.
 		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-		final Customer[] selectedCustomer = {adapter.getItem(position)};
+		SparseArray<Customer> selectedCustomer = new SparseArray<Customer>(1);
+		selectedCustomer.put(position, adapter.getItem(position));
 	
 		// Get the selected menu item and respond to it.
 		switch (item.getItemId())
@@ -310,7 +309,8 @@ public class CustomerListFragment extends ListFragment
 			case R.id.contextmenu_edit:
 				
 				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
-				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, selectedCustomer[0].getId());
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT,
+						selectedCustomer.get(position).getId());
 				startActivity(i);
 				return true; // No further processing is necessary.
 				
@@ -402,63 +402,84 @@ public class CustomerListFragment extends ListFragment
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 	
+
 	/**
-	 * @return an array of Customer objects that are selected.
+	 * @return a map of Customer objects that are selected.
 	 */
-	private Customer[] getMultiSelectedItems()
+	private SparseArray<Customer> getMultiSelectedListItems()
 	{
-		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-		ArrayList<Customer> list = new ArrayList<Customer>(adapter.getCount());
+		int size = getListAdapter().getCount();
+		SparseArray<Customer> map = new SparseArray<Customer>(size);
 		
 		// Iterate over the list items.
-		for (int index = adapter.getCount() - 1;
+		for (int index = size - 1;
 				index >= 0; index--)
 		{
 			// Check that  item is selected or not.
 			if (getListView().isItemChecked(index))
 			{
-				// Add the selected items to list.
-				list.add(adapter.getItem(index));
+				// Add the selected items to the map.
+				map.put(index, (Customer)getListAdapter().getItem(index));
 			} 
 		}
-		
-		// Get the size of the result.
-		int resultSize = list.size();
-		
-		// Convert the ArrayList to an array.
-		Customer[] result = new Customer[resultSize];
-		result = list.toArray(result);
-		
-		return result;
+		return map;
 	}
-
+	
 	/**
 	 * Delete selected list items and update the list view.
 	 * @param selectedItems
-	 * @return the number of items deleted.
 	 */
-	private int deleteSelectedItems(Customer[] selectedItems)
+	private void deleteSelectedItems(SparseArray<Customer> selectedItems)
 	{
-		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-		FileCabinet fileCabinet = FileCabinet.get(getActivity());
-		int count = 0;
+		int size = selectedItems.size();
+		
+		// Create a list for callback.
+		Customer[] customers = new Customer[size];
+		
+		// Do nothing if none is selected.
+		if (selectedItems.size() <= 0) return;
 		
 		// Delete the selected items from the CrimeLab's list.
-		for (Customer each : selectedItems)
+		for (int i = 0; i < size; i++)
 		{
-			fileCabinet.deleteCustomer(each);
-			count += 1;
+			deleteListItem(selectedItems.keyAt(i));
+			customers[i] = selectedItems.valueAt(i);
 		}
 		
-		// Update the ListView.
-		adapter.notifyDataSetChanged();
-		
-		// Call back.
-		mCallbacks.onListItemsDeleted(selectedItems);
+		// Notify the hosting activity.
+		mCallbacks.onListItemsDeleted(customers);
 		
 		// Notify the user about the result.
-		Utils.showToast(getActivity(), count + " deleted");
-		return count;
+		Utils.showToast(getActivity(), size + " deleted");
+	}
+	
+	@SuppressLint("NewApi")
+	private void deleteListItem(int position)
+	{
+		final Customer clickedIitem = (Customer)getListAdapter().getItem(position);
+		
+		final View view = getListAdapter().getView(position, null, getListView());
+		view.animate()
+			.setDuration (1000)
+			.alpha (0)
+			.withEndAction (new Runnable() {
+				
+				@Override
+				public void run ()
+				{
+					// Remove the data from model layer.
+					FileCabinet.get(getActivity()).deleteCustomer(clickedIitem);
+					
+					// Update the listView.
+					((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+					
+					// Make the list item disappear.
+					view.setAlpha(1);
+					
+					// Save the updated entire customers data to disk.
+					FileCabinet.get(getActivity()).saveCustomers();
+				}
+			});
 	}
 	
 	/**
@@ -488,12 +509,12 @@ public class CustomerListFragment extends ListFragment
 	{
 		// Store the selected list item that was passed in.
 		static Fragment sParentFragment;
-		static Customer[] sSelectedItems;
+		static SparseArray<Customer> sSelectedItems;
 		
 		/**
 		 * Create a new instance that is capable of deleting the specified list items.
 		 */
-		static DeleteDialog newInstance(Fragment parentFragment, Customer[] selectedItems)
+		static DeleteDialog newInstance(Fragment parentFragment, SparseArray<Customer> selectedItems)
 		{
 			// Store the selected items so that we can refer to it later.
 			sParentFragment = parentFragment;
@@ -533,7 +554,7 @@ public class CustomerListFragment extends ListFragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Deleting " + sSelectedItems.length + " item(s)")
+				.setTitle("Deleting " + sSelectedItems.size() + " item(s)")
 				.setMessage("Are you sure?")
 				.setPositiveButton("Yes", listener)
 				.setNegativeButton("Cancel", listener)
