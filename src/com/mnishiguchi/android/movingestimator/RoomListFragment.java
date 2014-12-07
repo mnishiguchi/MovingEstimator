@@ -35,14 +35,17 @@ public class RoomListFragment extends Fragment implements
 	
 	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
 	
-	// Reference to the list of rooms stored in FileCabinet.
+	// Reference to the customer stored in FileCabinet.
 	private Customer mCustomer;
-	private ArrayList<String> mRooms;
 	
+	// listView.
 	private ListView mListView;
 	private ArrayAdapter<String> mAdapter;
-	private int mClickedPosition = 0;
 	
+	// Remember the last click.
+	private int mClickedPosition = 0; // Default => 0
+	
+	// Remember the ActionMode.
 	private ActionMode mActionMode;
 	
 	// remember the reference to the hosting activity for callbacks.
@@ -118,26 +121,22 @@ public class RoomListFragment extends Fragment implements
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
 	
-		// Get the list of customer's rooms.
+		// If the customer's roomlist is empty, fill it with the default.
 		if (mCustomer.getRooms().isEmpty())
 		{
-			// Create a new list and add a set of default rooms.
-			mRooms = new ArrayList<String>();
-			String[] rooms = getActivity().getResources().getStringArray(R.array.rooms_default);
-			Log.d(TAG, "getStringArray(R.array.rooms_default).length: " + rooms.length);
+			// Create a new list with the default rooms.
+			ArrayList<String> rooms = new ArrayList<String>();
+			String[] defaultRooms = getActivity().getResources().getStringArray(R.array.rooms_default);
+			Log.d(TAG, "getStringArray(R.array.rooms_default).length: " + defaultRooms.length);
 			
-			for (String each : rooms)
+			for (String each : defaultRooms)
 			{
-				mRooms.add(each);
+				rooms.add(each);
 			}
 			
 			// Save the updated entire customers data to disk.
-			mCustomer.setRooms(mRooms);
+			mCustomer.setRooms(rooms);
 			FileCabinet.get(getActivity()).saveCustomers();
-		}
-		else
-		{
-			mRooms = mCustomer.getRooms();
 		}
 		
 		// Retain this fragment.
@@ -166,7 +165,7 @@ public class RoomListFragment extends Fragment implements
 		
 		mAdapter = new ArrayAdapter<String> (getActivity(),
 				android.R.layout.simple_list_item_single_choice,
-				mRooms); // the data source
+				mCustomer.getRooms()); // the data source
 		mListView.setAdapter(mAdapter);
 		
 		// Respond to short clicks for proceeding to estimate.
@@ -193,10 +192,10 @@ public class RoomListFragment extends Fragment implements
 		// Set the customer name on the Actionbar.
 		getActivity().setTitle("Estimate for " + mCustomer.toString());
 		
-		this.setRoomOnActionBar(mAdapter.getItem(mClickedPosition));
+		setRoomOnActionBar(mAdapter.getItem(mClickedPosition));
 		
 		// Reload the list.
-		((ArrayAdapter<String>)mListView.getAdapter()).notifyDataSetChanged();
+		mAdapter.notifyDataSetChanged();
 		
 		if (!Utils.hasTwoPane(getActivity())) // Single=pane
 		{
@@ -216,19 +215,6 @@ public class RoomListFragment extends Fragment implements
 			mActionMode = null;
 		}
 		
-	}
-	
-	/**
-	 * @return The currently selected room, an empty string("") if none selected.
-	 */
-	private String getCurrentRoom()
-	{
-		int pos = mListView.getCheckedItemPosition();
-		if (pos == ListView.INVALID_POSITION)
-		{
-			return "";
-		}
-		return (String)mListView.getAdapter().getItem(pos);
 	}
 	
 	/**
@@ -286,7 +272,6 @@ public class RoomListFragment extends Fragment implements
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
 		{
-			
 			mode.setTitle("Delete the checked room");
 			return false;
 		}
@@ -346,20 +331,24 @@ public class RoomListFragment extends Fragment implements
 		
 		final View view = mAdapter.getView(mClickedPosition, null, mListView);
 		view.animate()
-			.setDuration (2000)
+			.setDuration (1000)
 			.alpha (0)
 			.withEndAction (new Runnable() {
 				
 				@Override
 				public void run ()
 				{
+					// Remove the data from model layer.
 					mCustomer.getRooms().remove(clickedIitem);
+					
+					// Update the listView.
 					mAdapter.notifyDataSetChanged();
+					
+					// Make the list item disappear.
+					view.setAlpha(1);
 					
 					// Save the updated entire customers data to disk.
 					FileCabinet.get(getActivity()).saveCustomers();
-					
-					view.setAlpha(1) ;
 				}
 			});
 		
@@ -367,7 +356,7 @@ public class RoomListFragment extends Fragment implements
 		{
 			setDefaultListSelection();
 		}
-		else
+		else // The list will be empty after deletion.
 		{
 			getActivity().getActionBar().setSubtitle("");
 		}
@@ -391,7 +380,7 @@ public class RoomListFragment extends Fragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		switch (item.getItemId() )
+		switch (item.getItemId())
 		{
 			// Respond to the enabled Up icon as if it were an existing options menu item.
 			case android.R.id.home:
@@ -427,7 +416,7 @@ public class RoomListFragment extends Fragment implements
 		mCustomer.getRooms().add(room);
 		
 		// Update the listView.
-		((ArrayAdapter<String>)mListView.getAdapter()).notifyDataSetChanged();
+		mAdapter.notifyDataSetChanged();
 		
 		// Save the updated entire customers data to disk.
 		FileCabinet.get(getActivity()).saveCustomers();
@@ -440,14 +429,14 @@ public class RoomListFragment extends Fragment implements
 	 */
 	void setLastItemSelected()
 	{
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>)mListView.getAdapter();
-		int lastIndex = adapter.getCount() - 1;
+		int lastIndex = mAdapter.getCount() - 1;
 		mListView.setItemChecked(lastIndex, true);
 		getActivity().getActionBar().setSubtitle(mAdapter.getItem(lastIndex));
 	}
 	
 	/**
 	 * Set the first list item selected.
+	 * Update the listView. Set the room name on the Action Bar.
 	 */
 	void setDefaultListSelection()
 	{
@@ -483,9 +472,7 @@ public class RoomListFragment extends Fragment implements
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							// TODO
-							addRoom(mTextView.getText().toString());
-							
+							RoomListFragment.this.addRoom(mTextView.getText().toString());
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -495,15 +482,15 @@ public class RoomListFragment extends Fragment implements
 				}
 			};
 			
-			// Get the layout inflater
+			// Inflate the dialog's root view.
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-					android.R.layout.simple_dropdown_item_1line,
-					this.mRooms);
 			View v = inflater.inflate(R.layout.dialog_addroom, null);
+			
+			// Configure the AutoCompleteTextView.
 			mTextView = (AutoCompleteTextView)v.findViewById(R.id.AutoCompleteTextViewRooms);
-			mTextView.setAdapter(adapter);
+			mTextView.setAdapter(new ArrayAdapter<String>(getActivity(),
+					android.R.layout.simple_dropdown_item_1line,
+					this.mRooms));
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
@@ -517,6 +504,7 @@ public class RoomListFragment extends Fragment implements
 		@Override
 		public void onPause()
 		{
+			// Close the dialog as soon as the device orientation changes.
 			dismiss();
 			super.onPause();
 		}
