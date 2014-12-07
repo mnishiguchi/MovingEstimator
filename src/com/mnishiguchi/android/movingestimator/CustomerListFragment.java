@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,11 +34,6 @@ public class CustomerListFragment extends ListFragment
 	
 	private static final String DIALOG_DELETE = "deleteDialog";
 	private static final String DIALOG_ABOUT = "aboutDialog";
-	
-	//public static final String EXTRA_CUSTOMER_ID_LIST = "com.mnishiguchi.android.movingestimator.customer_id_list";
-	
-	// Store reference to the current instance to this fragment.
-	private static CustomerListFragment sCustomerListFragment;
 	
 	// Reference to the list of customers stored in FileCabinet.
 	private ArrayList<Customer> mCustomers;
@@ -87,12 +83,8 @@ public class CustomerListFragment extends ListFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		Log.d(TAG, "onCreate");
-		
 		super.onCreate(savedInstanceState);
 		
-		// Store a reference to this instance.
-		sCustomerListFragment = this;
-	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
 	
@@ -152,7 +144,6 @@ public class CustomerListFragment extends ListFragment
 					// Remove unnecessay menu items.
 					menu.findItem(R.id.contextmenu_edit).setVisible(false);
 					menu.findItem(R.id.contextmenu_estimate).setVisible(false);
-					
 					return true;
 				}
 				
@@ -166,7 +157,7 @@ public class CustomerListFragment extends ListFragment
 							Log.d(TAG, "onActionItemClicked - contextmenu_delete");
 							
 							// Show Delete Confirmation dialog.
-							DeleteDialog.newInstance(getSelectedItems())
+							DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedItems())
 								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 
 							mode.finish(); // Action picked, so close the CAB
@@ -198,7 +189,7 @@ public class CustomerListFragment extends ListFragment
 		{
 			registerForContextMenu (listView);
 		}
-		
+		// Return the root view.
 		return v;
 	}
 
@@ -219,7 +210,7 @@ public class CustomerListFragment extends ListFragment
 		}
 		
 		// If no list item is selected, don't show the detailFragment.
-		if (getSelectedItems().length <= 0)
+		if (getMultiSelectedItems().length <= 0)
 		{
 			mCallbacks.onListReset();
 		}
@@ -311,7 +302,7 @@ public class CustomerListFragment extends ListFragment
 	
 		// Get the selected list item.
 		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-		Customer selectedCustomer = adapter.getItem(position);
+		final Customer[] selectedCustomer = {adapter.getItem(position)};
 	
 		// Get the selected menu item and respond to it.
 		switch (item.getItemId())
@@ -319,7 +310,7 @@ public class CustomerListFragment extends ListFragment
 			case R.id.contextmenu_edit:
 				
 				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
-				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, selectedCustomer.getId());
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, selectedCustomer[0].getId());
 				startActivity(i);
 				return true; // No further processing is necessary.
 				
@@ -331,15 +322,9 @@ public class CustomerListFragment extends ListFragment
 				
 			case R.id.contextmenu_delete:
 				
-				// Delete the selectedCustomer from Modal-layer.
-				FileCabinet.get(getActivity()).deleteCustomer(selectedCustomer);
-				
-				// Update the listView.
-				adapter.notifyDataSetChanged();
-				
-				// Notify the hosting activity.
-				Customer[] c = {selectedCustomer};
-				mCallbacks.onListItemsDeleted(c);
+				// Show Delete Confirmation dialog.
+				DeleteDialog.newInstance(CustomerListFragment.this, selectedCustomer)
+					.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 				
 				return true;
 		}
@@ -407,19 +392,6 @@ public class CustomerListFragment extends ListFragment
 			Log.e(TAG, "mCustomer.getId()" + customer.getId());
 			startActivity(i);
 		}
-		
-		// For tablets only.
-		//if (Utils.hasTwoPane(getActivity()))
-		//{
-			// Update the selection.
-			//setLastItemSelected();
-			
-			// Clear the action bar title.
-			//getActivity().setTitle("");
-		//}
-		
-		// callback
-		//mCallbacks.onListItemClicked(customer);
 	}
 	
 	/**
@@ -433,7 +405,7 @@ public class CustomerListFragment extends ListFragment
 	/**
 	 * @return an array of Customer objects that are selected.
 	 */
-	private Customer[] getSelectedItems()
+	private Customer[] getMultiSelectedItems()
 	{
 		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
 		ArrayList<Customer> list = new ArrayList<Customer>(adapter.getCount());
@@ -515,17 +487,17 @@ public class CustomerListFragment extends ListFragment
 	static class DeleteDialog extends DialogFragment
 	{
 		// Store the selected list item that was passed in.
+		static Fragment sParentFragment;
 		static Customer[] sSelectedItems;
-		static int sCount;
 		
 		/**
 		 * Create a new instance that is capable of deleting the specified list items.
 		 */
-		static DeleteDialog newInstance(Customer[] selectedItems)
+		static DeleteDialog newInstance(Fragment parentFragment, Customer[] selectedItems)
 		{
 			// Store the selected items so that we can refer to it later.
+			sParentFragment = parentFragment;
 			sSelectedItems = selectedItems;
-			sCount = selectedItems.length;
 			
 			// Create a fragment.
 			DeleteDialog fragment = new DeleteDialog();
@@ -549,7 +521,7 @@ public class CustomerListFragment extends ListFragment
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							sCustomerListFragment.deleteSelectedItems(sSelectedItems);
+							((CustomerListFragment)sParentFragment).deleteSelectedItems(sSelectedItems);
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -561,11 +533,19 @@ public class CustomerListFragment extends ListFragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Deleting " + sCount + " item(s)")
+				.setTitle("Deleting " + sSelectedItems.length + " item(s)")
 				.setMessage("Are you sure?")
 				.setPositiveButton("Yes", listener)
 				.setNegativeButton("Cancel", listener)
 				.create();
+		}
+		
+		@Override
+		public void onPause()
+		{
+			// Close the dialog as soon as the device orientation changes.
+			dismiss();
+			super.onPause();
 		}
 	}
 	
@@ -595,6 +575,14 @@ public class CustomerListFragment extends ListFragment
 			mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 			
 			return mTextView;
+		}
+		
+		@Override
+		public void onPause()
+		{
+			// Close the dialog as soon as the device orientation changes.
+			dismiss();
+			super.onPause();
 		}
 	}
 }

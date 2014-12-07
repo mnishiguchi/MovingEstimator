@@ -29,7 +29,7 @@ class FileCabinet
 	private MovingEstimatorJSONSerializer mSerializer;
 	
 	/**
-	 * Constructor.
+	 * Private constructor.
 	 */
 	private FileCabinet(Context appContext)
 	{
