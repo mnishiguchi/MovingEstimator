@@ -209,7 +209,13 @@ public class RoomListFragment extends Fragment implements
 	{
 		super.onPause();
 		Log.d(TAG, "onPause()");
-		mActionMode.finish();
+		
+		if (mActionMode != null)
+		{
+			mActionMode.finish();
+			mActionMode = null;
+		}
+		
 	}
 	
 	/**
@@ -349,10 +355,23 @@ public class RoomListFragment extends Fragment implements
 				{
 					mCustomer.getRooms().remove(clickedIitem);
 					mAdapter.notifyDataSetChanged();
+					
+					// Save the updated entire customers data to disk.
+					FileCabinet.get(getActivity()).saveCustomers();
+					
 					view.setAlpha(1) ;
 				}
 			});
-		setDefaultListSelection();
+		
+		if (mAdapter.getCount() > 1)
+		{
+			setDefaultListSelection();
+		}
+		else
+		{
+			getActivity().getActionBar().setSubtitle("");
+		}
+	
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -412,6 +431,8 @@ public class RoomListFragment extends Fragment implements
 		
 		// Save the updated entire customers data to disk.
 		FileCabinet.get(getActivity()).saveCustomers();
+		
+		setLastItemSelected();
 	}
 	
 	/**
@@ -422,6 +443,7 @@ public class RoomListFragment extends Fragment implements
 		ArrayAdapter<String> adapter = (ArrayAdapter<String>)mListView.getAdapter();
 		int lastIndex = adapter.getCount() - 1;
 		mListView.setItemChecked(lastIndex, true);
+		getActivity().getActionBar().setSubtitle(mAdapter.getItem(lastIndex));
 	}
 	
 	/**
