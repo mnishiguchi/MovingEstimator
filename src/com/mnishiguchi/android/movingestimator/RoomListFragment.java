@@ -176,8 +176,7 @@ public class RoomListFragment extends Fragment implements
 		mListView.setOnItemLongClickListener(this);
 		
 		// Initially select the first item on the list.
-		mListView.setItemChecked(0, true);
-		setRoomOnActionBar(mAdapter.getItem(0));
+		setDefaultListSelection();
 		
 		// Return the root view.
 		return v;
@@ -194,13 +193,23 @@ public class RoomListFragment extends Fragment implements
 		// Set the customer name on the Actionbar.
 		getActivity().setTitle("Estimate for " + mCustomer.toString());
 		
+		this.setRoomOnActionBar(mAdapter.getItem(mClickedPosition));
+		
 		// Reload the list.
 		((ArrayAdapter<String>)mListView.getAdapter()).notifyDataSetChanged();
 		
 		if (!Utils.hasTwoPane(getActivity())) // Single=pane
 		{
-			clearListSelection();
+			setDefaultListSelection();
 		}
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		Log.d(TAG, "onPause()");
+		mActionMode.finish();
 	}
 	
 	/**
@@ -343,7 +352,7 @@ public class RoomListFragment extends Fragment implements
 					view.setAlpha(1) ;
 				}
 			});
-		clearListSelection();
+		setDefaultListSelection();
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -416,13 +425,14 @@ public class RoomListFragment extends Fragment implements
 	}
 	
 	/**
-	 * Set the last list item selected.
+	 * Set the first list item selected.
 	 */
-	void clearListSelection()
+	void setDefaultListSelection()
 	{
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>)mListView.getAdapter();
-		mListView.clearChoices();
-		adapter.notifyDataSetChanged();
+		mListView.setItemChecked(0, true);
+		setRoomOnActionBar(mAdapter.getItem(0));
+
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	/**
