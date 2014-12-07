@@ -2,6 +2,7 @@ package com.mnishiguchi.android.movingestimator;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,18 +12,22 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
-public class RoomListFragment extends Fragment implements AdapterView.OnItemClickListener
+public class RoomListFragment extends Fragment implements
+	AdapterView.OnItemClickListener, OnItemLongClickListener
 {
 	private static final String TAG = "movingestimator.EstimateRoomListFragment";
 	
@@ -30,15 +35,15 @@ public class RoomListFragment extends Fragment implements AdapterView.OnItemClic
 	
 	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
 	
-	// Store reference to the current instance to this fragment.
-	//private static EstimateRoomListFragment sEstimateRoomListFragment;
-	
 	// Reference to the list of rooms stored in FileCabinet.
 	private Customer mCustomer;
 	private ArrayList<String> mRooms;
 	
-	// Remember the currently selected item.
-	private int mPositionSelected;
+	private ListView mListView;
+	private ArrayAdapter<String> mAdapter;
+	private int mClickedPosition = 0;
+	
+	private ActionMode mActionMode;
 	
 	// remember the reference to the hosting activity for callbacks.
 	private ListCallbacks mCallbacks;
@@ -96,9 +101,6 @@ public class RoomListFragment extends Fragment implements AdapterView.OnItemClic
 	 */
 	private RoomListFragment()
 	{}
-	
-	
-	ListView mListView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -162,11 +164,20 @@ public class RoomListFragment extends Fragment implements AdapterView.OnItemClic
 		mListView = (ListView)v.findViewById(R.id.roomlist);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
-		mListView.setAdapter(new ArrayAdapter<String> (getActivity(),
+		mAdapter = new ArrayAdapter<String> (getActivity(),
 				android.R.layout.simple_list_item_single_choice,
-				mRooms)); // the data source
+				mRooms); // the data source
+		mListView.setAdapter(mAdapter);
 		
+		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
+		
+		// Respond to long clicks for contexual action.
+		mListView.setOnItemLongClickListener(this);
+		
+		// Initially select the first item on the list.
+		mListView.setItemChecked(0, true);
+		setRoomOnActionBar(mAdapter.getItem(0));
 		
 		// Return the root view.
 		return v;
@@ -227,13 +238,112 @@ public class RoomListFragment extends Fragment implements AdapterView.OnItemClic
 		final String clickedRoom = (String)parent.getItemAtPosition(position);
 		
 		// Remember the selected position
-		mPositionSelected = position;
+		mClickedPosition = position;
 		
 		// Set the room on the Actionbar subtitle.
-		getActivity().getActionBar().setSubtitle("Currently at: " + clickedRoom);
+		setRoomOnActionBar(clickedRoom);
 		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(clickedRoom);
+	}
+	
+	private void setRoomOnActionBar(String room)
+	{
+		// Set the room on the Actionbar subtitle.
+		getActivity().getActionBar().setSubtitle("Currently at: " + room);
+	}
+	
+	// Long click => Contextual action for deleting room.
+	final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu)
+		{
+			// Remember reference to action mode.
+			mActionMode = mode;
+		
+			// Inflate the menu using a special inflater defined in the ActionMode class.
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_roomlist, menu);
+			return true;
+		}
+				
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+		{
+			
+			mode.setTitle("Delete the checked room");
+			return false;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+		{
+			switch (item.getItemId())
+			{
+				case R.id.contextmenu_delete_room: // Delete menu item.
+					
+					// Retrieve the selected room's position.
+					deleteRoom();
+
+					// Prepare the action mode to be destroyed.
+					mode.finish(); // Action picked, so close the CAB
+					return true;
+						
+				default:
+					return false;
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode)
+		{
+			// Set it to null because we exited the action mode.
+			mActionMode = null;
+		}
+	};
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id)
+	{
+		Log.d(TAG, "onLongClick()");
+		
+		// Ignore the long click if already in the ActionMode.
+		if (mActionMode != null) return false;
+		
+		// Set the list item checked.
+		mListView.setItemChecked(position, true);
+		
+		// Remember the selected position
+		mClickedPosition = position;
+		
+		// Show the Contexual Action Bar.
+		getActivity().startActionMode(actionModeCallback);
+
+		return true; // Long click was consumed.
+	}
+	
+	@SuppressLint("NewApi")
+	private void deleteRoom()
+	{
+		final String clickedIitem = (String)mAdapter.getItem(mClickedPosition);
+		
+		final View view = mAdapter.getView(mClickedPosition, null, mListView);
+		view.animate()
+			.setDuration (2000)
+			.alpha (0)
+			.withEndAction (new Runnable() {
+				
+				@Override
+				public void run ()
+				{
+					mCustomer.getRooms().remove(clickedIitem);
+					mAdapter.notifyDataSetChanged();
+					view.setAlpha(1) ;
+				}
+			});
+		clearListSelection();
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -379,4 +489,5 @@ public class RoomListFragment extends Fragment implements AdapterView.OnItemClic
 			super.onPause();
 		}
 	}
+
 }

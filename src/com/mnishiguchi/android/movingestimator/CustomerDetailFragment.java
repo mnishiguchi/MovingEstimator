@@ -295,73 +295,73 @@ public class CustomerDetailFragment extends Fragment
 		});
 		
 		// Long click => Contextual action for deleting photo.
-				final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+		final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
 
-					@Override
-					public boolean onCreateActionMode(ActionMode mode, Menu menu)
-					{
-						// Remember reference to action mode.
-						mActionMode = mode;
+			@Override
+			public boolean onCreateActionMode(ActionMode mode, Menu menu)
+			{
+				// Remember reference to action mode.
+				mActionMode = mode;
 						
-						// Inflate the menu using a special inflater defined in the ActionMode class.
-						MenuInflater inflater = mode.getMenuInflater();
-						inflater.inflate(R.menu.context_thumbnail, menu);
+				// Inflate the menu using a special inflater defined in the ActionMode class.
+				MenuInflater inflater = mode.getMenuInflater();
+				inflater.inflate(R.menu.context_thumbnail, menu);
+				return true;
+			}
+					
+			@Override
+			public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+			{
+				mode.setTitle("Photo Checked");
+				return false;
+			}
+					
+			@Override
+			public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+			{
+				switch (item.getItemId())
+				{
+					case R.id.contextmenu_delete_photo: // Delete menu item.
+						
+						deletePhoto();
+
+						// Prepare the action mode to be destroyed.
+						mode.finish(); // Action picked, so close the CAB
 						return true;
-					}
-					
-					@Override
-					public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-					{
-						mode.setTitle("Photo Checked");
-						return false;
-					}
-					
-					@Override
-					public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-					{
-						switch (item.getItemId())
-						{
-							case R.id.contextmenu_delete_photo: // Delete menu item.
-								
-								deletePhoto();
-
-								// Prepare the action mode to be destroyed.
-								mode.finish(); // Action picked, so close the CAB
-								return true;
 							
-							default:
-								return false;
-						}
-					}
+					default:
+						return false;
+				}
+			}
 
-					@Override
-					public void onDestroyActionMode(ActionMode mode)
-					{
-						// Set it to null because we exited the action mode.
-						mActionMode = null;
-					}
-				};
+			@Override
+			public void onDestroyActionMode(ActionMode mode)
+			{
+				// Set it to null because we exited the action mode.
+				mActionMode = null;
+			}
+		};
+		
+		// Listen for long clicks. Start the CAB.
+		mThumbnail.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v)
+			{
+				// Ignore the long click if already in the ActionMode.
+				if (mActionMode != null) return false;
 				
-				// Listen for long clicks. Start the CAB.
-				mThumbnail.setOnLongClickListener(new OnLongClickListener() {
-
-					@Override
-					public boolean onLongClick(View v)
-					{
-						// Ignore the long click if already in the ActionMode.
-						if (mActionMode != null) return false;
+				// Check if a photo is set on the ImageView.
+				boolean hasDrawable = (mThumbnail.getDrawable() != null);
+				if (hasDrawable)
+				{
+					// Show the Contexual Action Bar.
+					getActivity().startActionMode(actionModeCallback);
+				}
 						
-						// Check if a photo is set on the ImageView.
-						boolean hasDrawable = (mThumbnail.getDrawable() != null);
-						if (hasDrawable)
-						{
-							// Show the Contexual Action Bar.
-							getActivity().startActionMode(actionModeCallback);
-						}
-						
-						return true; // Long click was consumed.
-					}
-				});
+				return true; // Long click was consumed.
+			}
+		});
 		
 		// --- Photo Button ---
 				
