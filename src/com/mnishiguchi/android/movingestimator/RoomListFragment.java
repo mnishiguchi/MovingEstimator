@@ -8,7 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +17,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
-public class RoomListFragment extends ListFragment
+public class RoomListFragment extends Fragment implements AdapterView.OnItemClickListener
 {
 	private static final String TAG = "movingestimator.EstimateRoomListFragment";
 	
@@ -96,6 +97,9 @@ public class RoomListFragment extends ListFragment
 	private RoomListFragment()
 	{}
 	
+	
+	ListView mListView;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -134,11 +138,6 @@ public class RoomListFragment extends ListFragment
 			mRooms = mCustomer.getRooms();
 		}
 		
-		// Set the list adapter. (Default)
-		setListAdapter(new ArrayAdapter<String> (getActivity(),
-				android.R.layout.simple_list_item_1, // the default list item layout.
-				mRooms)); // the data source
-		
 		// Retain this fragment.
 		setRetainInstance(true);
 	}
@@ -147,7 +146,32 @@ public class RoomListFragment extends ListFragment
 	// ListFragments come with a default onCreateView() method.
 	// The default implementation of a ListFragment inflates a layout that
 	// defines a full screen ListView.
+	
+	// Note:
+	// Manually create a listView because <ListView android:id="@android:id/list"... />
+	// cannot be used twice.
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+			Bundle savedInstanceState)
+	{
+		// Inflate a custom layout with list & empty.
+		View v = inflater.inflate(R.layout.fragment_roomlist, parent, false);
+	
+		// Configure the listView.
+		mListView = (ListView)v.findViewById(R.id.roomlist);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		
+		mListView.setAdapter(new ArrayAdapter<String> (getActivity(),
+				android.R.layout.simple_list_item_single_choice,
+				mRooms)); // the data source
+		
+		mListView.setOnItemClickListener(this);
+		
+		// Return the root view.
+		return v;
+	}
+	
 	@Override
 	public void onResume()
 	{
@@ -160,7 +184,7 @@ public class RoomListFragment extends ListFragment
 		getActivity().setTitle("Estimate for " + mCustomer.toString());
 		
 		// Reload the list.
-		((ArrayAdapter<String>)getListAdapter()).notifyDataSetChanged();
+		((ArrayAdapter<String>)mListView.getAdapter()).notifyDataSetChanged();
 		
 		if (!Utils.hasTwoPane(getActivity())) // Single=pane
 		{
@@ -173,12 +197,12 @@ public class RoomListFragment extends ListFragment
 	 */
 	private String getCurrentRoom()
 	{
-		int pos = getListView().getCheckedItemPosition();
+		int pos = mListView.getCheckedItemPosition();
 		if (pos == ListView.INVALID_POSITION)
 		{
 			return "";
 		}
-		return (String)getListView().getAdapter().getItem(pos);
+		return (String)mListView.getAdapter().getItem(pos);
 	}
 	
 	/**
@@ -194,19 +218,22 @@ public class RoomListFragment extends ListFragment
 	 * Respond to a short click on a list item.
 	 */
 	@Override
-	public void onListItemClick(ListView lv, View v, int position, long id)
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
-		// Get the selected item.
-		String room = (String)getListAdapter().getItem(position);
+		// Set the list item checked.
+		mListView.setItemChecked(position, true);
+
+		// Get the selected room.
+		final String clickedRoom = (String)parent.getItemAtPosition(position);
 		
 		// Remember the selected position
 		mPositionSelected = position;
 		
 		// Set the room on the Actionbar subtitle.
-		getActivity().getActionBar().setSubtitle("Currently at: " + room);
+		getActivity().getActionBar().setSubtitle("Currently at: " + clickedRoom);
 		
 		// Notify the hosting Activity.
-		mCallbacks.onListItemClicked(room);
+		mCallbacks.onListItemClicked(clickedRoom);
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -262,7 +289,7 @@ public class RoomListFragment extends ListFragment
 		mCustomer.getRooms().add(room);
 		
 		// Update the listView.
-		((ArrayAdapter<String>)getListAdapter()).notifyDataSetChanged();
+		((ArrayAdapter<String>)mListView.getAdapter()).notifyDataSetChanged();
 		
 		// Save the updated entire customers data to disk.
 		FileCabinet.get(getActivity()).saveCustomers();
@@ -273,9 +300,9 @@ public class RoomListFragment extends ListFragment
 	 */
 	void setLastItemSelected()
 	{
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>)getListAdapter();
+		ArrayAdapter<String> adapter = (ArrayAdapter<String>)mListView.getAdapter();
 		int lastIndex = adapter.getCount() - 1;
-		getListView().setItemChecked(lastIndex, true);
+		mListView.setItemChecked(lastIndex, true);
 	}
 	
 	/**
@@ -283,8 +310,8 @@ public class RoomListFragment extends ListFragment
 	 */
 	void clearListSelection()
 	{
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>)getListAdapter();
-		getListView().clearChoices();
+		ArrayAdapter<String> adapter = (ArrayAdapter<String>)mListView.getAdapter();
+		mListView.clearChoices();
 		adapter.notifyDataSetChanged();
 	}
 	

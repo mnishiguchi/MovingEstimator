@@ -10,7 +10,10 @@
 	<string name="actionbar_title_customer_info">Customer Information</string>
 	
 	<!-- CustomerList -->
-	<string name="customerlist_empty">There is no customer on this list.</string>
+	<string name="customerlist_empty">No customer on this list.</string>
+	
+	<!-- RoomList -->
+	<string name="roomlist_empty">No room on this list.</string>
 	
 	<!-- MenuItems -->
 	<string name="menuitem_new">New</string>	
