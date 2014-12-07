@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -102,7 +102,7 @@ public class CustomerListFragment extends ListFragment
 		// Retain this fragment.
 		setRetainInstance(true);
 	}
-	
+
 	// Note:
 	// ListFragments come with a default onCreateView() method.
 	// The default implementation of a ListFragment inflates a layout that
@@ -331,7 +331,6 @@ public class CustomerListFragment extends ListFragment
 		return super.onContextItemSelected(item);
 	}
 
-	
 	/**
 	 * A custom ArrayAdapter designed to display Customer-specific list items.
 	 */
@@ -401,7 +400,6 @@ public class CustomerListFragment extends ListFragment
 	{		
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
-	
 
 	/**
 	 * @return a map of Customer objects that are selected.

@@ -35,39 +35,53 @@ class FileCabinet
 	{
 		Log.d(TAG, "FileCabinet constructor");
 		
+		// Remember the application context.
 		mAppContext = appContext;
+		
+		// The reference to JSONSerializer, used to save and read data.
 		mSerializer = new MovingEstimatorJSONSerializer(mAppContext, FILENAME);
 		
+		// Initialize the customer master list.
 		mCustomers = new ArrayList<Customer>();
-		// initFakeCustomers();
 		
 		// Load customers from the file system.
-		loadCustomers();
-	}
-	
-	/**
-	 * Load the customers data from the device's file system.
-	 */
-	private boolean loadCustomers()
-	{
-		try
-		{
-			mCustomers = mSerializer.loadCustomers();
-			
-			Utils.showToast(mAppContext, "Customers successfully loaded.");
-			return true;
-		}
-		catch (Exception e)
-		{
-			// Create a new arraylist
-			mCustomers = new ArrayList<Customer>();
-			
-			Log.e(TAG, "Error loading customers", e);
-			Utils.showToast(mAppContext, "Error loading customers.");
-			return false;
-		}
+		LoadCustomersRunnable load = new LoadCustomersRunnable();
+		load.run();
 	}
 
+	class LoadCustomersRunnable implements Runnable
+	{
+		@Override
+		public void run()
+		{
+			try
+			{
+				mCustomers = mSerializer.loadCustomers();
+				showResultToast(true);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "Error loading customers", e);
+				
+				// Create a new arraylist
+				mCustomers = new ArrayList<Customer>();
+				showResultToast(false);
+			}
+		}
+		
+		void showResultToast(boolean success)
+		{
+			if (success)
+			{
+				Utils.showToast(mAppContext, "Customers successfully loaded.");
+			}
+			else
+			{
+				Utils.showToast(mAppContext, "Error loading customers.");
+			}
+		}
+	}
+	
 	/**
 	 * Get a reference to the FileCabinet singleton.
 	 * @param context This could be an Activity or another Context object like Service.

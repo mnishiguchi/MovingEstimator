@@ -1,7 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -28,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;

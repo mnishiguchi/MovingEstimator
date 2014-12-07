@@ -19,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
@@ -331,9 +330,9 @@ public class RoomListFragment extends Fragment implements
 		
 		final View view = mAdapter.getView(mClickedPosition, null, mListView);
 		view.animate()
-			.setDuration (1000)
+			.setDuration(1000)
 			.alpha (0)
-			.withEndAction (new Runnable() {
+			.withEndAction(new Runnable() {
 				
 				@Override
 				public void run ()
