@@ -22,10 +22,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		super.onPause();
 		
 		// clear the selection.
-		FragmentManager fm = getSupportFragmentManager();
-		CustomerListFragment listFragment = (CustomerListFragment)
-				fm.findFragmentById(R.id.fragmentContainer);
-		listFragment.clearListSelection();
+		getListFragment().clearListSelection();
 	}
 	
 	@Override
@@ -74,10 +71,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	public void onListItemsDeleted(Customer[] selectedCustomers)
 	{
 		// Update the listView.
-		FragmentManager fm = getSupportFragmentManager();
-		CustomerListFragment listFragment = (CustomerListFragment)
-				fm.findFragmentById(R.id.fragmentContainer);
-		listFragment.updateListView();
+		getListFragment().updateListView();
 		
 		removeDetailFragment();
 	}
@@ -121,10 +115,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	@Override
 	public void onCustomerUpdated(Customer customer)
 	{
-		FragmentManager fm = getSupportFragmentManager();
-		CustomerListFragment listFragment = (CustomerListFragment)
-				fm.findFragmentById(R.id.fragmentContainer);
-		listFragment.updateListView();
+		getListFragment().updateListView();
 	}
 
 	@Override
@@ -133,10 +124,8 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		// Clear the detailFragmentContainer.
 		removeDetailFragment();
 		
-		// Access the listFragment.
-		FragmentManager fm = getSupportFragmentManager();
-		CustomerListFragment listFragment = (CustomerListFragment)fm.findFragmentById(R.id.fragmentContainer);
-
+		CustomerListFragment listFragment = getListFragment();
+		
 		// Clear the selection.
 		listFragment.clearListSelection();
 		
@@ -144,6 +133,9 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		listFragment.updateListView();
 	}
 
-
-
+	private CustomerListFragment getListFragment()
+	{
+		FragmentManager fm = getSupportFragmentManager();
+		return (CustomerListFragment)fm.findFragmentById(R.id.fragmentContainer);
+	}
 }

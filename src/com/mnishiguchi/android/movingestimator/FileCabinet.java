@@ -7,7 +7,10 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
+import com.mnishiguchi.android.movingestimator.RoomListFragment.ListCallbacks;
+
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 /**
@@ -45,41 +48,7 @@ class FileCabinet
 		mCustomers = new ArrayList<Customer>();
 		
 		// Load customers from the file system.
-		LoadCustomersRunnable load = new LoadCustomersRunnable();
-		load.run();
-	}
-
-	class LoadCustomersRunnable implements Runnable
-	{
-		@Override
-		public void run()
-		{
-			try
-			{
-				mCustomers = mSerializer.loadCustomers();
-				showResultToast(true);
-			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "Error loading customers", e);
-				
-				// Create a new arraylist
-				mCustomers = new ArrayList<Customer>();
-				showResultToast(false);
-			}
-		}
-		
-		void showResultToast(boolean success)
-		{
-			if (success)
-			{
-				Utils.showToast(mAppContext, "Customers successfully loaded.");
-			}
-			else
-			{
-				Utils.showToast(mAppContext, "Error loading customers.");
-			}
-		}
+		new LoadCustomersTask().execute();
 	}
 	
 	/**
@@ -155,23 +124,73 @@ class FileCabinet
 		}
 	}
 	
+	private class LoadCustomersTask extends AsyncTask<Void, Void, Boolean>
+	{
+		protected Boolean doInBackground(Void... params)
+		{
+			try
+			{
+				mCustomers = mSerializer.loadCustomers();
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "Error loading customers", e);
+				
+				// Create a new arraylist
+				mCustomers = new ArrayList<Customer>();
+				return false;
+			}
+			return true;
+		}
+		
+		protected void onPostExecute(Boolean success)
+		{
+			if (success)
+			{
+				Utils.showToast(mAppContext, "Customers successfully loaded.");
+			}
+			else
+			{
+				Utils.showToast(mAppContext, "Error loading customers.");
+			}
+		}
+	}
+
+	private class SaveCustomersTask extends AsyncTask<Void, Void, Boolean>
+	{
+		protected Boolean doInBackground(Void... params)
+		{
+			try
+			{
+				mSerializer.saveCustomers(mCustomers);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "Error saving customer", e);
+				return false;
+			}
+			return true;
+		}
+		
+		protected void onPostExecute(Boolean success)
+		{
+			if (success)
+			{
+				Utils.showToast(mAppContext, "Customers saved to file");
+			}
+			else
+			{
+				Utils.showToast(mAppContext, "Error saving customer");
+			}
+		}
+	}
+	
 	/**
 	 * Save the customers data to a file on the device's file system.
 	 */
-	boolean saveCustomers()
+	void saveCustomers()
 	{
-		try
-		{
-			mSerializer.saveCustomers(mCustomers);
-			Utils.showToast(mAppContext, "Customers saved to file");
-			return true;
-		}
-		catch (Exception e)
-		{
-			Utils.showToast(mAppContext, "Error saving customer");
-			Log.e(TAG, "Error saving customer", e);
-			return false;
-		}
+		new SaveCustomersTask().execute();
 	}
 	
 	@SuppressWarnings("unused")

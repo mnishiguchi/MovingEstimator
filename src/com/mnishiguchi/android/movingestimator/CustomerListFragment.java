@@ -102,7 +102,7 @@ public class CustomerListFragment extends ListFragment
 		// Retain this fragment.
 		setRetainInstance(true);
 	}
-
+	
 	// Note:
 	// ListFragments come with a default onCreateView() method.
 	// The default implementation of a ListFragment inflates a layout that
