@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent" >
+ 
+    <TextView
+        android:id="@+id/TextViewListItemEstimateItemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_weight="3">
+    </TextView>
+     
+    <TextView
+        android:id="@+id/TextViewListItemEstimateSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        android:layout_weight="1">
+    </TextView>
+     
+    <TextView
+        android:id="@+id/TextViewListItemEstimateQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Qty"
+        android:layout_weight="1">
+    </TextView>
+     
+    <TextView
+        android:id="@+id/TextViewListItemEstimateMode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mode"
+        android:layout_weight="2">
+    </TextView>
+    
+    <TextView
+        android:id="@+id/TextViewListItemEstimateComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Comment"
+        android:layout_weight="3">
+    </TextView>
+</LinearLayout>

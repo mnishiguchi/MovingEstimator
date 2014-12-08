@@ -90,7 +90,7 @@ public class EstimateTableFragment extends Fragment
 		Log.d(TAG, "onCreateView()");
 		
 		// Get reference to the layout.
-		View v = inflater.inflate(R.layout.fragment_estimate, parent, false);
+		View v = inflater.inflate(R.layout.fragment_estimatetable, parent, false);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
