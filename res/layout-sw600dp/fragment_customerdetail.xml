@@ -28,8 +28,7 @@
 				android:layout_height="120dp"
 				android:scaleType="centerInside"
 				android:background="@android:color/darker_gray"
-				android:cropToPadding="true"
-				/>
+				android:cropToPadding="true" />
 			<ImageButton
 				android:id="@+id/btnPhoto"
 				android:layout_width="match_parent"

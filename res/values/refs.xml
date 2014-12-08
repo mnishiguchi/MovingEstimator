@@ -2,7 +2,11 @@
 <resources>
 	
 	<!-- Alias resource value - Default -->
-	<item name="activity_masterdetail" type="layout">
+	<item name="activity_masterdetail_1" type="layout">
+		@layout/activity_fragment
+	</item>
+	
+	<item name="activity_masterdetail_2" type="layout">
 		@layout/activity_fragment
 	</item>
 	

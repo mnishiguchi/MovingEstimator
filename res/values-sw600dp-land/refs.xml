@@ -2,8 +2,12 @@
 <resources>
 	
 	<!-- Alias resource value - Default -->
-	<item name="activity_masterdetail" type="layout">
-		@layout/activity_twopane
+	<item name="activity_masterdetail_1" type="layout">
+		@layout/activity_twopane_1
+	</item>
+	
+	<item name="activity_masterdetail_2" type="layout">
+		@layout/activity_twopane_2
 	</item>
 	
 </resources>

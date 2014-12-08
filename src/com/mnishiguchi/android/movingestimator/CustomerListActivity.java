@@ -29,7 +29,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 	protected int getLayoutResId()
 	{
 		// an alias resource defined in res/values/refs.xml
-		return R.layout.activity_masterdetail; 
+		return R.layout.activity_masterdetail_1; 
 	}
 
 	@Override
