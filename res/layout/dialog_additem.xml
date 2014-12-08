@@ -1,17 +1,85 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content" >
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="8dp">
 
-	<AutoCompleteTextView
-		android:id="@+id/AutoCompleteTextViewMovingItems"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="16dp"
-		android:layout_marginLeft="4dp"
-		android:layout_marginRight="4dp"
-		android:layout_marginBottom="4dp">
-		<requestFocus />
-	</AutoCompleteTextView>
-
-</LinearLayout>
+	<!-- Item Name -->
+	<TableRow
+		android:id="@+id/tableRowItemName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:padding="4dp">
+		<TextView
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Item Name:" />
+		<AutoCompleteTextView
+			android:id="@+id/AutoCompleteTextViewMovingItems"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2" >
+			<requestFocus />
+		</AutoCompleteTextView>
+	</TableRow>
+	
+	<!-- Item Size -->
+	<TableRow
+		android:id="@+id/tableRowItemSize"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:padding="4dp">
+		<TextView
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Size:" />
+		<EditText
+			android:id="@+id/editTextItemSize"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2"
+			android:inputType="numberDecimal" />
+	</TableRow>
+	
+	<!-- Item Quantity -->
+	<TableRow
+		android:id="@+id/tableRowItemQuantity"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:padding="4dp">
+		<TextView
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Quantity:" />
+		<EditText
+			android:id="@+id/editTextItemQuantity"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2"
+			android:inputType="number" />
+	</TableRow>
+	
+	<!-- Comment -->
+	<TableRow
+		android:id="@+id/tableRowItemComment"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:padding="4dp">
+		<TextView
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Comment:" />
+		<EditText
+			android:id="@+id/editTextItemComment"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2" />
+	</TableRow>
+</TableLayout>

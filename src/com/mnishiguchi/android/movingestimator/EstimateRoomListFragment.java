@@ -388,15 +388,6 @@ public class EstimateRoomListFragment extends Fragment implements
 				
 				return true;  // No further processing is necessary.
 				
-			// --- NEW ITEM ---
-			case R.id.optionsmenu_new_item:
-				
-				//TODO
-				//new AddItemDialog().show(
-				//		getActivity().getSupportFragmentManager(), DIALOG_ADD_ITEM);
-				
-				return true;  // No further processing is necessary.
-				
 			default:
 				return super.onOptionsItemSelected(item);
 		}

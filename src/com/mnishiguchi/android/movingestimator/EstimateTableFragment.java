@@ -62,8 +62,8 @@ public class EstimateTableFragment extends Fragment
 	/**
 	 * Private constructor.
 	 */
-	private EstimateTableFragment()
-	{ }
+	//private EstimateTableFragment()
+	//{ }
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState)
