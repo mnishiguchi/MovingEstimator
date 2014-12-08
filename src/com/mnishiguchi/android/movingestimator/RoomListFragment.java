@@ -173,9 +173,6 @@ public class RoomListFragment extends Fragment implements
 		// Respond to long clicks for contexual action.
 		mListView.setOnItemLongClickListener(this);
 		
-		// Initially select the first item on the list.
-		setDefaultListSelection();
-		
 		// Return the root view.
 		return v;
 	}
@@ -191,15 +188,10 @@ public class RoomListFragment extends Fragment implements
 		// Set the customer name on the Actionbar.
 		getActivity().setTitle("Estimate for " + mCustomer.toString());
 		
-		setRoomOnActionBar(mAdapter.getItem(mClickedPosition));
-		
 		// Reload the list.
 		mAdapter.notifyDataSetChanged();
 		
-		if (!Utils.hasTwoPane(getActivity())) // Single=pane
-		{
-			setDefaultListSelection();
-		}
+		clearListSelection();
 	}
 	
 	@Override
@@ -323,7 +315,7 @@ public class RoomListFragment extends Fragment implements
 		return true; // Long click was consumed.
 	}
 	
-	@SuppressLint("NewApi")
+	@SuppressLint({ "NewApi", "ResourceAsColor" })
 	private void deleteRoom()
 	{
 		final String clickedIitem = (String)mAdapter.getItem(mClickedPosition);
@@ -350,16 +342,7 @@ public class RoomListFragment extends Fragment implements
 					FileCabinet.get(getActivity()).saveCustomers();
 				}
 			});
-		
-		if (mAdapter.getCount() > 1)
-		{
-			setDefaultListSelection();
-		}
-		else // The list will be empty after deletion.
-		{
-			getActivity().getActionBar().setSubtitle("");
-		}
-	
+		clearListSelection();
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -434,14 +417,12 @@ public class RoomListFragment extends Fragment implements
 	}
 	
 	/**
-	 * Set the first list item selected.
-	 * Update the listView. Set the room name on the Action Bar.
+	 * Set the last list item selected.
 	 */
-	void setDefaultListSelection()
+	void clearListSelection()
 	{
-		mListView.setItemChecked(0, true);
-		setRoomOnActionBar(mAdapter.getItem(0));
-
+		getActivity().getActionBar().setSubtitle(null);
+		mListView.clearChoices();
 		mAdapter.notifyDataSetChanged();
 	}
 	
