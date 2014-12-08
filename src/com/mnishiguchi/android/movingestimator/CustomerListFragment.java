@@ -93,6 +93,7 @@ public class CustomerListFragment extends ListFragment
 		setHasOptionsMenu(true);
 	
 		// Get the list of customers via the FileCabinet singleton.
+		FileCabinet.get(getActivity()).registerForLoadingCustomers(this);
 		mCustomers = FileCabinet.get(getActivity()).getCustomers();
 		
 		// Set the list adapter.
@@ -397,7 +398,8 @@ public class CustomerListFragment extends ListFragment
 	 * Update the listView's UI based on the updated list of the adapter.
 	 */
 	void updateListView()
-	{		
+	{
+		Log.d(TAG, "updateListView() - mCustomers.size(): " + mCustomers.size());
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 

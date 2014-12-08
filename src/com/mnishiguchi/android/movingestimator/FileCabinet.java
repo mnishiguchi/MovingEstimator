@@ -1,13 +1,9 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
-
-import com.mnishiguchi.android.movingestimator.RoomListFragment.ListCallbacks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -30,6 +26,13 @@ class FileCabinet
 	private Context mAppContext;
 	private ArrayList<Customer> mCustomers;
 	private MovingEstimatorJSONSerializer mSerializer;
+	
+	// Remember it for updating the CustomerListFragment when loading is completed.
+	private CustomerListFragment mListFragment;
+	void registerForLoadingCustomers(CustomerListFragment f)
+	{
+		mListFragment = f;
+	}
 	
 	/**
 	 * Private constructor.
@@ -124,32 +127,37 @@ class FileCabinet
 		}
 	}
 	
-	private class LoadCustomersTask extends AsyncTask<Void, Void, Boolean>
+	private class LoadCustomersTask extends AsyncTask<Void, Void, ArrayList<Customer>>
 	{
-		protected Boolean doInBackground(Void... params)
+		protected ArrayList<Customer> doInBackground(Void... params)
 		{
+			ArrayList<Customer> customers = null;
+			
+			Log.d(TAG, "LoadCustomersTask.doInBackground");
 			try
 			{
-				mCustomers = mSerializer.loadCustomers();
+				// Load the customer from disk.
+				customers = mSerializer.loadCustomers();
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG, "Error loading customers", e);
-				
-				// Create a new arraylist
-				mCustomers = new ArrayList<Customer>();
-				return false;
 			}
-			return true;
+			return customers;
 		}
 		
-		protected void onPostExecute(Boolean success)
+		protected void onPostExecute(ArrayList<Customer> customers)
 		{
-			if (success)
+			Log.d(TAG, "LoadCustomersTask.onPostExecute");
+			if (customers != null) // Success.
 			{
-				Utils.showToast(mAppContext, "Customers successfully loaded.");
+				// Add all the loaded customers to mCustomers.
+				mCustomers.addAll(customers);
+				
+				// Update the listView.
+				mListFragment.updateListView();
 			}
-			else
+			else // Failure.
 			{
 				Utils.showToast(mAppContext, "Error loading customers.");
 			}
