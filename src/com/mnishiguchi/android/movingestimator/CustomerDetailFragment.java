@@ -32,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CustomerDetailFragment extends Fragment
-
 {
 	private static final String TAG = "movingestimator.CustomerDetailFragment";
 	
@@ -44,7 +43,7 @@ public class CustomerDetailFragment extends Fragment
 	public static final int REQUEST_DEFAULT_CAMERA = 1;
 	
 	// Store reference to an instance of this fragment that is currently working..
-	private static CustomerDetailFragment sCustomerDetailFragment;
+	//private static CustomerDetailFragment sCustomerDetailFragment;
 		
 	// Reference to the Customer object stored in the FileCabinet(model layer)
 	private Customer mCustomer;
@@ -126,7 +125,7 @@ public class CustomerDetailFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		// Store a reference to this instance.
-		sCustomerDetailFragment = this;
+		//sCustomerDetailFragment = this;
 		
 		
 		if (null == getArguments())
@@ -691,10 +690,15 @@ public class CustomerDetailFragment extends Fragment
 				
 			case R.id.optionsmenu_estimate:
 				
-				i = new Intent(getActivity(), RoomListActivity.class);
-				i.putExtra(RoomListFragment.EXTRA_CUSTOMER_ID_ROOM, mCustomer.getId());
+				i = new Intent(getActivity(), EstimateRoomListActivity.class);
+				i.putExtra(EstimateRoomListFragment.EXTRA_CUSTOMER_ID_ROOM, mCustomer.getId());
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
+				
+			case R.id.optionsmenu_email:
+				
+				// TODO
+				return true; 
 				
 			default:
 				return super.onOptionsItemSelected(item);
@@ -704,7 +708,7 @@ public class CustomerDetailFragment extends Fragment
 	/**
 	 * Show a confirmation message before actually deleting selected items.
 	 */
-	static class DeleteDialog extends DialogFragment
+	class DeleteDialog extends DialogFragment
 	{
 		/*
 		 * Configure the dialog.
@@ -721,7 +725,7 @@ public class CustomerDetailFragment extends Fragment
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							sCustomerDetailFragment.deleteCustomer();
+							CustomerDetailFragment.this.deleteCustomer();
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 

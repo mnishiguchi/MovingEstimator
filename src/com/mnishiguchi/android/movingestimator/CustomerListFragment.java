@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -588,7 +589,8 @@ public class CustomerListFragment extends ListFragment
 		{
 			// Dynamically create an mTextView from scratch.
 			mTextView = new TextView(getActivity());
-			
+			mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+
 			String text = getActivity().getString(R.string.aboutdialog_text);
 			
 			// Set text on the TextView.

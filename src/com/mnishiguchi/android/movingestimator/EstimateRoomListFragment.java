@@ -2,11 +2,14 @@ package com.mnishiguchi.android.movingestimator;
 
 import java.util.ArrayList;
 
+import com.mnishiguchi.android.movingestimator.CustomerListFragment.ListCallbacks;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,20 +23,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
-public class RoomListFragment extends Fragment implements
-	AdapterView.OnItemClickListener, OnItemLongClickListener
+public class EstimateRoomListFragment extends Fragment implements
+	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
 	private static final String TAG = "movingestimator.EstimateRoomListFragment";
 	
 	private static final String DIALOG_ADD_ROOM = "addRoomDialog";
+	private static final String DIALOG_ADD_ITEM = "addItemDialog";
 	
 	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
-	
+
 	// Reference to the customer stored in FileCabinet.
 	private Customer mCustomer;
 	
@@ -57,6 +60,8 @@ public class RoomListFragment extends Fragment implements
 	{
 		void onListItemClicked(String room);
 		void onListItemDeleted(String room);
+		void onListReset();
+		void onActionMode();
 	}
 		
 	@Override
@@ -72,7 +77,7 @@ public class RoomListFragment extends Fragment implements
 		catch (ClassCastException e)
 		{
 			throw new ClassCastException(activity.toString()
-					+ " must implement EstimateRoomListFragment.Callbacks");
+					+ " must implement CustomerListFragment.Callbacks");
 		}
 	}
 		
@@ -83,17 +88,18 @@ public class RoomListFragment extends Fragment implements
 		mCallbacks = null;
 	}
 	
+	
 	/**
 	 * Create a new instance associated with the passed-in id.
 	 */
-	public static RoomListFragment newInstance(String customerId)
+	public static EstimateRoomListFragment newInstance(String customerId)
 	{
 		// Set the customer's id on the arguments.
 		Bundle args = new Bundle();
 		args.putString(EXTRA_CUSTOMER_ID_ROOM, customerId);
 		
 		// Instantiate the fragment with the arguments.
-		RoomListFragment fragment = new RoomListFragment();
+		EstimateRoomListFragment fragment = new EstimateRoomListFragment();
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -101,7 +107,7 @@ public class RoomListFragment extends Fragment implements
 	/**
 	 * Private constructor so that nobody accidentally would instantiate.
 	 */
-	private RoomListFragment()
+	private EstimateRoomListFragment()
 	{}
 	
 	@Override
@@ -263,7 +269,7 @@ public class RoomListFragment extends Fragment implements
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
 		{
-			mode.setTitle("Delete the checked room");
+			mode.setTitle("Deleting the checked room");
 			return false;
 		}
 		
@@ -315,7 +321,7 @@ public class RoomListFragment extends Fragment implements
 		return true; // Long click was consumed.
 	}
 	
-	@SuppressLint({ "NewApi", "ResourceAsColor" })
+	@SuppressLint("NewApi")
 	private void deleteRoom()
 	{
 		final String clickedIitem = (String)mAdapter.getItem(mClickedPosition);
@@ -382,6 +388,15 @@ public class RoomListFragment extends Fragment implements
 				
 				return true;  // No further processing is necessary.
 				
+			// --- NEW ITEM ---
+			case R.id.optionsmenu_new_item:
+				
+				//TODO
+				//new AddItemDialog().show(
+				//		getActivity().getSupportFragmentManager(), DIALOG_ADD_ITEM);
+				
+				return true;  // No further processing is necessary.
+				
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -434,7 +449,7 @@ public class RoomListFragment extends Fragment implements
 		private AutoCompleteTextView mTextView;
 		
 		// The room list for autoComplete.
-		private final String[] mRooms = RoomListFragment.this.getActivity()
+		private final String[] mRooms = EstimateRoomListFragment.this.getActivity()
 				.getResources().getStringArray(R.array.rooms);
 		
 		/*
@@ -452,7 +467,7 @@ public class RoomListFragment extends Fragment implements
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							RoomListFragment.this.addRoom(mTextView.getText().toString());
+							EstimateRoomListFragment.this.addRoom(mTextView.getText().toString());
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -489,5 +504,5 @@ public class RoomListFragment extends Fragment implements
 			super.onPause();
 		}
 	}
-
+	
 }

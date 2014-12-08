@@ -8,6 +8,7 @@
 	<!-- ActionBar -->
 	<string name="actionbar_title_list">Customer List</string>
 	<string name="actionbar_title_customer_info">Customer Information</string>
+	<string name="actionbar_title_estimate">Estimate</string>
 	
 	<!-- CustomerList -->
 	<string name="customerlist_empty">No customer on this list.</string>
@@ -20,13 +21,15 @@
 	<string name="menuitem_delete">Delete</string>
 	<string name="menuitem_edit">Edit</string>
 	<string name="menuitem_estimate">Estimate</string>
+	<string name="menuitem_email">Email Data</string>
 	<string name="menuitem_getlocation">Get Location</string>
 	<string name="menuitem_about">About</string>
 	<string name="menuitem_new_room">New Room</string>
+	<string name="menuitem_new_item">Add Item</string>
 	
 	<!-- Date/time picker -->
-	<string name="date_picker_title">date_picker_title</string>
-	<string name="time_picker_title">time_picker_title</string>
+	<string name="date_picker_title">Setting Date</string>
+	<string name="time_picker_title">Setting Time</string>
 	
 	<!-- mSpinnerPrefix -->
 	<string-array name="prefixes">
@@ -38,8 +41,9 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		#DEVELOPED BY: Masatoshi Nishiguchi\n
-		(masatoshi.nishiguchi@udc.edu)
+		DEVELOPED BY\n---------------------------------------\n
+		Masatoshi Nishiguchi\n
+		masatoshi.nishiguchi@udc.edu
 	</string>
 	
 	<!-- Default Rooms -->
@@ -86,6 +90,12 @@
 		<item>Sun Room</item>
 		<item>TV Room</item>
 		<item>Workshop</item>
+	</string-array>
+	
+	<!-- Moving Items -->
+	<string-array name="moving_items">
+		<item></item>
+		
 	</string-array>
 	
 </resources>
