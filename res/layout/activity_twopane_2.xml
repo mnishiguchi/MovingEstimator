@@ -8,6 +8,13 @@
 	android:orientation="horizontal" >
 	
 	<FrameLayout
+		android:id="@+id/fragmentContainer"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1" >
+	</FrameLayout>
+	
+	<FrameLayout
 		android:id="@+id/detailFragmentContainer"
 		android:background="@android:color/background_light"
 		android:layout_width="0dp"
@@ -15,11 +22,4 @@
 		android:layout_weight="4" >
 	</FrameLayout>
 	
-	<FrameLayout
-		android:id="@+id/fragmentContainer"
-		android:layout_width="0dp"
-		android:layout_height="match_parent"
-		android:layout_weight="1" >
-	</FrameLayout>
-
 </LinearLayout>
