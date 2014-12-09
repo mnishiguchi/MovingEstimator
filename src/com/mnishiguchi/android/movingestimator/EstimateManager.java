@@ -82,11 +82,13 @@ class EstimateManager
 				EstimateContract.EstimateTable.COLUMN_COMMENT,
 		};
 		
+		String whereClause = EstimateContract.EstimateTable.COLUMN_ROOM + " = ?";
+		String[] whereArgs = new String[] {room};
+		String orderBy = columns[4] + " ASC";
+		
 		return mDbHelper.getWritableDatabase().query(
 				EstimateContract.EstimateTable.TABLE_NAME,
-				columns,
-				null, null, null, null, 
-				String.format("%s ASC", columns[4]));
+				columns, whereClause, whereArgs, null, null, orderBy);
 	}
 	
 	public void closeDatabase()

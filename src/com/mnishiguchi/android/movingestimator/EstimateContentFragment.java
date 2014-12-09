@@ -86,7 +86,7 @@ public class EstimateContentFragment extends Fragment implements
 		// Fetch the Customer's estimate data from database.
 		// TODO
 		
-		Log.d(TAG, "onCreate()");
+		Log.d(TAG, "onCreate() - mRoom: " + mRoom);
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
@@ -112,12 +112,12 @@ public class EstimateContentFragment extends Fragment implements
 		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
 		
 		String[] columns = {
-				EstimateContract.EstimateTable._ID,
 				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
 				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
 				EstimateContract.EstimateTable.COLUMN_QUANTITY,
 				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
 				EstimateContract.EstimateTable.COLUMN_COMMENT,
+				EstimateContract.EstimateTable._ID
 		};
 		
 		int[] columnsLayout = {
