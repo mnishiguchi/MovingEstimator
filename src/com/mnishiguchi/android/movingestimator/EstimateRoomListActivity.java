@@ -50,7 +50,7 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 			// Add a new detailFragment for the passed-in customer.
 			if (room != null)
 			{
-				Fragment newDetail = EstimateTableFragment.newInstance(mCustomerId, room);
+				Fragment newDetail = EstimateContentFragment.newInstance(mCustomerId, room);
 				ft.add(R.id.detailFragmentContainer, newDetail);
 			}
 			

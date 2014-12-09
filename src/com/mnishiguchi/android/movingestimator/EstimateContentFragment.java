@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -16,12 +17,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
-public class EstimateTableFragment extends Fragment
+public class EstimateContentFragment extends Fragment implements
+	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-	private static final String TAG = "movingestimator.EstimateFragment";
+	private static final String TAG = "movingestimator.EstimateTableFragment";
 	
 	private static final String DIALOG_ADD_ITEM = "addItemDialog";
 	//private static final String DIALOG_IMAGE = "imageDialog";
@@ -29,15 +35,18 @@ public class EstimateTableFragment extends Fragment
 	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.id";
 	public static final String EXTRA_ROOM = "com.mnishiguchi.android.movingestimator.room";
 	
-	// Reference to the Customer object stored in the FileCabinet(model layer)
-	//private Customer mCustomer;
+	private String mCustomerId;
+	private String mRoom;
 	
-	private Cursor mEstimateCursor;
+	// listView.
+	private ListView mListView;
+	private SimpleCursorAdapter mAdapter;
+	private Cursor mCursor;
 	
-	// UI components
-	// TODO
+	// Remember the last click.
+	private int mClickedPosition = 0; // Default => 0
 	
-	// Reference to CAB.
+	// Remember the ActionMode.
 	private ActionMode mActionMode;
 	
 	/**
@@ -45,7 +54,7 @@ public class EstimateTableFragment extends Fragment
 	 * @param crimeId a UUID
 	 * @return a new fragment instance with the specified UUID attached as its arguments.
 	 */
-	public static EstimateTableFragment newInstance(String customerId, String room)
+	public static EstimateContentFragment newInstance(String customerId, String room)
 	{
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
@@ -53,7 +62,7 @@ public class EstimateTableFragment extends Fragment
 		args.putString(EXTRA_ROOM, room);
 		
 		// Creates a fragment instance and sets its arguments.
-		EstimateTableFragment fragment = new EstimateTableFragment();
+		EstimateContentFragment fragment = new EstimateContentFragment();
 		fragment.setArguments(args);
 		
 		return fragment;
@@ -71,8 +80,8 @@ public class EstimateTableFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		
 		// Retrieve the arguments.
-		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
-		String room = getArguments().getString(EXTRA_ROOM);
+		mCustomerId = getArguments().getString(EXTRA_CUSTOMER_ID);
+		mRoom = getArguments().getString(EXTRA_ROOM);
 
 		// Fetch the Customer's estimate data from database.
 		// TODO
@@ -90,16 +99,50 @@ public class EstimateTableFragment extends Fragment
 		Log.d(TAG, "onCreateView()");
 		
 		// Get reference to the layout.
-		View v = inflater.inflate(R.layout.fragment_estimatetable, parent, false);
+		View v = inflater.inflate(R.layout.fragment_estimatecontent, parent, false);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 
-		// UI components.
-		// TODO
+		// Configure the listView.
+		mListView = (ListView)v.findViewById(R.id.listViewEstimateTable);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
+		// Retrieve data from database.
+		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
 		
-		// Return the root-layout.
+		String[] columns = {
+				EstimateContract.EstimateTable._ID,
+				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
+				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
+				EstimateContract.EstimateTable.COLUMN_QUANTITY,
+				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateContract.EstimateTable.COLUMN_COMMENT,
+		};
+		
+		int[] columnsLayout = {
+				R.id.TextViewListItemEstimateItemName,
+				R.id.TextViewListItemEstimateSize,
+				R.id.TextViewListItemEstimateQuantity,
+				R.id.TextViewListItemEstimateMode,
+				R.id.TextViewListItemEstimateComment
+		};
+		
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.listitem_estimate, // layout
+				mCursor,  // cursor
+				columns, // column names
+				columnsLayout, 0); // columns layout
+				
+		mListView.setAdapter(mAdapter);
+		
+		// Respond to short clicks for proceeding to estimate.
+		mListView.setOnItemClickListener(this);
+		
+		// Respond to long clicks for contexual action.
+		mListView.setOnItemLongClickListener(this);
+		
+		// Return the root view.
 		return v;
 	}
 	
@@ -146,6 +189,22 @@ public class EstimateTableFragment extends Fragment
 	public void onStop()
 	{
 		super.onStop();
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -196,7 +255,7 @@ public class EstimateTableFragment extends Fragment
 		super.onCreateOptionsMenu(menu, inflater);
 		
 		// Inflate the menu, adding menu items to the action bar.
-		inflater.inflate(R.menu.fragment_estimate, menu);
+		inflater.inflate(R.menu.fragment_estimatecontent, menu);
 	}
 	
 	/**
@@ -231,9 +290,19 @@ public class EstimateTableFragment extends Fragment
 	 	}
 	}
 	
-	private void addMovingItem(String item)
+	private void addMovingItem(EstimateItem item)
 	{
-		// TODO
+		EstimateManager manager = EstimateManager.get(getActivity());
+		
+		// Insert this item to database.
+		manager.insertItem(item);
+		
+		//Re-query to refresh the CursorAdapter.
+		mCursor = manager.retrieveDataForRoom(mRoom);
+		mAdapter.changeCursor(mCursor);
+		
+		// Close database.
+		manager.closeDatabase();
 	}
 	
 	// TODO
@@ -242,10 +311,14 @@ public class EstimateTableFragment extends Fragment
 	 */
 	class AddItemDialog extends DialogFragment
 	{
-		private AutoCompleteTextView mTextView;
+		private AutoCompleteTextView mAutoCompleteItemName;
+		private EditText mEditTextSize;
+		private EditText mEditTextQuantity;
+		private Spinner mSpinnerMode;
+		private EditText mEditTextComment;
 		
 		// The room list for autoComplete.
-		private final String[] mMovingItems = EstimateTableFragment.this.getActivity()
+		private final String[] mMovingItems = EstimateContentFragment.this.getActivity()
 				.getResources().getStringArray(R.array.moving_items);
 		
 		/*
@@ -263,7 +336,18 @@ public class EstimateTableFragment extends Fragment
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							EstimateTableFragment.this.addMovingItem(mTextView.getText().toString());
+							// Prepare the user-inputted data.
+							EstimateItem item = new EstimateItem(
+								mAutoCompleteItemName.getText().toString(),
+								Double.parseDouble(mEditTextSize.getText().toString()),
+								Integer.parseInt(mEditTextQuantity.getText().toString()),
+								mRoom,
+								mSpinnerMode.getSelectedItem().toString(),
+								mEditTextComment.getText().toString()
+							);
+							
+							// Delegate the adding to addMovingItem method.
+							EstimateContentFragment.this.addMovingItem(item);
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -278,10 +362,24 @@ public class EstimateTableFragment extends Fragment
 			View v = inflater.inflate(R.layout.dialog_additem, null);
 			
 			// Configure the AutoCompleteTextView.
-			mTextView = (AutoCompleteTextView)v.findViewById(R.id.AutoCompleteTextViewMovingItems);
-			mTextView.setAdapter(new ArrayAdapter<String>(getActivity(),
+			mAutoCompleteItemName = (AutoCompleteTextView)v.findViewById(R.id.AutoCompleteTextViewMovingItems);
+			mAutoCompleteItemName.setAdapter(new ArrayAdapter<String>(getActivity(),
 					android.R.layout.simple_dropdown_item_1line,
 					this.mMovingItems));
+			
+			// Configure the Spinner.
+			mSpinnerMode = (Spinner)v.findViewById(R.id.spinnerTransportMode);
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+					getActivity(),
+					R.array.transport_modes, // a string-array defined in res/values/strings.xml
+					android.R.layout.simple_spinner_item); // the default layout
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+			mSpinnerMode.setAdapter(adapter);
+			
+			// The others.
+			mEditTextSize = (EditText)v.findViewById(R.id.editTextItemSize);
+			mEditTextQuantity = (EditText)v.findViewById(R.id.editTextItemQuantity);
+			mEditTextComment = (EditText)v.findViewById(R.id.editTextItemComment);
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
@@ -300,4 +398,5 @@ public class EstimateTableFragment extends Fragment
 			super.onPause();
 		}
 	}
+
 }

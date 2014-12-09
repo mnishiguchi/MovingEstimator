@@ -23,8 +23,8 @@ public final class EstimateContract
 		public static final String TABLE_NAME = "moving_estimate";
 		public static final String COLUMN_CUSTOMER_ID = "customer_id";
 		public static final String COLUMN_ESTIMATE_DATE = "estimate_date";
-		public static final String COLUMN_ITEM_NAME = "item_name";
-		public static final String COLUMN_ITEM_SIZE = "item_size";
+		public static final String COLUMN_ITEM_NAME = "name";
+		public static final String COLUMN_ITEM_SIZE = "size";
 		public static final String COLUMN_QUANTITY = "quantity";
 		public static final String COLUMN_ROOM = "room";
 		public static final String COLUMN_TRANSPORT_MODE = "transport_mode";

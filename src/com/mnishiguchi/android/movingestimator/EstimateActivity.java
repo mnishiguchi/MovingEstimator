@@ -7,8 +7,8 @@ public class EstimateActivity extends SingleFragmentActivity
 	@Override
 	protected Fragment createFragment()
 	{
-		String customerId = getIntent().getStringExtra(EstimateTableFragment.EXTRA_CUSTOMER_ID);
-		String room = getIntent().getStringExtra(EstimateTableFragment.EXTRA_ROOM);
-		return EstimateTableFragment.newInstance(customerId, room);
+		String customerId = getIntent().getStringExtra(EstimateContentFragment.EXTRA_CUSTOMER_ID);
+		String room = getIntent().getStringExtra(EstimateContentFragment.EXTRA_ROOM);
+		return EstimateContentFragment.newInstance(customerId, room);
 	}
 }

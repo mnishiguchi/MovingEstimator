@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,9 +11,9 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 	private static final int VERSION = 1;
 	
 	// Field types.
-	private static final String TEXT_TYPE = " TEXT";
-	private static final String INTEGER_TYPE = "INTEGER";
-	private static final String REAL_TYPE = " REAL";
+	private static final String TEXT_TYPE = " TEXT"; // White space is necessary.
+	private static final String INTEGER_TYPE = " INTEGER"; // White space is necessary.
+	private static final String REAL_TYPE = " REAL"; // White space is necessary.
 	private static final String COMMA_SEP = ",";
 	
 	// SQL for creating a table.
@@ -28,7 +27,7 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 		EstimateContract.EstimateTable.COLUMN_QUANTITY + INTEGER_TYPE + COMMA_SEP +
 		EstimateContract.EstimateTable.COLUMN_ROOM + TEXT_TYPE + COMMA_SEP +
 		EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE + TEXT_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_COMMENT + TEXT_TYPE + COMMA_SEP +
+		EstimateContract.EstimateTable.COLUMN_COMMENT + TEXT_TYPE +
 	" )";
 
 	// SQL for dropping a table.
@@ -65,15 +64,4 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 		onUpgrade(db, oldVersion, newVersion);
 	}
 
-	public long insertMovingItem(MovingItem item)
-	{
-		ContentValues cv = new ContentValues();
-		//cv.put(key, value);
-		//cv.put(key, value);
-		//cv.put(key, value);
-		
-		// Return the row ID of the newly inserted row, or -1 if an error occurred
-		return getWritableDatabase().insert(
-				EstimateContract.EstimateTable.TABLE_NAME, null, cv);
-	}
 }

@@ -69,6 +69,26 @@
 			android:inputType="number" />
 	</LinearLayout>
 	
+	<!-- Item Quantity -->
+	<LinearLayout
+		android:id="@+id/tableRowTransportMode"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="4dp" 
+		android:orientation="horizontal" >
+		<TextView
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Mode:" />
+		<Spinner
+			android:id="@+id/spinnerTransportMode"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2" />
+	</LinearLayout>
+	
 	<!-- Comment -->
 	<LinearLayout
 		android:id="@+id/tableRowItemComment"

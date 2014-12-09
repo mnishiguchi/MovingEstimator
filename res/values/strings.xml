@@ -11,10 +11,13 @@
 	<string name="actionbar_title_estimate">Estimate</string>
 	
 	<!-- CustomerList -->
-	<string name="customerlist_empty">No customer on this list.</string>
+	<string name="customerlist_empty">No customer exists.</string>
 	
 	<!-- RoomList -->
-	<string name="roomlist_empty">No room on this list.</string>
+	<string name="roomlist_empty">No room registered.</string>
+	
+	<!-- EstimateList -->
+	<string name="estimatelist_empty">No item in this room.</string>
 	
 	<!-- MenuItems -->
 	<string name="menuitem_new">New</string>	
@@ -37,6 +40,18 @@
 		<item>Ms.</item>
 		<item>Miss</item>
 		<item>Mrs.</item>
+	</string-array>
+	
+	<!-- TransportMode -->
+	<string-array name="transport_modes">
+		<item>Ocean1</item>
+		<item>Ocean2</item>
+		<item>Air1</item>
+		<item>Air2</item>
+		<item>Local1</item>
+		<item>Local2</item>
+		<item>Disposal</item>
+		<item>Storage</item>
 	</string-array>
 	
 	<!-- AboutDialog -->
@@ -94,8 +109,12 @@
 	
 	<!-- Moving Items -->
 	<string-array name="moving_items">
-		<item></item>
-		
+		<item>Small Box</item>
+		<item>Medium Box</item>
+		<item>Large Box</item>
+		<item>Desk</item>
+		<item>TV</item>
+		<item>Sofa</item>
 	</string-array>
 	
 </resources>

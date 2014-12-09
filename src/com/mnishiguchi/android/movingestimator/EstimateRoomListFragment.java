@@ -2,14 +2,11 @@ package com.mnishiguchi.android.movingestimator;
 
 import java.util.ArrayList;
 
-import com.mnishiguchi.android.movingestimator.CustomerListFragment.ListCallbacks;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -33,7 +30,6 @@ public class EstimateRoomListFragment extends Fragment implements
 	private static final String TAG = "movingestimator.EstimateRoomListFragment";
 	
 	private static final String DIALOG_ADD_ROOM = "addRoomDialog";
-	private static final String DIALOG_ADD_ITEM = "addItemDialog";
 	
 	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
 
