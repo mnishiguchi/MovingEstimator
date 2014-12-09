@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/relativeLayout1"
-	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:paddingLeft="16dp"
-	android:paddingRight="16dp"
-	android:paddingTop="16dp"
-	android:paddingBottom="16dp"
-	android:background="@drawable/background_activated">
- 
+	android:layout_height="match_parent"
+	android:background="@color/LightBlue"
+	android:padding="8dp"
+	android:orientation="horizontal" >
+	
 	<TextView
-		android:id="@+id/TextViewListItemEstimateItemName"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Name"
@@ -19,7 +15,6 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateSize"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Size"
@@ -28,7 +23,6 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateQuantity"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Qty"
@@ -37,7 +31,6 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateMode"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Mode"
@@ -46,7 +39,6 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateComment"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Comment"

@@ -83,9 +83,6 @@ public class EstimateContentFragment extends Fragment implements
 		mCustomerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 		mRoom = getArguments().getString(EXTRA_ROOM);
 
-		// Fetch the Customer's estimate data from database.
-		// TODO
-		
 		Log.d(TAG, "onCreate() - mRoom: " + mRoom);
 		
 		// Enable the options menu callback.
@@ -107,6 +104,9 @@ public class EstimateContentFragment extends Fragment implements
 		// Configure the listView.
 		mListView = (ListView)v.findViewById(R.id.listViewEstimateTable);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		mListView.setEmptyView(v.findViewById(R.id.estimatelist_empty));
+		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate, mListView, false);
+		mListView.addHeaderView(header, null, false);
 		
 		// Retrieve data from database.
 		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
