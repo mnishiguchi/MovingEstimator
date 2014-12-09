@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -116,8 +117,9 @@ public class EstimateContentFragment extends Fragment implements
 				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
 				EstimateContract.EstimateTable.COLUMN_QUANTITY,
 				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
-				EstimateContract.EstimateTable.COLUMN_COMMENT,
-				EstimateContract.EstimateTable._ID
+				EstimateContract.EstimateTable._ID,
+				EstimateContract.EstimateTable.COLUMN_COMMENT // TODO
+				
 		};
 		
 		int[] columnsLayout = {
@@ -192,14 +194,6 @@ public class EstimateContentFragment extends Fragment implements
 	}
 
 	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view,
-			int position, long id)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id)
 	{
@@ -207,6 +201,149 @@ public class EstimateContentFragment extends Fragment implements
 		
 	}
 	
+	// Long click => Contextual action for deleting room.
+	final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu)
+		{
+			// Remember reference to action mode.
+			mActionMode = mode;
+		
+			// Inflate the menu using a special inflater defined in the ActionMode class.
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_estimatecontent, menu);
+			return true;
+		}
+				
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+		{
+			mode.setTitle("Deleting the checked item");
+			return false;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+		{
+			switch (item.getItemId())
+			{
+				case R.id.contextmenu_delete_estimateitem: // Delete menu item.
+					
+					// Retrieve the selected room's position.
+					deleteEstimateItem();
+
+					// Prepare the action mode to be destroyed.
+					mode.finish(); // Action picked, so close the CAB
+					return true;
+						
+				default:
+					return false;
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode)
+		{
+			// Set it to null because we exited the action mode.
+			mActionMode = null;
+		}
+	};
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id)
+	{
+		Log.d(TAG, "onLongClick()");
+		
+		// Ignore the long click if already in the ActionMode.
+		if (mActionMode != null) return false;
+		
+		// Set the list item checked.
+		mListView.setItemChecked(position, true);
+		
+		// Remember the selected position
+		mClickedPosition = position;
+		
+		// Show the Contexual Action Bar.
+		getActivity().startActionMode(actionModeCallback);
+
+		return true; // Long click was consumed.
+	}
+	
+	@SuppressLint("NewApi")
+	private void deleteEstimateItem()
+	{
+		// Get the row id at the mClickedPosition.
+		mCursor.moveToPosition(mClickedPosition);
+		final long rowId = mCursor.getLong(mCursor.getColumnIndex("_id"));
+		Log.d(TAG, "deleteEstimateItem() - rowId: " + rowId);
+		
+		// Remove the item from database.
+		boolean success = EstimateManager.get(getActivity()).deleteSingleRow(rowId);
+		Log.d(TAG, "deleteEstimateItem() - success: " + success);
+		
+		// Close database.
+		EstimateManager.get(getActivity()).closeDatabase();
+		
+		// Re-query to refresh the CursorAdapter.
+		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
+		mAdapter.changeCursor(mCursor);
+		
+		// Update the listView.
+		mAdapter.notifyDataSetChanged();
+		
+		//updateListView();
+		/*
+		 * final View view = mAdapter.getView(mClickedPosition, null, mListView);
+		view.animate()
+			.setDuration(1000)
+			.alpha (0)
+			.withEndAction(new Runnable() {
+				
+				@Override
+				public void run ()
+				{
+					// Make the list item disappear.
+					view.setAlpha(1);
+					
+
+
+				}
+			});
+		*/
+	}
+	
+	public void updateListView()
+	{
+		// Retrieve data from database.
+		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
+		
+		String[] columns = {
+				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
+				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
+				EstimateContract.EstimateTable.COLUMN_QUANTITY,
+				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateContract.EstimateTable.COLUMN_COMMENT,
+				EstimateContract.EstimateTable._ID
+		};
+		
+		int[] columnsLayout = {
+				R.id.TextViewListItemEstimateItemName,
+				R.id.TextViewListItemEstimateSize,
+				R.id.TextViewListItemEstimateQuantity,
+				R.id.TextViewListItemEstimateMode,
+				R.id.TextViewListItemEstimateComment
+		};
+		
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.listitem_estimate, // layout
+				mCursor,  // cursor
+				columns, // column names
+				columnsLayout, 0); // columns layout
+				
+		mListView.setAdapter(mAdapter);
+	}
 	/**
 	 * Remove the Contextual Action Bar if any.
 	 */

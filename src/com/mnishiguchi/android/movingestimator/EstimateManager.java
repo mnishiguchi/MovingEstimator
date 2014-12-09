@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -54,17 +55,32 @@ class EstimateManager
 	public long insertItem(EstimateItem item)
 	{
 		ContentValues cv = new ContentValues();
-		cv.put(EstimateContract.EstimateTable.COLUMN_ITEM_NAME, item.name);
-		cv.put(EstimateContract.EstimateTable.COLUMN_ITEM_SIZE, item.size);
-		cv.put(EstimateContract.EstimateTable.COLUMN_QUANTITY, item.quantity);
-		cv.put(EstimateContract.EstimateTable.COLUMN_ROOM, item.room);
-		cv.put(EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE, item.mode);
-		cv.put(EstimateContract.EstimateTable.COLUMN_COMMENT, item.comment);
+		cv.put(EstimateTable.COLUMN_ITEM_NAME, item.name);
+		cv.put(EstimateTable.COLUMN_ITEM_SIZE, item.size);
+		cv.put(EstimateTable.COLUMN_QUANTITY, item.quantity);
+		cv.put(EstimateTable.COLUMN_ROOM, item.room);
+		cv.put(EstimateTable.COLUMN_TRANSPORT_MODE, item.mode);
+		cv.put(EstimateTable.COLUMN_COMMENT, item.comment);
 		
 		// Return the row ID of the newly inserted row, or -1 if an error occurred
 		return mDbHelper.getWritableDatabase().insert(
-				EstimateContract.EstimateTable.TABLE_NAME, null, cv);
+				EstimateTable.TABLE_NAME, null, cv);
 	}
+	
+	
+	public boolean deleteSingleRow(long rowId) 
+	{
+		Log.d(TAG, "deleteSingleRow() - rowId: " + rowId);
+		
+		// DELETE FROM table_name WHERE some_column=some_value;
+		String whereClause = EstimateTable._ID + " = ?";
+		String[] whereArgs = new String[] {String.valueOf(rowId)};
+		
+		return mDbHelper.getWritableDatabase().delete(
+				EstimateContract.EstimateTable.TABLE_NAME,
+				whereClause, whereArgs) > 0;
+	}
+	
 	
 	/**
 	 * A helper method to execute a standardized query.
