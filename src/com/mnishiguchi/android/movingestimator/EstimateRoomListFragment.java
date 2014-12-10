@@ -417,6 +417,9 @@ public class EstimateRoomListFragment extends Fragment implements
 		private final String[] mRooms = EstimateRoomListFragment.this.getActivity()
 				.getResources().getStringArray(R.array.rooms);
 		
+		// For validation.
+		private String mRoomText;
+		
 		/*
 		 * Configure the dialog.
 		 */
@@ -432,7 +435,16 @@ public class EstimateRoomListFragment extends Fragment implements
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							EstimateRoomListFragment.this.addRoom(mTextView.getText().toString());
+							// Do nothing if the room is invalid.
+							mRoomText = mTextView.getText().toString();
+							if (!isRoomValid())
+							{
+								Utils.showToast(getActivity(), "Invalid room");
+								return;
+							}
+							
+							// Add it to the list.
+							EstimateRoomListFragment.this.addRoom(mRoomText);
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -459,6 +471,22 @@ public class EstimateRoomListFragment extends Fragment implements
 				.setPositiveButton("Add", listener)
 				.setNegativeButton("Cancel", listener)
 				.create();
+		}
+		
+		/**
+		 * Check if the room name is valid.
+		 */
+		private boolean isRoomValid()
+		{
+			// Check for duplicates.
+			for (String room : mCustomer.getRooms())
+			{
+				if (room.equalsIgnoreCase(mRoomText))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 		
 		@Override
