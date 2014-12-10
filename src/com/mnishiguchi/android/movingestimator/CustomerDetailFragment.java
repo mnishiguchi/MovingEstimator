@@ -35,7 +35,7 @@ public class CustomerDetailFragment extends Fragment
 {
 	private static final String TAG = "movingestimator.CustomerDetailFragment";
 	
-	public static final String EXTRA_CUSTOMER_ID_DETAIL = "com.mnishiguchi.android.movingestimator.customer_id_detail";
+	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.customer_id_detail";
 	
 	private static final String DIALOG_DELETE = "deleteDialog";
 	private static final String DIALOG_IMAGE = "imageDialog";
@@ -108,7 +108,7 @@ public class CustomerDetailFragment extends Fragment
 	{
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
-		args.putString(EXTRA_CUSTOMER_ID_DETAIL, customerId);
+		args.putString(EXTRA_CUSTOMER_ID, customerId);
 		
 		// Creates a fragment instance and sets its arguments.
 		CustomerDetailFragment fragment = new CustomerDetailFragment();
@@ -122,18 +122,8 @@ public class CustomerDetailFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		
-		// Store a reference to this instance.
-		//sCustomerDetailFragment = this;
-		
-		
-		if (null == getArguments())
-		{
-			Log.e(TAG, "null == getArguments()");
-			return;
-		}
-		
 		// Retrieve the arguments.
-		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID_DETAIL);
+		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
@@ -141,7 +131,10 @@ public class CustomerDetailFragment extends Fragment
 		// Remember the customer globally.
 		Customer.setCurrentCustomer(mCustomer);
 		
-		Log.d(TAG, "onCreate() - mCustomer: " + mCustomer.getLastName());
+		Log.d(TAG, "onCreate() - mCustomer=>" + mCustomer.getLastName());
+		
+		// If a parent activity is registered in the manifest file, enable the Up button.
+		setupActionBarUpButton();
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
@@ -156,9 +149,6 @@ public class CustomerDetailFragment extends Fragment
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_customerdetail, parent, false);
 		
-		// If a parent activity is registered in the manifest file, enable the Up button.
-		setupActionBarUpButton();
-
 		// Reuse
 		String temp;
 		
@@ -426,8 +416,6 @@ public class CustomerDetailFragment extends Fragment
 	{
 		super.onPause();
 		Log.d(TAG, "onPause()");
-		
-		// FileCabinet.get(getActivity()).saveCustomers();
 	}
 	
 	/*

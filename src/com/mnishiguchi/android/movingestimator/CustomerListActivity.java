@@ -62,7 +62,7 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		{
 			// Start the PagerActivity.
 			Intent i = new Intent(this, CustomerPagerActivity.class);
-			i.putExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL, customer.getId());
+			i.putExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID, customer.getId());
 			startActivity(i);
 		}
 	}

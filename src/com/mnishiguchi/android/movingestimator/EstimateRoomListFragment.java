@@ -91,7 +91,6 @@ public class EstimateRoomListFragment extends Fragment implements
 		
 		// Get the customer with that id.
 		mCustomer = Customer.getCurrentCustomer();
-		//mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
@@ -113,6 +112,9 @@ public class EstimateRoomListFragment extends Fragment implements
 			mCustomer.setRooms(rooms);
 			FileCabinet.get(getActivity()).saveCustomers();
 		}
+		
+		// If a parent activity is registered in the manifest file, enable the Up button.
+		setupActionBarUpButton();
 		
 		// Retain this fragment.
 		setRetainInstance(true);
@@ -162,7 +164,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		setupActionBarUpButton();
 		
 		// Set the customer name on the Actionbar.
-		getActivity().setTitle("Estimate for " + mCustomer.toString());
+		getActivity().setTitle(mCustomer.toString() + "'s estimate");
 		
 		// Reload the list.
 		mAdapter.notifyDataSetChanged();
@@ -184,13 +186,25 @@ public class EstimateRoomListFragment extends Fragment implements
 		
 	}
 	
+	private void setActionBarTitle(String room)
+	{
+		getActivity().setTitle(mCustomer.toString() + " | " + room);
+	}
+	
 	/**
 	 * If a parent activity is registered in the manifest file,
 	 * enable the Up button.
 	 */
 	private void setupActionBarUpButton()
 	{
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		if (NavUtils.getParentActivityIntent(getActivity()) != null)
+		{
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		else
+		{
+			Log.d(TAG, "Couldn't enable the Up button");
+		}
 	}
 	
 	/*
@@ -209,16 +223,11 @@ public class EstimateRoomListFragment extends Fragment implements
 		mClickedPosition = position;
 		
 		// Set the room on the Actionbar subtitle.
-		setRoomOnActionBar(clickedRoom);
+		//setRoomOnActionBar(clickedRoom);
+		setActionBarTitle(clickedRoom);
 		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(clickedRoom);
-	}
-	
-	private void setRoomOnActionBar(String room)
-	{
-		// Set the room on the Actionbar subtitle.
-		getActivity().getActionBar().setSubtitle("Currently at: " + room);
 	}
 	
 	// Long click => Contextual action for deleting room.

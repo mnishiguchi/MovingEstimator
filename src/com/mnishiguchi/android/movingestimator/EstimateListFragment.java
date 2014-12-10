@@ -1,4 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -36,7 +37,7 @@ public class EstimateListFragment extends Fragment implements
 	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.id";
 	public static final String EXTRA_ROOM = "com.mnishiguchi.android.movingestimator.room";
 	
-	private static String sCustomerId;
+	//private static String sCustomerId;
 	private String mRoom;
 	
 	// listView.
@@ -54,11 +55,7 @@ public class EstimateListFragment extends Fragment implements
 	 */
 	public static EstimateListFragment newInstance(String room)
 	{
-		// Get the current customer's id.
-		sCustomerId = Customer.getCurrentCustomer().getId();
-		
-		Log.d(TAG, "newInstance() - customerId=>" + sCustomerId +
-				" - room=>" + room);
+		Log.d(TAG, "newInstance() - room=>" + room);
 		
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
@@ -71,12 +68,6 @@ public class EstimateListFragment extends Fragment implements
 		return fragment;
 	}
 	
-	/**
-	 * Private constructor.
-	 */
-	//private EstimateTableFragment()
-	//{ }
-		
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -86,6 +77,9 @@ public class EstimateListFragment extends Fragment implements
 		mRoom = getArguments().getString(EXTRA_ROOM);
 
 		Log.d(TAG, "onCreate() - mRoom=>" + mRoom);
+		
+		// If a parent activity is registered in the manifest file, enable the Up button.
+		setupActionBarUpButton();
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
@@ -99,9 +93,6 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_estimatelist, parent, false);
-		
-		// If a parent activity is registered in the manifest file, enable the Up button.
-		setupActionBarUpButton();
 
 		// Configure the listView.
 		mListView = (ListView)v.findViewById(R.id.listViewEstimateTable);
@@ -139,7 +130,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Retrieve data from database.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(sCustomerId, mRoom, this);
+			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
@@ -279,6 +270,15 @@ public class EstimateListFragment extends Fragment implements
 	}
 
 	/**
+	 * Clear list selection.
+	 */
+	void clearListSelection()
+	{
+		mListView.clearChoices();
+		mAdapter.notifyDataSetChanged();
+	}
+	
+	/**
 	 * Remove the Contextual Action Bar if any.
 	 */
 	void finishCAB()
@@ -287,6 +287,8 @@ public class EstimateListFragment extends Fragment implements
 		{
 			mActionMode.finish();
 			mActionMode = null;
+			
+			clearListSelection();
 		}
 	}
 
@@ -329,7 +331,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(sCustomerId, mRoom, this);
+			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
 		
 		// Close database.
 		EstimateDataManager.get(getActivity()).closeDatabase();
@@ -420,7 +422,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(sCustomerId, mRoom, this);
+			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
 		
 		// Close database.
 		manager.closeDatabase();
@@ -478,7 +480,7 @@ public class EstimateListFragment extends Fragment implements
 							
 							// Prepare the user-inputted data.
 							EstimateItem item = new EstimateItem(
-								sCustomerId, // from parent fragment
+								Customer.getCurrentCustomer().getId(),
 								mName,       // validated
 								mSize,       // validated
 								mQuantity,   // validated

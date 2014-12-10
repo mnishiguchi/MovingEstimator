@@ -85,7 +85,7 @@ public class CustomerPagerActivity extends FragmentActivity
 	{
 		Log.d(TAG, "setUpInitialPagerItem()");
 		String customerId = (String)getIntent()
-			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID_DETAIL);
+			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID);
 		for (int i = 0; i < mCustomers.size(); i++)
 		{
 			if (mCustomers.get(i).getId().equals(customerId))

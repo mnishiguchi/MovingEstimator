@@ -86,11 +86,21 @@ public class EstimatePagerActivity extends FragmentActivity implements
 			if (mRooms.get(i).equals(initialRoom))
 			{
 				mViewPager.setCurrentItem(i);
+				
+				// Remember the initial position.
+				mPosition = i;
 				return;
 			}
 		}
 	}
 
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		setActionBarTitle();
+	}
+	
 	// Invoked when a new page becomes selected.
 	@Override
 	public void onPageSelected(int position)
@@ -99,11 +109,13 @@ public class EstimatePagerActivity extends FragmentActivity implements
 
 		mPosition = position;
 		
-		// Get the customer at the passed-in position.
-		String room = mRooms.get(position);
-
 		// Set the new page's title.
-		setTitle(room);
+		setActionBarTitle();
+	}
+	
+	private void setActionBarTitle()
+	{
+		setTitle(Customer.getCurrentCustomer().toString() + " | " + mRooms.get(mPosition));
 	}
 	
 	// Invoked when the current page is scrolled
