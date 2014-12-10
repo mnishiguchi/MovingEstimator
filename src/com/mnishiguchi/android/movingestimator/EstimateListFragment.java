@@ -31,7 +31,6 @@ public class EstimateListFragment extends Fragment implements
 	private static final String TAG = "movingestimator.EstimateTableFragment";
 	
 	private static final String DIALOG_ADD_ITEM = "addItemDialog";
-	//private static final String DIALOG_IMAGE = "imageDialog";
 	
 	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.id";
 	public static final String EXTRA_ROOM = "com.mnishiguchi.android.movingestimator.room";
@@ -52,8 +51,6 @@ public class EstimateListFragment extends Fragment implements
 	
 	/**
 	 * Creates a new fragment instance and set the specified id as fragment's arguments.
-	 * @param crimeId a UUID
-	 * @return a new fragment instance with the specified UUID attached as its arguments.
 	 */
 	public static EstimateListFragment newInstance(String customerId, String room)
 	{
@@ -107,6 +104,8 @@ public class EstimateListFragment extends Fragment implements
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		mListView.setEmptyView(v.findViewById(R.id.estimatelist_empty));
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate, mListView, false);
+		
+		// Note: The header becomes the position zero.
 		mListView.addHeaderView(header, null, false);
 		
 		// Retrieve data from database.
@@ -196,8 +195,11 @@ public class EstimateListFragment extends Fragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id)
 	{
-		// TODO Auto-generated method stub
+		// Remember the selected position
+		mClickedPosition = position;
 		
+		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
+		getRowIdAtLastClickedPosition();
 	}
 	
 	// Long click => Contextual action for deleting room.
@@ -249,6 +251,27 @@ public class EstimateListFragment extends Fragment implements
 		}
 	};
 
+	/**
+	 * Adjust the cursor position because the list header takes the position 0. 
+	 */
+	private long getRowIdAtLastClickedPosition()
+	{
+		mCursor.moveToPosition(mClickedPosition - 1);
+		return  mCursor.getLong(mCursor.getColumnIndex("_id"));
+	}
+	
+	/**
+	 * Remove the Contextual Action Bar if any.
+	 */
+	void finishCAB()
+	{
+		if (mActionMode != null) 
+		{
+			mActionMode.finish();
+			mActionMode = null;
+		}
+	}
+
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id)
@@ -264,6 +287,9 @@ public class EstimateListFragment extends Fragment implements
 		// Remember the selected position
 		mClickedPosition = position;
 		
+		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
+		getRowIdAtLastClickedPosition();
+		
 		// Show the Contexual Action Bar.
 		getActivity().startActionMode(actionModeCallback);
 
@@ -275,7 +301,7 @@ public class EstimateListFragment extends Fragment implements
 	{
 		// Get the row id at the mClickedPosition.
 		mCursor.moveToPosition(mClickedPosition);
-		final long rowId = mCursor.getLong(mCursor.getColumnIndex("_id"));
+		final long rowId = getRowIdAtLastClickedPosition();
 		Log.d(TAG, "deleteEstimateItem() - rowId: " + rowId);
 		
 		// Remove the item from database.
@@ -315,6 +341,8 @@ public class EstimateListFragment extends Fragment implements
 	
 	public void updateListView()
 	{
+		// TODO
+		
 		// Retrieve data from database.
 		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
 		
@@ -343,18 +371,7 @@ public class EstimateListFragment extends Fragment implements
 				
 		mListView.setAdapter(mAdapter);
 	}
-	/**
-	 * Remove the Contextual Action Bar if any.
-	 */
-	void finishCAB()
-	{
-		if (mActionMode != null) 
-		{
-			mActionMode.finish();
-			mActionMode = null;
-		}
-	}
-
+	
 	/**
 	 * If a parent activity is registered in the manifest file,
 	 * enable the Up button.
