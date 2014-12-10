@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,9 +17,6 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 	@Override
 	protected Fragment createFragment()
 	{
-		// Get the customerId from intent.
-		//sCurrentCustomerId = getIntent().getStringExtra(EstimateRoomListFragment.EXTRA_CUSTOMER_ID_ROOM);
-		
 		mCurrentCustomerId = Customer.getCurrentCustomer().getId();
 		Log.d(TAG, "mCustomerId: " + mCurrentCustomerId);
 		
@@ -60,7 +58,7 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 			// Add a new detailFragment for the passed-in customer.
 			if (room != null)
 			{
-				Fragment newDetail = EstimateListFragment.newInstance(mCurrentCustomerId, room);
+				Fragment newDetail = EstimateListFragment.newInstance(room);
 				ft.add(R.id.detailFragmentContainer, newDetail);
 			}
 			
@@ -69,11 +67,10 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 		}
 		else // Single-pane
 		{
-			// Start the EstimateFragment.
-			//Intent i = new Intent(this, EstimateActivity.class);
-			//i.putExtra(EstimateFragment.EXTRA_CUSTOMER_ID, mCustomerId);
-			//i.putExtra(EstimateFragment.EXTRA_ROOM, room);
-			//startActivity(i);
+			// Start the EstimatePagerActivity..
+			Intent i = new Intent(this, EstimatePagerActivity.class);
+			i.putExtra(EstimatePagerActivity.EXTRA_ROOM, room);
+			startActivity(i);
 		}
 	}
 

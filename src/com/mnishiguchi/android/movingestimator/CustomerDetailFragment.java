@@ -42,9 +42,6 @@ public class CustomerDetailFragment extends Fragment
 
 	public static final int REQUEST_DEFAULT_CAMERA = 1;
 	
-	// Store reference to an instance of this fragment that is currently working..
-	//private static CustomerDetailFragment sCustomerDetailFragment;
-		
 	// Reference to the Customer object stored in the FileCabinet(model layer)
 	private Customer mCustomer;
 	

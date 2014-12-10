@@ -1,9 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
-
-import com.mnishiguchi.android.movingestimator.CustomerDetailFragment.DetailCallbacks;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
+
 public class EstimateListFragment extends Fragment implements
 	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
@@ -38,13 +36,12 @@ public class EstimateListFragment extends Fragment implements
 	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.id";
 	public static final String EXTRA_ROOM = "com.mnishiguchi.android.movingestimator.room";
 	
-	private String mCustomerId;
+	private static String sCustomerId;
 	private String mRoom;
 	
 	// listView.
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter;
-	//private Cursor mCursor;
 	
 	// Remember the last click.
 	private int mClickedPosition = 0; // Default => 0
@@ -55,14 +52,16 @@ public class EstimateListFragment extends Fragment implements
 	/**
 	 * Creates a new fragment instance and set the specified id as fragment's arguments.
 	 */
-	public static EstimateListFragment newInstance(String customerId, String room)
+	public static EstimateListFragment newInstance(String room)
 	{
-		Log.d(TAG, "newInstance() - customerId=>" + customerId +
+		// Get the current customer's id.
+		sCustomerId = Customer.getCurrentCustomer().getId();
+		
+		Log.d(TAG, "newInstance() - customerId=>" + sCustomerId +
 				" - room=>" + room);
 		
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
-		args.putString(EXTRA_CUSTOMER_ID, customerId);
 		args.putString(EXTRA_ROOM, room);
 		
 		// Creates a fragment instance and sets its arguments.
@@ -84,10 +83,9 @@ public class EstimateListFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		
 		// Retrieve the arguments.
-		mCustomerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 		mRoom = getArguments().getString(EXTRA_ROOM);
 
-		Log.d(TAG, "onCreate() - mRoom: " + mRoom);
+		Log.d(TAG, "onCreate() - mRoom=>" + mRoom);
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
@@ -115,12 +113,12 @@ public class EstimateListFragment extends Fragment implements
 		mListView.addHeaderView(header, null, false);
 		
 		String[] columns = {
-				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
-				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
-				EstimateContract.EstimateTable.COLUMN_QUANTITY,
-				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
-				EstimateContract.EstimateTable._ID,
-				EstimateContract.EstimateTable.COLUMN_COMMENT // TODO
+				EstimateTable.COLUMN_ITEM_NAME,
+				EstimateTable.COLUMN_ITEM_SIZE,
+				EstimateTable.COLUMN_QUANTITY,
+				EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateTable._ID,
+				EstimateTable.COLUMN_COMMENT // TODO
 		};
 		
 		int[] columnsLayout = {
@@ -141,7 +139,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Retrieve data from database.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(mCustomerId, mRoom, this);
+			.retrieveDataForRoom(sCustomerId, mRoom, this);
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
@@ -331,7 +329,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(mCustomerId, mRoom, this);
+			.retrieveDataForRoom(sCustomerId, mRoom, this);
 		
 		// Close database.
 		EstimateDataManager.get(getActivity()).closeDatabase();
@@ -422,7 +420,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(mCustomerId, mRoom, this);
+			.retrieveDataForRoom(sCustomerId, mRoom, this);
 		
 		// Close database.
 		manager.closeDatabase();
@@ -480,7 +478,7 @@ public class EstimateListFragment extends Fragment implements
 							
 							// Prepare the user-inputted data.
 							EstimateItem item = new EstimateItem(
-								mCustomerId, // from parent fragment
+								sCustomerId, // from parent fragment
 								mName,       // validated
 								mSize,       // validated
 								mQuantity,   // validated
