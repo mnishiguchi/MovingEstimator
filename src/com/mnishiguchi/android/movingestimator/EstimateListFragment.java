@@ -204,7 +204,7 @@ public class EstimateListFragment extends Fragment implements
 	
 	// Long click => Contextual action for deleting room.
 	final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
-
+	
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu)
 		{
@@ -233,7 +233,7 @@ public class EstimateListFragment extends Fragment implements
 					
 					// Retrieve the selected room's position.
 					deleteEstimateItem();
-
+	
 					// Prepare the action mode to be destroyed.
 					mode.finish(); // Action picked, so close the CAB
 					return true;
@@ -242,7 +242,7 @@ public class EstimateListFragment extends Fragment implements
 					return false;
 			}
 		}
-
+	
 		@Override
 		public void onDestroyActionMode(ActionMode mode)
 		{
@@ -250,27 +250,6 @@ public class EstimateListFragment extends Fragment implements
 			mActionMode = null;
 		}
 	};
-
-	/**
-	 * Adjust the cursor position because the list header takes the position 0. 
-	 */
-	private long getRowIdAtLastClickedPosition()
-	{
-		mCursor.moveToPosition(mClickedPosition - 1);
-		return  mCursor.getLong(mCursor.getColumnIndex("_id"));
-	}
-	
-	/**
-	 * Remove the Contextual Action Bar if any.
-	 */
-	void finishCAB()
-	{
-		if (mActionMode != null) 
-		{
-			mActionMode.finish();
-			mActionMode = null;
-		}
-	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -286,41 +265,45 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Remember the selected position
 		mClickedPosition = position;
-		
 		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
-		getRowIdAtLastClickedPosition();
 		
 		// Show the Contexual Action Bar.
 		getActivity().startActionMode(actionModeCallback);
-
+	
 		return true; // Long click was consumed.
+	}
+
+	/**
+	 * Remove the Contextual Action Bar if any.
+	 */
+	void finishCAB()
+	{
+		if (mActionMode != null) 
+		{
+			mActionMode.finish();
+			mActionMode = null;
+		}
+	}
+
+	/**
+	 * Adjust the cursor position by 1 because the list header takes
+	 * the position 0 on the listView. 
+	 */
+	private long getRowIdAtLastClickedPosition()
+	{
+		mCursor.moveToPosition(mClickedPosition - 1); // Subtract one.
+		return  mCursor.getLong(mCursor.getColumnIndex("_id"));
 	}
 	
 	@SuppressLint("NewApi")
 	private void deleteEstimateItem()
 	{
-		// Get the row id at the mClickedPosition.
-		mCursor.moveToPosition(mClickedPosition);
+		// Get the row id.
 		final long rowId = getRowIdAtLastClickedPosition();
 		Log.d(TAG, "deleteEstimateItem() - rowId: " + rowId);
 		
-		// Remove the item from database.
-		boolean success = EstimateManager.get(getActivity()).deleteSingleRow(rowId);
-		Log.d(TAG, "deleteEstimateItem() - success: " + success);
-		
-		// Close database.
-		EstimateManager.get(getActivity()).closeDatabase();
-		
-		// Re-query to refresh the CursorAdapter.
-		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
-		mAdapter.changeCursor(mCursor);
-		
-		// Update the listView.
-		mAdapter.notifyDataSetChanged();
-		
-		//updateListView();
-		/*
-		 * final View view = mAdapter.getView(mClickedPosition, null, mListView);
+		// Delete animation.
+		final View view = mAdapter.getView(mClickedPosition - 1, null, mListView);
 		view.animate()
 			.setDuration(1000)
 			.alpha (0)
@@ -331,47 +314,22 @@ public class EstimateListFragment extends Fragment implements
 				{
 					// Make the list item disappear.
 					view.setAlpha(1);
-					
-
-
 				}
 			});
-		*/
-	}
-	
-	public void updateListView()
-	{
-		// TODO
 		
-		// Retrieve data from database.
+		// Delete the item from database.
+		boolean success = EstimateManager.get(getActivity()).deleteSingleRow(rowId);
+		Log.d(TAG, "deleteEstimateItem() - success: " + success);
+		
+		// Re-query to refresh the CursorAdapter.
 		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
+		mAdapter.changeCursor(mCursor);
 		
-		String[] columns = {
-				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
-				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
-				EstimateContract.EstimateTable.COLUMN_QUANTITY,
-				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
-				EstimateContract.EstimateTable.COLUMN_COMMENT,
-				EstimateContract.EstimateTable._ID
-		};
-		
-		int[] columnsLayout = {
-				R.id.textViewListItemEstimateItemName,
-				R.id.textViewListItemEstimateSize,
-				R.id.textViewListItemEstimateQuantity,
-				R.id.textViewListItemEstimateMode,
-				R.id.textViewListItemEstimateComment
-		};
-		
-		mAdapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.listitem_estimate, // layout
-				mCursor,  // cursor
-				columns, // column names
-				columnsLayout, 0); // columns layout
-				
-		mListView.setAdapter(mAdapter);
+		// Close database.
+		EstimateManager.get(getActivity()).closeDatabase();
 	}
 	
+
 	/**
 	 * If a parent activity is registered in the manifest file,
 	 * enable the Up button.
@@ -443,6 +401,10 @@ public class EstimateListFragment extends Fragment implements
 	 	}
 	}
 	
+	/**
+	 * Insert into database the specified item.
+	 * Update the listView's UI.
+	 */
 	private void addMovingItem(EstimateItem item)
 	{
 		EstimateManager manager = EstimateManager.get(getActivity());
@@ -458,7 +420,6 @@ public class EstimateListFragment extends Fragment implements
 		manager.closeDatabase();
 	}
 	
-	// TODO
 	/**
 	 * Add the selected item to the estimate.
 	 */
@@ -471,9 +432,9 @@ public class EstimateListFragment extends Fragment implements
 		private EditText mEditTextComment;
 		
 		// For validation.
-		private String name;
-		private double size;
-		private int quantity;
+		private String mName;
+		private double mSize;
+		private int mQuantity;
 		
 		// The room list for autoComplete.
 		private final String[] mMovingItems = EstimateListFragment.this.getActivity()
@@ -503,16 +464,16 @@ public class EstimateListFragment extends Fragment implements
 							
 							// Prepare the user-inputted data.
 							EstimateItem item = new EstimateItem(
-								mCustomerId,
-								name,
-								size,
-								quantity,
-								mRoom,
+								mCustomerId, // from parent fragment
+								mName,       // validated
+								mSize,       // validated
+								mQuantity,   // validated
+								mRoom,       // from parent fragment
 								mSpinnerMode.getSelectedItem().toString(),
 								mEditTextComment.getText().toString()
 							);
 							
-							// Delegate the adding to addMovingItem method.
+							// Delegate it to addMovingItem method.
 							EstimateListFragment.this.addMovingItem(item);
 							break; 
 							
@@ -542,7 +503,7 @@ public class EstimateListFragment extends Fragment implements
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
 			mSpinnerMode.setAdapter(adapter);
 			
-			// The others.
+			// The others widgets.
 			mEditTextSize = (EditText)v.findViewById(R.id.editTextItemSize);
 			mEditTextQuantity = (EditText)v.findViewById(R.id.editTextItemQuantity);
 			mEditTextComment = (EditText)v.findViewById(R.id.editTextItemComment);
@@ -556,13 +517,16 @@ public class EstimateListFragment extends Fragment implements
 				.create();
 		}
 		
+		/**
+		 * Validate the user's input and store data in instance variables.
+		 */
 		private boolean isInputValid()
 		{
-			// Check size and quantity.
+			// Check that size and quantity are in correct format.
 			try
 			{
-				size = Double.parseDouble(mEditTextSize.getText().toString());
-				quantity = Integer.parseInt(mEditTextQuantity.getText().toString());
+				this.mSize = Double.parseDouble(mEditTextSize.getText().toString());
+				this.mQuantity = Integer.parseInt(mEditTextQuantity.getText().toString());
 			}
 			catch(NumberFormatException e)
 			{
@@ -570,11 +534,10 @@ public class EstimateListFragment extends Fragment implements
 				return false;
 			}
 			
-			// Check name.
-			name = mAutoCompleteItemName.getText().toString();
-			return name.equals("");
+			// Check that name is filled out.
+			this.mName = mAutoCompleteItemName.getText().toString();
+			return !mName.equals("");
 		}
-		
 		
 		@Override
 		public void onPause()
