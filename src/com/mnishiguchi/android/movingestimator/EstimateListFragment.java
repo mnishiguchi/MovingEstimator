@@ -41,7 +41,7 @@ public class EstimateListFragment extends Fragment implements
 	// listView.
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter;
-	private Cursor mCursor;
+	//private Cursor mCursor;
 	
 	// Remember the last click.
 	private int mClickedPosition = 0; // Default => 0
@@ -108,9 +108,6 @@ public class EstimateListFragment extends Fragment implements
 		// Note: The header becomes the position zero.
 		mListView.addHeaderView(header, null, false);
 		
-		// Retrieve data from database.
-		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
-		
 		String[] columns = {
 				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
 				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
@@ -130,11 +127,15 @@ public class EstimateListFragment extends Fragment implements
 		
 		mAdapter = new SimpleCursorAdapter(getActivity(),
 				R.layout.listitem_estimate, // layout
-				mCursor,  // cursor
+				null,  // cursor
 				columns, // column names
 				columnsLayout, 0); // columns layout
 				
 		mListView.setAdapter(mAdapter);
+		
+		// Retrieve data from database.
+		EstimateManager.get(getActivity())
+			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
@@ -291,8 +292,9 @@ public class EstimateListFragment extends Fragment implements
 	 */
 	private long getRowIdAtLastClickedPosition()
 	{
-		mCursor.moveToPosition(mClickedPosition - 1); // Subtract one.
-		return  mCursor.getLong(mCursor.getColumnIndex("_id"));
+		Cursor cursor = mAdapter.getCursor();
+		cursor.moveToPosition(mClickedPosition - 1); // Subtract one.
+		return cursor.getLong(cursor.getColumnIndex("_id"));
 	}
 	
 	@SuppressLint("NewApi")
@@ -322,8 +324,8 @@ public class EstimateListFragment extends Fragment implements
 		Log.d(TAG, "deleteEstimateItem() - success: " + success);
 		
 		// Re-query to refresh the CursorAdapter.
-		mCursor = EstimateManager.get(getActivity()).retrieveDataForRoom(mRoom);
-		mAdapter.changeCursor(mCursor);
+		EstimateManager.get(getActivity())
+			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Close database.
 		EstimateManager.get(getActivity()).closeDatabase();
@@ -405,19 +407,27 @@ public class EstimateListFragment extends Fragment implements
 	 * Insert into database the specified item.
 	 * Update the listView's UI.
 	 */
-	private void addMovingItem(EstimateItem item)
+	private void addEstimateItem(EstimateItem item)
 	{
 		EstimateManager manager = EstimateManager.get(getActivity());
 		
 		// Insert this item to database.
-		manager.insertItem(item);
+		manager.insertItem(mCustomerId, item);
 		
-		//Re-query to refresh the CursorAdapter.
-		mCursor = manager.retrieveDataForRoom(mRoom);
-		mAdapter.changeCursor(mCursor);
+		// Re-query to refresh the CursorAdapter.
+		EstimateManager.get(getActivity())
+			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Close database.
 		manager.closeDatabase();
+	}
+	
+	/**
+	 * Refresh the CursorAdapter.
+	 */
+	public void refreshCursorAdapter(Cursor cursor)
+	{
+		mAdapter.changeCursor(cursor);
 	}
 	
 	/**
@@ -474,7 +484,7 @@ public class EstimateListFragment extends Fragment implements
 							);
 							
 							// Delegate it to addMovingItem method.
-							EstimateListFragment.this.addMovingItem(item);
+							EstimateListFragment.this.addEstimateItem(item);
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 

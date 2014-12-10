@@ -11,13 +11,16 @@
 	</ListView>
 	
 	<!-- EmptyList -->
-	<TextView
-		android:id="@+id/estimatelist_empty"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:padding="4dp"
-		android:text="@string/estimatelist_empty"
-		android:textSize="16sp" />
+	<RelativeLayout android:id="@+id/estimatelist_empty"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" >
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:padding="4dp"
+			android:text="@string/estimatelist_empty"
+			android:textSize="16sp" />
+	</RelativeLayout>
 	
 </LinearLayout>

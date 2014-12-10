@@ -1,12 +1,13 @@
 package com.mnishiguchi.android.movingestimator;
 
-import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 
 /**
  * A singleton class.
@@ -20,7 +21,7 @@ class EstimateManager
 	
 	private Context mAppContext;
 	private EstimateDatabaseHelper mDbHelper;
-	private SharedPreferences mPrefs;
+	//private SharedPreferences mPrefs;
 	//private long mCurrentId;
 	
 	/**
@@ -52,9 +53,10 @@ class EstimateManager
 		return sEstimateManager;
 	}
 	
-	public long insertItem(EstimateItem item)
+	public long insertItem(String customerId, EstimateItem item)
 	{
 		ContentValues cv = new ContentValues();
+		cv.put(EstimateTable.COLUMN_CUSTOMER_ID, customerId);
 		cv.put(EstimateTable.COLUMN_ITEM_NAME, item.name);
 		cv.put(EstimateTable.COLUMN_ITEM_SIZE, item.size);
 		cv.put(EstimateTable.COLUMN_QUANTITY, item.quantity);
@@ -67,7 +69,6 @@ class EstimateManager
 				EstimateTable.TABLE_NAME, null, cv);
 	}
 	
-	
 	public boolean deleteSingleRow(long rowId) 
 	{
 		Log.d(TAG, "deleteSingleRow() - rowId: " + rowId);
@@ -77,34 +78,50 @@ class EstimateManager
 		String[] whereArgs = new String[] {String.valueOf(rowId)};
 		
 		return mDbHelper.getWritableDatabase().delete(
-				EstimateContract.EstimateTable.TABLE_NAME,
+				EstimateTable.TABLE_NAME,
 				whereClause, whereArgs) > 0;
 	}
 	
-	
 	/**
-	 * A helper method to execute a standardized query.
-	 * @param db
-	 * @return a Cursor object associated with the specified database
+	 * Retrieve estimate data for the specified room of the specified customer.
+	 * Update the fragment's listView after completing the loading.
 	 */
-	Cursor retrieveDataForRoom(String room)
+	void retrieveDataForRoom(String customerId, String room,
+			final EstimateListFragment fragment)
 	{
-		String[] columns = {
-				EstimateContract.EstimateTable._ID,
-				EstimateContract.EstimateTable.COLUMN_ITEM_NAME,
-				EstimateContract.EstimateTable.COLUMN_ITEM_SIZE,
-				EstimateContract.EstimateTable.COLUMN_QUANTITY,
-				EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE,
-				EstimateContract.EstimateTable.COLUMN_COMMENT,
-		};
+		// Prepare the params.
+		String[] params = {customerId, room};
 		
-		String whereClause = EstimateContract.EstimateTable.COLUMN_ROOM + " = ?";
-		String[] whereArgs = new String[] {room};
-		String orderBy = columns[4] + " ASC";
-		
-		return mDbHelper.getWritableDatabase().query(
-				EstimateContract.EstimateTable.TABLE_NAME,
-				columns, whereClause, whereArgs, null, null, orderBy);
+		new AsyncTask<String[], Void, Cursor>() {
+
+			@Override
+			protected Cursor doInBackground(String[]... params)
+			{
+				String[] columns = {
+						EstimateTable._ID,
+						EstimateTable.COLUMN_ITEM_NAME,
+						EstimateTable.COLUMN_ITEM_SIZE,
+						EstimateTable.COLUMN_QUANTITY,
+						EstimateTable.COLUMN_TRANSPORT_MODE,
+						EstimateTable.COLUMN_COMMENT,
+				};
+				String whereClause =
+						EstimateTable.COLUMN_CUSTOMER_ID + " = ? AND " +
+						EstimateTable.COLUMN_ROOM + " = ?";
+				String[] whereArgs = params[0];
+				String orderBy = columns[4] + " ASC";
+						
+				return mDbHelper.getWritableDatabase().query(
+						EstimateTable.TABLE_NAME,
+						columns, whereClause, whereArgs, null, null, orderBy);
+			}
+			
+			protected void onPostExecute(Cursor result)
+			{
+				fragment.refreshCursorAdapter(result);
+			}
+			
+		}.execute(params);
 	}
 	
 	public void closeDatabase()
