@@ -134,7 +134,7 @@ public class EstimateListFragment extends Fragment implements
 		mListView.setAdapter(mAdapter);
 		
 		// Retrieve data from database.
-		EstimateManager.get(getActivity())
+		EstimateDataManager.get(getActivity())
 			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Respond to short clicks for proceeding to estimate.
@@ -320,15 +320,15 @@ public class EstimateListFragment extends Fragment implements
 			});
 		
 		// Delete the item from database.
-		boolean success = EstimateManager.get(getActivity()).deleteSingleRow(rowId);
+		boolean success = EstimateDataManager.get(getActivity()).deleteSingleRow(rowId);
 		Log.d(TAG, "deleteEstimateItem() - success: " + success);
 		
 		// Re-query to refresh the CursorAdapter.
-		EstimateManager.get(getActivity())
+		EstimateDataManager.get(getActivity())
 			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Close database.
-		EstimateManager.get(getActivity()).closeDatabase();
+		EstimateDataManager.get(getActivity()).closeDatabase();
 	}
 	
 
@@ -409,13 +409,13 @@ public class EstimateListFragment extends Fragment implements
 	 */
 	private void addEstimateItem(EstimateItem item)
 	{
-		EstimateManager manager = EstimateManager.get(getActivity());
+		EstimateDataManager manager = EstimateDataManager.get(getActivity());
 		
 		// Insert this item to database.
-		manager.insertItem(mCustomerId, item);
+		manager.insertItem(item);
 		
 		// Re-query to refresh the CursorAdapter.
-		EstimateManager.get(getActivity())
+		EstimateDataManager.get(getActivity())
 			.retrieveDataForRoom(mCustomerId, mRoom, this);
 		
 		// Close database.

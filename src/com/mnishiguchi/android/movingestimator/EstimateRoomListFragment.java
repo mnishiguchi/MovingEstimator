@@ -320,8 +320,10 @@ public class EstimateRoomListFragment extends Fragment implements
 	@SuppressLint("NewApi")
 	private void deleteRoom()
 	{
-		final String clickedIitem = (String)mAdapter.getItem(mClickedPosition);
-		
+		// The clicked room.
+		final String room = (String)mAdapter.getItem(mClickedPosition);
+
+		// Delete animation.
 		final View view = mAdapter.getView(mClickedPosition, null, mListView);
 		view.animate()
 			.setDuration(1000)
@@ -332,18 +334,22 @@ public class EstimateRoomListFragment extends Fragment implements
 				public void run ()
 				{
 					// Remove the data from model layer.
-					mCustomer.getRooms().remove(clickedIitem);
+					mCustomer.getRooms().remove(room);
 					
 					// Update the listView.
 					mAdapter.notifyDataSetChanged();
 					
 					// Make the list item disappear.
 					view.setAlpha(1);
-					
-					// Save the updated entire customers data to disk.
-					FileCabinet.get(getActivity()).saveCustomers();
 				}
 			});
+		
+		// Save the updated entire customers data to disk.
+		FileCabinet.get(getActivity()).saveCustomers();
+		
+		// Delete this room's estimate data from database.
+		EstimateDataManager.get(getActivity()).deleteRoom(mCustomer.getId(), room);
+		
 		clearListSelection();
 	}
 	

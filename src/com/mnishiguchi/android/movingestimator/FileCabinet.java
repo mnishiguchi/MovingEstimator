@@ -116,7 +116,10 @@ class FileCabinet
 			}
 		}
 		
-		// Delete the specified customer from the list.
+		// Delete this customer's estimate data from database.
+		EstimateDataManager.get(mAppContext).deleteCustomer(customer.getId());
+		
+		// Delete this customer from the list.
 		if (mCustomers.remove(customer))
 		{
 			Utils.showToast(mAppContext, customer.toString() + " deleted");
