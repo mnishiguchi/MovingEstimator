@@ -90,7 +90,8 @@ public class CustomerDetailFragment extends Fragment
 		}
 		catch (ClassCastException e)
 		{
-			throw new ClassCastException(activity.toString() + " must implement CrimeFragment.Callbacks");
+			throw new ClassCastException(activity.toString() +
+					" must implement " + getClass().getSimpleName() + ".Callbacks");
 		}
 	}
 	
@@ -139,6 +140,9 @@ public class CustomerDetailFragment extends Fragment
 
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
+		
+		// Remember the customer globally.
+		Customer.setCurrentCustomer(mCustomer);
 		
 		Log.d(TAG, "onCreate() - mCustomer: " + mCustomer.getLastName());
 		
@@ -691,7 +695,6 @@ public class CustomerDetailFragment extends Fragment
 			case R.id.optionsmenu_estimate:
 				
 				i = new Intent(getActivity(), EstimateRoomListActivity.class);
-				i.putExtra(EstimateRoomListFragment.EXTRA_CUSTOMER_ID_ROOM, mCustomer.getId());
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				

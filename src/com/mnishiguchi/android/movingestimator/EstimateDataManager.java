@@ -1,7 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.util.concurrent.ExecutionException;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -57,7 +55,7 @@ class EstimateDataManager
 	 * Insert the passed-in estimate item into the database.
 	 * @return the row ID of the newly inserted row, or -1 if an error occurred
 	 */
-	public long insertItem(EstimateItem item)
+	public void insertItem(EstimateItem item)
 	{
 		// Configure the task.
 		AsyncTask<EstimateItem,Void,Long> insertTask =
@@ -81,25 +79,18 @@ class EstimateDataManager
 				return mDbHelper.getWritableDatabase().insert(
 						EstimateTable.TABLE_NAME, null, cv);
 			}
+			protected void onPostExecute(boolean success)
+			{
+				Log.d(TAG, "success=>" + success);
+				if (!success)
+				{
+					Log.e(TAG, "Error inserting an estimate item - ");
+				}
+			}
 		};
+		
 		// Execute the task.
 		insertTask.execute(item);
-		
-		// Get the result and return it.
-		long rowId = -1;
-		try
-		{
-			rowId = insertTask.get();
-		}
-		catch (InterruptedException e)
-		{
-			Log.e(TAG, "insertItem() - ", e);
-		}
-		catch (ExecutionException e)
-		{
-			Log.e(TAG, "insertItem() - ", e);
-		}
-		return rowId;
 	}
 	
 	/**
@@ -156,7 +147,7 @@ class EstimateDataManager
 	 * Retrieve estimate data for the specified room of the specified customer.
 	 * Update the fragment's listView after completing the loading.
 	 */
-	Cursor retrieveDataForRoom(String customerId, String room,
+	void retrieveDataForRoom(String customerId, String room,
 			final EstimateListFragment fragment)
 	{
 		// Prepare the params.
@@ -193,24 +184,9 @@ class EstimateDataManager
 				fragment.refreshCursorAdapter(result);
 			}
 		};
+		
 		// Execute the task.
 		queryTask.execute(params);
-		
-		// Get the result and return it.
-		Cursor cursor = null;
-		try
-		{
-			cursor =  (Cursor)queryTask.get();
-		}
-		catch (InterruptedException e)
-		{
-			Log.e(TAG, "retrieveDataForRoom() - ", e);
-		}
-		catch (ExecutionException e)
-		{
-			Log.e(TAG, "retrieveDataForRoom() - ", e);
-		}
-		return cursor;
 	}
 	
 	/**

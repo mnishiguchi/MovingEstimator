@@ -205,6 +205,9 @@ public class CustomerListFragment extends ListFragment
 	{
 		super.onResume();
 		
+		// Clear the current customer.
+		Customer.setCurrentCustomer(null);
+		
 		// Set the action-bar title.
 		getActivity().setTitle(R.string.actionbar_title_list);
 		

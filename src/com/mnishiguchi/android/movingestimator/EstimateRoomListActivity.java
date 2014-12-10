@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,15 +10,19 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 {
 	private static final String TAG = "movingestimator.RoomListActivity";
 	
-	String mCustomerId;
+	// Remember the current customer id as a static field.
+	private String mCurrentCustomerId;
 	
 	@Override
 	protected Fragment createFragment()
 	{
-		// Retrieve the customerId from intent.
-		// Return an instance of the fragment that the activity is hosting. 
-		mCustomerId = getIntent().getStringExtra(EstimateRoomListFragment.EXTRA_CUSTOMER_ID_ROOM);
-		return EstimateRoomListFragment.newInstance(mCustomerId);
+		// Get the customerId from intent.
+		//sCurrentCustomerId = getIntent().getStringExtra(EstimateRoomListFragment.EXTRA_CUSTOMER_ID_ROOM);
+		
+		mCurrentCustomerId = Customer.getCurrentCustomer().getId();
+		Log.d(TAG, "mCustomerId: " + mCurrentCustomerId);
+		
+		return new EstimateRoomListFragment();
 	}
 
 	@Override
@@ -29,6 +32,13 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 		return R.layout.activity_masterdetail_2; 
 	}
 
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		mCurrentCustomerId = Customer.getCurrentCustomer().getId();
+	}
+	
 	@Override
 	public void onListItemClicked(String room)
 	{
@@ -50,7 +60,7 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 			// Add a new detailFragment for the passed-in customer.
 			if (room != null)
 			{
-				Fragment newDetail = EstimateListFragment.newInstance(mCustomerId, room);
+				Fragment newDetail = EstimateListFragment.newInstance(mCurrentCustomerId, room);
 				ft.add(R.id.detailFragmentContainer, newDetail);
 			}
 			
@@ -70,8 +80,16 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 	@Override
 	public void onListItemDeleted(String room)
 	{
-		// TODO Auto-generated method stub
+		// Clear the detailFragmentContainer.
+		removeEstimateListFragment();
 		
+		EstimateRoomListFragment listFragment = getListFragment();
+		
+		// Clear the selection.
+		listFragment.clearListSelection();
+		
+		// Update the listView
+		listFragment.updateListView();
 	}
 
 	@Override
@@ -86,5 +104,26 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void removeEstimateListFragment()
+	{
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		
+		Fragment oldDetail = fm.findFragmentById(R.id.detailFragmentContainer);
+		
+		if (oldDetail != null)
+		{
+			ft.remove(oldDetail);
+		}
+
+		ft.commit();
+	}
+	
+	private EstimateRoomListFragment getListFragment()
+	{
+		FragmentManager fm = getSupportFragmentManager();
+		return (EstimateRoomListFragment)fm.findFragmentById(R.id.fragmentContainer);
 	}
 }

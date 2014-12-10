@@ -30,8 +30,6 @@ public class EstimateRoomListFragment extends Fragment implements
 	private static final String TAG = "movingestimator.EstimateRoomListFragment";
 	
 	private static final String DIALOG_ADD_ROOM = "addRoomDialog";
-	
-	public static final String EXTRA_CUSTOMER_ID_ROOM = "com.mnishiguchi.android.movingestimator.customer_id_room";
 
 	// Reference to the customer stored in FileCabinet.
 	private Customer mCustomer;
@@ -72,8 +70,8 @@ public class EstimateRoomListFragment extends Fragment implements
 		}
 		catch (ClassCastException e)
 		{
-			throw new ClassCastException(activity.toString()
-					+ " must implement CustomerListFragment.Callbacks");
+			throw new ClassCastException(activity.toString() +
+					" must implement " + getClass().getSimpleName() + ".Callbacks");
 		}
 	}
 		
@@ -84,28 +82,6 @@ public class EstimateRoomListFragment extends Fragment implements
 		mCallbacks = null;
 	}
 	
-	
-	/**
-	 * Create a new instance associated with the passed-in id.
-	 */
-	public static EstimateRoomListFragment newInstance(String customerId)
-	{
-		// Set the customer's id on the arguments.
-		Bundle args = new Bundle();
-		args.putString(EXTRA_CUSTOMER_ID_ROOM, customerId);
-		
-		// Instantiate the fragment with the arguments.
-		EstimateRoomListFragment fragment = new EstimateRoomListFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
-	
-	/**
-	 * Private constructor so that nobody accidentally would instantiate.
-	 */
-	private EstimateRoomListFragment()
-	{}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -113,11 +89,9 @@ public class EstimateRoomListFragment extends Fragment implements
 		
 		super.onCreate(savedInstanceState);
 		
-		// Retrieve the passed-in customerId.
-		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID_ROOM);
-		
 		// Get the customer with that id.
-		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
+		mCustomer = Customer.getCurrentCustomer();
+		//mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 	
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
 		setHasOptionsMenu(true);
@@ -321,28 +295,13 @@ public class EstimateRoomListFragment extends Fragment implements
 	private void deleteRoom()
 	{
 		// The clicked room.
-		final String room = (String)mAdapter.getItem(mClickedPosition);
+		String room = (String)mAdapter.getItem(mClickedPosition);
 
-		// Delete animation.
-		final View view = mAdapter.getView(mClickedPosition, null, mListView);
-		view.animate()
-			.setDuration(1000)
-			.alpha (0)
-			.withEndAction(new Runnable() {
-				
-				@Override
-				public void run ()
-				{
-					// Remove the data from model layer.
-					mCustomer.getRooms().remove(room);
-					
-					// Update the listView.
-					mAdapter.notifyDataSetChanged();
-					
-					// Make the list item disappear.
-					view.setAlpha(1);
-				}
-			});
+		// Remove the data from model layer.
+		mCustomer.getRooms().remove(room);
+
+		// Update the listView.
+		mAdapter.notifyDataSetChanged();
 		
 		// Save the updated entire customers data to disk.
 		FileCabinet.get(getActivity()).saveCustomers();
@@ -351,6 +310,9 @@ public class EstimateRoomListFragment extends Fragment implements
 		EstimateDataManager.get(getActivity()).deleteRoom(mCustomer.getId(), room);
 		
 		clearListSelection();
+		
+		// Notyfy the hosting activity.
+		mCallbacks.onListItemDeleted(room);
 	}
 	
 	/* Options Menu on the ActionBar.
@@ -402,6 +364,8 @@ public class EstimateRoomListFragment extends Fragment implements
 	 */
 	private void addRoom(String room)
 	{
+		Log.d(TAG, "addRoom -" + room);
+		
 		// Access the customer's room list and add a new room.
 		mCustomer.getRooms().add(room);
 		
@@ -422,6 +386,14 @@ public class EstimateRoomListFragment extends Fragment implements
 		int lastIndex = mAdapter.getCount() - 1;
 		mListView.setItemChecked(lastIndex, true);
 		getActivity().getActionBar().setSubtitle(mAdapter.getItem(lastIndex));
+	}
+	
+	/**
+	 * Update the listView's UI based on the updated list of the adapter.
+	 */
+	void updateListView()
+	{
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	/**

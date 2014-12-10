@@ -1,6 +1,9 @@
 package com.mnishiguchi.android.movingestimator;
 
+import com.mnishiguchi.android.movingestimator.CustomerDetailFragment.DetailCallbacks;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,7 +31,7 @@ import android.widget.Spinner;
 public class EstimateListFragment extends Fragment implements
 	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-	private static final String TAG = "movingestimator.EstimateTableFragment";
+	private static final String TAG = "movingestimator.EstimateListFragment";
 	
 	private static final String DIALOG_ADD_ITEM = "addItemDialog";
 	
@@ -54,6 +57,9 @@ public class EstimateListFragment extends Fragment implements
 	 */
 	public static EstimateListFragment newInstance(String customerId, String room)
 	{
+		Log.d(TAG, "newInstance() - customerId=>" + customerId +
+				" - room=>" + room);
+		
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
 		args.putString(EXTRA_CUSTOMER_ID, customerId);

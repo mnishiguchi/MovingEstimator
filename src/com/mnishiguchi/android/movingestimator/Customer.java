@@ -15,6 +15,19 @@ public class Customer
 {
 	private static String TAG = "movingestimator.Customer";
 	
+	// Remember the current customer globally.
+	private static Customer sCurrentCustomer;
+	static Customer getCurrentCustomer()
+	{
+		return sCurrentCustomer;
+	}
+	
+	static void setCurrentCustomer(Customer customer)
+	{
+		Log.d(TAG, "setCurrentCustomer()=>" + customer);
+		sCurrentCustomer = customer;
+	}
+	
 	// JSON keys
 	private static final String JSON_ID = "id";
 	private static final String JSON_REF_NUMBER = "refNumber";
