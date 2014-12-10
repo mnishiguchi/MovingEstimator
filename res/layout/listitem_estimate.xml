@@ -10,7 +10,7 @@
 	android:background="@drawable/background_activated">
  
 	<TextView
-		android:id="@+id/TextViewListItemEstimateItemName"
+		android:id="@+id/textViewListItemEstimateItemName"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Name"
@@ -19,7 +19,7 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateSize"
+		android:id="@+id/textViewListItemEstimateSize"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Size"
@@ -28,7 +28,7 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateQuantity"
+		android:id="@+id/textViewListItemEstimateQuantity"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Qty"
@@ -37,7 +37,7 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateMode"
+		android:id="@+id/textViewListItemEstimateMode"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Mode"
@@ -46,7 +46,7 @@
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/TextViewListItemEstimateComment"
+		android:id="@+id/textViewListItemEstimateComment"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Comment"
