@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ActionMode;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 
@@ -29,7 +31,8 @@ public class EstimateOverviewFragment extends Fragment implements
 	// listView.
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter;
-	private String mMode;
+	private TextView mFooterText;
+	private Spinner mSpinner;
 	
 	// Remember the last click.
 	private int mClickedPosition = 0; // Default => 0
@@ -62,10 +65,15 @@ public class EstimateOverviewFragment extends Fragment implements
 		mListView = (ListView)v.findViewById(R.id.listViewEstimateOverview);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		mListView.setEmptyView(v.findViewById(R.id.estimate_overview_empty));
-		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate_overview, mListView, false);
 		
+		// Header and footer
 		// Note: The header becomes the position zero.
+		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate_overview, mListView, false);
 		mListView.addHeaderView(header, null, false);
+		ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.footer_estimate_overview, mListView, false);
+		mListView.addFooterView(footer, null, false);
+		
+		mFooterText = (TextView)footer.findViewById(R.id.textViewFooterEstimateOverview);
 		
 		String[] columns = {
 				EstimateTable.COLUMN_ITEM_NAME,
@@ -87,17 +95,13 @@ public class EstimateOverviewFragment extends Fragment implements
 		};
 		
 		mAdapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.listitem_estimate_overview, // layout
+				R.layout.listitem_estimate_overview, // layout file
 				null,  // cursor
 				columns, // column names
 				columnsLayout, 0); // columns layout
 				
 		mListView.setAdapter(mAdapter);
 		
-		// Retrieve data from database.
-		EstimateDataManager.get(getActivity())
-			.retrieveDataForMode(Customer.getCurrentCustomer().getId(), mMode, this);
-		EstimateDataManager.get(getActivity()).closeDatabase();
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
@@ -105,7 +109,7 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		//--- Spinner ---
 		
-		final Spinner spinner = (Spinner)v.findViewById(R.id.spinnerEstimateOverview);
+		mSpinner = (Spinner)v.findViewById(R.id.spinnerEstimateOverview);
 		
 		// Create an ArrayAdapter using the string array.
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -118,16 +122,25 @@ public class EstimateOverviewFragment extends Fragment implements
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
 		
 		// Apply the adapter to the spinner
-		spinner.setAdapter(adapter);
+		mSpinner.setAdapter(adapter);
 		
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+		// Retrieve data from database for spinner.
+		//EstimateDataManager.get(getActivity()).retrieveModesForCustomer(
+		//		Customer.getCurrentCustomer().getId(), EstimateOverviewFragment.this);
+		//EstimateDataManager.get(getActivity()).closeDatabase();
+		
+		mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				//TODO
-				// do smething.
+				String mode = (String)parent.getItemAtPosition(position);
+				
+				// Retrieve data from database.
+				EstimateDataManager.get(getActivity()).retrieveDataForMode(
+						Customer.getCurrentCustomer().getId(), mode, EstimateOverviewFragment.this);
+				EstimateDataManager.get(getActivity()).closeDatabase();
 			}
 
 			@Override
@@ -192,14 +205,47 @@ public class EstimateOverviewFragment extends Fragment implements
 	 	}
 	}
 	
+	public void refreshSpinner(Cursor cursor)
+	{
+		Log.d(TAG, "refreshSpinner()");
+		String[] columns = {EstimateTable.COLUMN_TRANSPORT_MODE};
+		int[] to = { android.R.id.text1 };
+		
+		mSpinner.setAdapter( new SimpleCursorAdapter(
+				getActivity(),
+				android.R.layout.simple_spinner_item, // layout file
+				cursor,  // cursor
+				columns, // column names
+				to, 0)); // columns layout
+	}
+	
 	/**
 	 * Refresh the CursorAdapter.
 	 */
 	public void refreshCursorAdapter(Cursor cursor)
 	{
+		Log.d(TAG, "refreshCursorAdapter()");
 		mAdapter.changeCursor(cursor);
+		
+		mFooterText.setText("" + getVolume(cursor));
 	}
 	
+
+	private double getVolume(Cursor cursor)
+	{
+		double volume = 0;
+		
+		cursor.moveToFirst();
+		
+		while (!cursor.isAfterLast())
+		{
+			volume += cursor.getDouble(4);
+			
+			cursor.moveToNext();
+		}
+		
+		return volume;
+	}
 
 	/**
 	 * If a parent activity is registered in the manifest file,

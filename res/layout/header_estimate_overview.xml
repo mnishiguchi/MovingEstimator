@@ -34,14 +34,14 @@
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Subtotal"
-		android:layout_weight="1"
+		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Mode"
+		android:text="Room"
 		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="16sp">

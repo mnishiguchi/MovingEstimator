@@ -144,7 +144,48 @@ class EstimateDataManager
 				whereClause, whereArgs) > 0;
 	}
 	
-	// TODO
+	void retrieveModesForCustomer(String customerId, final EstimateOverviewFragment fragment)
+	{
+		// Prepare the params.
+		String[] params = {customerId};
+		
+		// Validation
+		for (String s : params)
+		{
+			if (null == s)
+			{
+				Log.e(TAG, "retrieveDataForMode() - params[0]=>" + params[0]);
+				return;
+			}
+		}
+		
+		// Configure the task.
+		new AsyncTask<String[], Void, Cursor>() {
+
+			@Override
+			protected Cursor doInBackground(String[]... params)
+			{
+				String[] columns = {
+						EstimateTable._ID,
+						EstimateTable.COLUMN_TRANSPORT_MODE
+				};
+				String whereClause = EstimateTable.COLUMN_CUSTOMER_ID + " = ?";
+				String[] whereArgs = params[0];
+				String orderBy = columns[0] + " ASC";
+						
+				return mDbHelper.getWritableDatabase().query(
+						EstimateTable.TABLE_NAME,
+						columns, whereClause, whereArgs, null, null, orderBy);
+			}
+			
+			protected void onPostExecute(Cursor result)
+			{
+				fragment.refreshSpinner(result);
+			}
+		
+		}.execute(params); // Execute the task.
+	}
+
 	/**
 	 * Retrieve estimate data for the specified mode.
 	 * Update the fragment's listView after completing the loading.
@@ -154,6 +195,7 @@ class EstimateDataManager
 		// Prepare the params.
 		String[] params = {customerId, mode};
 		
+		// Validation
 		for (String s : params)
 		{
 			if (null == s)
@@ -208,6 +250,7 @@ class EstimateDataManager
 		// Prepare the params.
 		String[] params = {customerId, room};
 		
+		// Validation
 		for (String s : params)
 		{
 			if (null == s)
@@ -229,6 +272,7 @@ class EstimateDataManager
 						EstimateTable.COLUMN_ITEM_NAME,
 						EstimateTable.COLUMN_ITEM_SIZE,
 						EstimateTable.COLUMN_QUANTITY,
+						EstimateTable.COLUMN_SUBTOTAL,
 						EstimateTable.COLUMN_TRANSPORT_MODE,
 						EstimateTable.COLUMN_COMMENT,
 				};
@@ -236,7 +280,7 @@ class EstimateDataManager
 						EstimateTable.COLUMN_CUSTOMER_ID + " = ? AND " +
 						EstimateTable.COLUMN_ROOM + " = ?";
 				String[] whereArgs = params[0];
-				String orderBy = columns[4] + " ASC";
+				String orderBy = columns[5] + " ASC";
 						
 				return mDbHelper.getWritableDatabase().query(
 						EstimateTable.TABLE_NAME,

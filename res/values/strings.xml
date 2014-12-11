@@ -116,5 +116,8 @@
 		<item>TV</item>
 		<item>Sofa</item>
 	</string-array>
+		<string name="select_one">Select one</string>
+		<string name="cu_ft">cu ft</string>
+		<string name="total_volume_">TOTAL VOLUME:</string>
 	
 </resources>

@@ -106,15 +106,17 @@ public class EstimateListFragment extends Fragment implements
 				EstimateTable.COLUMN_ITEM_NAME,
 				EstimateTable.COLUMN_ITEM_SIZE,
 				EstimateTable.COLUMN_QUANTITY,
+				EstimateTable.COLUMN_SUBTOTAL,
 				EstimateTable.COLUMN_TRANSPORT_MODE,
 				EstimateTable._ID,
-				EstimateTable.COLUMN_COMMENT // TODO
+				EstimateTable.COLUMN_COMMENT
 		};
 		
 		int[] columnsLayout = {
-				R.id.textViewListItemEstimateItemName,
+				R.id.textViewListItemEstimateName,
 				R.id.textViewListItemEstimateSize,
 				R.id.textViewListItemEstimateQuantity,
+				R.id.textViewListItemEstimateSubtotal,
 				R.id.textViewListItemEstimateMode,
 				R.id.textViewListItemEstimateComment
 		};

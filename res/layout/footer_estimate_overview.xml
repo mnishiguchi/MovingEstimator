@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:paddingLeft="16dp"
-	android:paddingRight="16dp"
-	android:paddingTop="16dp"
-	android:paddingBottom="16dp"
-	android:background="@drawable/background_activated">
- 
+	android:layout_height="match_parent"
+	android:background="@color/LightBlue"
+	android:padding="8dp"
+	android:orientation="horizontal" >
+	
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewName"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Name"
 		android:layout_weight="3"
+		android:text="@string/total_volume_"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewSize"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Size"
 		android:layout_weight="1"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewQuantity"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Qty"
 		android:layout_weight="1"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewSubtotal"
+		android:id="@+id/textViewFooterEstimateOverview"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Subtotal"
 		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewRoom"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Room"
 		android:layout_weight="2"
-		android:gravity="center"
+		android:text="@string/cu_ft"
+		android:gravity="left"
 		android:textSize="16sp">
 	</TextView>
 	<TextView
-		android:id="@+id/textViewListItemEstimateOverviewComment"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Comment"
 		android:layout_weight="3"
 		android:gravity="center"
 		android:textSize="16sp">

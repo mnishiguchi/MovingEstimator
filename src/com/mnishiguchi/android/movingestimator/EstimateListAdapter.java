@@ -64,7 +64,7 @@ public class EstimateListAdapter extends ArrayAdapter<EstimateItem>
 				
 			// Get references to the TextViews and store them in a VewHolder object.
 			holder = new ViewHolder();
-			holder.name = (TextView)convertView.findViewById(R.id.textViewListItemEstimateItemName);
+			holder.name = (TextView)convertView.findViewById(R.id.textViewListItemEstimateName);
 			holder.size = (TextView)convertView.findViewById(R.id.textViewListItemEstimateSize);
 			holder.quantity = (TextView)convertView.findViewById(R.id.textViewListItemEstimateQuantity);
 			holder.mode = (TextView)convertView.findViewById(R.id.textViewListItemEstimateMode);

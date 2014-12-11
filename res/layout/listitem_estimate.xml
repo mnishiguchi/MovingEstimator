@@ -10,7 +10,7 @@
 	android:background="@drawable/background_activated">
  
 	<TextView
-		android:id="@+id/textViewListItemEstimateItemName"
+		android:id="@+id/textViewListItemEstimateName"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:text="Name"
@@ -33,6 +33,15 @@
 		android:layout_height="wrap_content"
 		android:text="Qty"
 		android:layout_weight="1"
+		android:gravity="center"
+		android:textSize="16sp">
+	</TextView>
+	<TextView
+		android:id="@+id/textViewListItemEstimateSubtotal"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:text="Qty"
+		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="16sp">
 	</TextView>

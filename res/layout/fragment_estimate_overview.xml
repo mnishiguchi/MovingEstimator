@@ -4,18 +4,17 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical" >
 
-	<TextView
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:padding="10dp"
-		android:text="some_text"
-		android:textSize="24sp" />
+		android:padding="8dp"
+		android:orientation="horizontal" >
+		<Spinner
+			android:id="@+id/spinnerEstimateOverview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
 	
-	<Spinner
-		android:id="@+id/spinnerEstimateOverview"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
-
 	<ListView
 		android:id="@+id/listViewEstimateOverview"
 		android:layout_height="wrap_content"
