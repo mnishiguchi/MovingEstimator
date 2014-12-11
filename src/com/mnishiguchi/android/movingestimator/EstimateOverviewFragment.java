@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -29,13 +30,16 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 public class EstimateOverviewFragment extends Fragment implements
-	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+	AdapterView.OnItemClickListener
 {
 	private static final String TAG = "movingestimator.EstimateOverviewFragment";
+	public static final String EXTRA_MODE = "com.mnishiguchi.android.movingestimator.mode";
 	
 	// listView.
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter;
+	private String mMode;
+	
 	
 	// Remember the last click.
 	private int mClickedPosition = 0; // Default => 0
@@ -43,13 +47,32 @@ public class EstimateOverviewFragment extends Fragment implements
 	// Remember the ActionMode.
 	private ActionMode mActionMode;
 	
+	/**
+	 * Creates a new fragment instance.
+	 */
+	public static EstimateOverviewFragment newInstance(String mode)
+	{
+		Log.d(TAG, "newInstance() - mode=>" + mode);
+		
+		// Prepare arguments.
+		Bundle args = new Bundle();  // Contains key-value pairs.
+		args.putString(EXTRA_MODE, mode);
+		
+		// Creates a fragment instance and sets its arguments.
+		EstimateOverviewFragment fragment = new EstimateOverviewFragment();
+		fragment.setArguments(args);
+		
+		return fragment;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
-		Log.d(TAG, "onCreate() - customerId=>" + Customer.getCurrentCustomer().getId());
+		
+		// Retrieve the arguments.
+		mMode = getArguments().getString(EXTRA_MODE);
+		Log.d(TAG, "onCreate() - mRoom=>" + mMode);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
@@ -70,8 +93,8 @@ public class EstimateOverviewFragment extends Fragment implements
 		// Configure the listView.
 		mListView = (ListView)v.findViewById(R.id.listViewEstimateOverview);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		mListView.setEmptyView(v.findViewById(R.id.estimatelist_empty));
-		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate, mListView, false);
+		mListView.setEmptyView(v.findViewById(R.id.estimate_overview_empty));
+		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate_overview, mListView, false);
 		
 		// Note: The header becomes the position zero.
 		mListView.addHeaderView(header, null, false);
@@ -80,8 +103,8 @@ public class EstimateOverviewFragment extends Fragment implements
 				EstimateTable.COLUMN_ITEM_NAME,
 				EstimateTable.COLUMN_ITEM_SIZE,
 				EstimateTable.COLUMN_QUANTITY,
-				"Subtotal",
-				EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateTable.COLUMN_SUBTOTAL,
+				EstimateTable.COLUMN_ROOM,
 				EstimateTable.COLUMN_COMMENT,
 				EstimateTable._ID,
 		};
@@ -91,7 +114,7 @@ public class EstimateOverviewFragment extends Fragment implements
 				R.id.textViewListItemEstimateOverviewSize,
 				R.id.textViewListItemEstimateOverviewQuantity,
 				R.id.textViewListItemEstimateOverviewSubtotal,
-				R.id.textViewListItemEstimateOverviewMode,
+				R.id.textViewListItemEstimateOverviewRoom,
 				R.id.textViewListItemEstimateOverviewComment
 		};
 		
@@ -105,30 +128,14 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		// Retrieve data from database.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForCustomer(Customer.getCurrentCustomer().getId(), this);
+			.retrieveDataForMode(Customer.getCurrentCustomer().getId(), mMode, this);
 		EstimateDataManager.get(getActivity()).closeDatabase();
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
 		
-		// Respond to long clicks for contexual action.
-		mListView.setOnItemLongClickListener(this);
-		
 		// Return the root view.
 		return v;
-	}
-	
-	/*
-	 * Remove the CAB when the pager is swiped.
-	 */
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser)
-	{
-		super.setUserVisibleHint(isVisibleToUser);
-		if (!isVisibleToUser)
-		{
-			finishCAB();
-		}
 	}
 	
 	@Override
@@ -142,77 +149,6 @@ public class EstimateOverviewFragment extends Fragment implements
 		getRowIdAtLastClickedPosition();
 	}
 	
-	// Long click => Contextual action for deleting room.
-	final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
-	
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu)
-		{
-			// Remember reference to action mode.
-			mActionMode = mode;
-		
-			// Inflate the menu using a special inflater defined in the ActionMode class.
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_estimate_overview, menu);
-			return true;
-		}
-				
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-		{
-			mode.setTitle("Deleting the checked item");
-			return false;
-		}
-		
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item)
-		{
-			switch (item.getItemId())
-			{
-				case R.id.contextmenu_delete_estimate_overview: // Delete menu item.
-					
-					// Retrieve the selected room's position.
-					deleteEstimateItem();
-	
-					// Prepare the action mode to be destroyed.
-					mode.finish(); // Action picked, so close the CAB
-					return true;
-						
-				default:
-					return false;
-			}
-		}
-	
-		@Override
-		public void onDestroyActionMode(ActionMode mode)
-		{
-			// Set it to null because we exited the action mode.
-			mActionMode = null;
-		}
-	};
-	
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view,
-			int position, long id)
-	{
-		Log.d(TAG, "onLongClick()");
-		
-		// Ignore the long click if already in the ActionMode.
-		if (mActionMode != null) return false;
-		
-		// Set the list item checked.
-		mListView.setItemChecked(position, true);
-		
-		// Remember the selected position
-		mClickedPosition = position;
-		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
-		
-		// Show the Contexual Action Bar.
-		getActivity().startActionMode(actionModeCallback);
-	
-		return true; // Long click was consumed.
-	}
-	
 	/**
 	 * Clear list selection.
 	 */
@@ -221,20 +157,7 @@ public class EstimateOverviewFragment extends Fragment implements
 		mListView.clearChoices();
 		mAdapter.notifyDataSetChanged();
 	}
-	
-	/**
-	 * Remove the Contextual Action Bar if any.
-	 */
-	void finishCAB()
-	{
-		if (mActionMode != null) 
-		{
-			mActionMode.finish();
-			mActionMode = null;
-			
-			clearListSelection();
-		}
-	}
+
 	
 	/**
 	 * Adjust the cursor position by 1 because the list header takes
@@ -246,41 +169,6 @@ public class EstimateOverviewFragment extends Fragment implements
 		cursor.moveToPosition(mClickedPosition - 1); // Subtract one.
 		return cursor.getLong(cursor.getColumnIndex("_id"));
 	}
-	
-	@SuppressLint("NewApi")
-	private void deleteEstimateItem()
-	{
-		// Get the row id.
-		final long rowId = getRowIdAtLastClickedPosition();
-		Log.d(TAG, "deleteEstimateItem() - rowId: " + rowId);
-		
-		// Delete animation.
-		final View view = mAdapter.getView(mClickedPosition - 1, null, mListView);
-		view.animate()
-			.setDuration(1000)
-			.alpha (0)
-			.withEndAction(new Runnable() {
-				
-				@Override
-				public void run ()
-				{
-					// Make the list item disappear.
-					view.setAlpha(1);
-				}
-			});
-		
-		// Delete the item from database.
-		boolean success = EstimateDataManager.get(getActivity()).deleteSingleRow(rowId);
-		Log.d(TAG, "deleteEstimateItem() - success: " + success);
-		
-		// Re-query to refresh the CursorAdapter.
-		EstimateDataManager.get(getActivity())
-			.retrieveDataForCustomer(Customer.getCurrentCustomer().getId(), this);
-		
-		// Close database.
-		EstimateDataManager.get(getActivity()).closeDatabase();
-	}
-	
 	
 	/**
 	 * If a parent activity is registered in the manifest file,
@@ -345,9 +233,10 @@ public class EstimateOverviewFragment extends Fragment implements
 			case R.id.optionsmenu_edit_estimate:
 				
 				// Proceed to estimate editing.
-				//TODO
-				return true; // Indicate that no further processing is necessary.
-				
+				Intent i = new Intent(getActivity(), EstimateRoomListActivity.class);
+				startActivity(i);
+				return true; // no further processing is necessary.
+			
 			default:
 				return super.onOptionsItemSelected(item);
 	 	}

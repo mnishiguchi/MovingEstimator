@@ -1,6 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
@@ -194,7 +195,7 @@ public class EstimateModeListFragment extends Fragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 		
 		// Inflate the menu; this adds items to the action bar.
-		//inflater.inflate(R.menu.fragment_modelist, menu);
+		inflater.inflate(R.menu.fragment_modelist, menu);
 	}
 	
 	@Override
@@ -212,6 +213,11 @@ public class EstimateModeListFragment extends Fragment implements
 				}
 				return true; // Indicate that no further processing is necessary.
 			
+			case R.id.optionsmenu_edit_estimate:
+				
+				Intent i = new Intent(getActivity(), EstimateRoomListActivity.class);
+				startActivity(i);
+				
 			default:
 				return super.onOptionsItemSelected(item);
 		}

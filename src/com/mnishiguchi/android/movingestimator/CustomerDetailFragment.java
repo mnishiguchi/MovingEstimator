@@ -663,14 +663,12 @@ public class CustomerDetailFragment extends Fragment
 				
 			case R.id.optionsmenu_estimate:
 				
-				i = new Intent(getActivity(), EstimateRoomListActivity.class);
+				i = new Intent(getActivity(), EstimateModeListActivity.class);
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
 			case R.id.optionsmenu_email: // TODO
-				
-				i = new Intent(getActivity(), EstimateModeListActivity.class);
-				startActivity(i);
+
 				return true; 
 				
 			default:

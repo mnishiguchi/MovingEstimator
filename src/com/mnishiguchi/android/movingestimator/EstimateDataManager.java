@@ -146,13 +146,13 @@ class EstimateDataManager
 	
 	// TODO
 	/**
-	 * Retrieve estimate data for the specified customer.
+	 * Retrieve estimate data for the specified mode.
 	 * Update the fragment's listView after completing the loading.
 	 */
-	void retrieveDataForCustomer(String customerId, final EstimateOverviewFragment fragment)
+	void retrieveDataForMode(String customerId, String mode, final EstimateOverviewFragment fragment)
 	{
 		// Prepare the params.
-		String[] params = {customerId};
+		String[] params = {customerId, mode};
 		
 		// Configure the task.
 		new AsyncTask<String[], Void, Cursor>() {
@@ -166,14 +166,14 @@ class EstimateDataManager
 						EstimateTable.COLUMN_ITEM_SIZE,
 						EstimateTable.COLUMN_QUANTITY,
 						EstimateTable.COLUMN_SUBTOTAL,
-						EstimateTable.COLUMN_TRANSPORT_MODE,
+						EstimateTable.COLUMN_ROOM,
 						EstimateTable.COLUMN_COMMENT,
 				};
 				String whereClause =
 						EstimateTable.COLUMN_CUSTOMER_ID + " = ? AND " +
-						EstimateTable.COLUMN_ROOM + " = ?";
+						EstimateTable.COLUMN_TRANSPORT_MODE + " = ?";
 				String[] whereArgs = params[0];
-				String orderBy = columns[4] + " ASC";
+				String orderBy = columns[5] + " ASC";
 						
 				return mDbHelper.getWritableDatabase().query(
 						EstimateTable.TABLE_NAME,

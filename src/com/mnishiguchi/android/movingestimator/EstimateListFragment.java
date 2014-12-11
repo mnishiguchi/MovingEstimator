@@ -75,7 +75,6 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Retrieve the arguments.
 		mRoom = getArguments().getString(EXTRA_ROOM);
-
 		Log.d(TAG, "onCreate() - mRoom=>" + mRoom);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
