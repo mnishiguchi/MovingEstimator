@@ -87,6 +87,8 @@ class EstimateDataManager
 				{
 					Log.e(TAG, "Error inserting an estimate item - ");
 				}
+				
+				closeDatabase();
 			}
 		};
 		
@@ -166,21 +168,22 @@ class EstimateDataManager
 			protected Cursor doInBackground(String[]... params)
 			{
 				String[] columns = {
-						EstimateTable._ID,
 						EstimateTable.COLUMN_TRANSPORT_MODE
 				};
 				String whereClause = EstimateTable.COLUMN_CUSTOMER_ID + " = ?";
 				String[] whereArgs = params[0];
+				String groupBy = columns[0];
 				String orderBy = columns[0] + " ASC";
 						
 				return mDbHelper.getWritableDatabase().query(
 						EstimateTable.TABLE_NAME,
-						columns, whereClause, whereArgs, null, null, orderBy);
+						columns, whereClause, whereArgs, groupBy, null, orderBy);
 			}
 			
 			protected void onPostExecute(Cursor result)
 			{
-				fragment.refreshSpinner(result);
+				fragment.setupSpinner(result);
+				closeDatabase();
 			}
 		
 		}.execute(params); // Execute the task.
@@ -235,6 +238,7 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.refreshCursorAdapter(result);
+				closeDatabase();
 			}
 		
 		}.execute(params); // Execute the task.
@@ -290,6 +294,7 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.refreshCursorAdapter(result);
+				closeDatabase();
 			}
 			
 		}.execute(params);

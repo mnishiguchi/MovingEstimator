@@ -1,5 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -102,52 +104,19 @@ public class EstimateOverviewFragment extends Fragment implements
 				
 		mListView.setAdapter(mAdapter);
 		
-		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
-		
 		
 		//--- Spinner ---
 		
 		mSpinner = (Spinner)v.findViewById(R.id.spinnerEstimateOverview);
 		
-		// Create an ArrayAdapter using the string array.
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				getActivity(),
-				R.array.transport_modes, // a string-array defined in res/values/strings.xml
-				android.R.layout.simple_spinner_item); // the default layout
-		
-		// Specify the dropdown layout to use.
-		// The standard layout defined by the platform.
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
-		
-		// Apply the adapter to the spinner
-		mSpinner.setAdapter(adapter);
-		
 		// Retrieve data from database for spinner.
-		//EstimateDataManager.get(getActivity()).retrieveModesForCustomer(
-		//		Customer.getCurrentCustomer().getId(), EstimateOverviewFragment.this);
-		//EstimateDataManager.get(getActivity()).closeDatabase();
-		
-		mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+		// And set it up.
+		EstimateDataManager.get(getActivity()).retrieveModesForCustomer(
+				Customer.getCurrentCustomer().getId(),
+				this);
 
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				String mode = (String)parent.getItemAtPosition(position);
-				
-				// Retrieve data from database.
-				EstimateDataManager.get(getActivity()).retrieveDataForMode(
-						Customer.getCurrentCustomer().getId(), mode, EstimateOverviewFragment.this);
-				EstimateDataManager.get(getActivity()).closeDatabase();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent)
-			{ } // Required, but not used in this implementation.
-		});
-		
 		// Return the root view.
 		return v;
 	}
@@ -205,18 +174,57 @@ public class EstimateOverviewFragment extends Fragment implements
 	 	}
 	}
 	
-	public void refreshSpinner(Cursor cursor)
+	/**
+	 * Invoked after query is performed.
+	 * Set up the spinner based on the query result.
+	 */
+	public void setupSpinner(Cursor cursor)
 	{
-		Log.d(TAG, "refreshSpinner()");
-		String[] columns = {EstimateTable.COLUMN_TRANSPORT_MODE};
-		int[] to = { android.R.id.text1 };
+		Log.d(TAG, "setupSpinner(), cursor.getCount()=>" + cursor.getCount());
+		ArrayList<String> modes = new ArrayList<String>();
 		
-		mSpinner.setAdapter( new SimpleCursorAdapter(
+		cursor.moveToFirst();
+		while (cursor.isAfterLast() == false)
+		{
+			Log.d(TAG, "setupSpinner(), cursor.getString(0)=>" + cursor.getString(0));
+			modes.add(cursor.getString(0));
+			cursor.moveToNext();
+		}
+		
+		ArrayAdapter adapter = new ArrayAdapter<String>(
 				getActivity(),
 				android.R.layout.simple_spinner_item, // layout file
-				cursor,  // cursor
-				columns, // column names
-				to, 0)); // columns layout
+				modes); // columns layout
+		
+		///ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+		//		getActivity(),
+		//		R.array.transport_modes, // a string-array defined in res/values/strings.xml
+		//		android.R.layout.simple_spinner_item); // the default layout
+		
+		// Set the dropdown layout.
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+		
+		// Apply the adapter to the spinner
+		mSpinner.setAdapter(adapter);
+		
+		// Set the listener.
+		mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id)
+			{
+				String mode = (String) mSpinner.getItemAtPosition(position);
+				
+				// Retrieve data from database for the listView.
+				EstimateDataManager.get(getActivity()).retrieveDataForMode(
+						Customer.getCurrentCustomer().getId(), mode, EstimateOverviewFragment.this);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{ } // Required, but not used in this implementation.
+		});
 	}
 	
 	/**
