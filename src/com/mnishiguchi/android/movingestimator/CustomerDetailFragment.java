@@ -667,9 +667,10 @@ public class CustomerDetailFragment extends Fragment
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
-			case R.id.optionsmenu_email:
+			case R.id.optionsmenu_email: // TODO
 				
-				// TODO
+				i = new Intent(getActivity(), EstimateModeListActivity.class);
+				startActivity(i);
 				return true; 
 				
 			default:

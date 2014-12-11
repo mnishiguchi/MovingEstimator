@@ -10,14 +10,13 @@
 	<string name="actionbar_title_customer_info">Customer Information</string>
 	<string name="actionbar_title_estimate">Estimate</string>
 	
-	<!-- CustomerList -->
+	<!-- EmptyList -->
 	<string name="customerlist_empty">No customer exists.</string>
-	
-	<!-- RoomList -->
 	<string name="roomlist_empty">No room registered.</string>
-	
-	<!-- EstimateList -->
 	<string name="estimatelist_empty">No item in this room.</string>
+	<string name="estimate_overview_empty">No item registered.</string>
+	<string name="modelist_empty">No item registered.</string>
+	
 	
 	<!-- MenuItems -->
 	<string name="menuitem_new">New</string>	
@@ -29,6 +28,7 @@
 	<string name="menuitem_about">About</string>
 	<string name="menuitem_new_room">New Room</string>
 	<string name="menuitem_new_item">Add Item</string>
+	<string name="menuitem_edit_estimate">Edit Estimate</string>
 	
 	<!-- Date/time picker -->
 	<string name="date_picker_title">Setting Date</string>

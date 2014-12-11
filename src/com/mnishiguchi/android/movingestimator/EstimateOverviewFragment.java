@@ -1,5 +1,8 @@
 package com.mnishiguchi.android.movingestimator;
 
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
+import com.mnishiguchi.android.movingestimator.EstimateListFragment.AddItemDialog;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,20 +28,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
-
-public class EstimateListFragment extends Fragment implements
+public class EstimateOverviewFragment extends Fragment implements
 	AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-	private static final String TAG = "movingestimator.EstimateListFragment";
-	
-	private static final String DIALOG_ADD_ITEM = "addItemDialog";
-	
-	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.id";
-	public static final String EXTRA_ROOM = "com.mnishiguchi.android.movingestimator.room";
-	
-	//private static String sCustomerId;
-	private String mRoom;
+	private static final String TAG = "movingestimator.EstimateOverviewFragment";
 	
 	// listView.
 	private ListView mListView;
@@ -50,33 +43,13 @@ public class EstimateListFragment extends Fragment implements
 	// Remember the ActionMode.
 	private ActionMode mActionMode;
 	
-	/**
-	 * Creates a new fragment instance and set the specified id as fragment's arguments.
-	 */
-	public static EstimateListFragment newInstance(String room)
-	{
-		Log.d(TAG, "newInstance() - room=>" + room);
-		
-		// Prepare arguments.
-		Bundle args = new Bundle();  // Contains key-value pairs.
-		args.putString(EXTRA_ROOM, room);
-		
-		// Creates a fragment instance and sets its arguments.
-		EstimateListFragment fragment = new EstimateListFragment();
-		fragment.setArguments(args);
-		
-		return fragment;
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		// Retrieve the arguments.
-		mRoom = getArguments().getString(EXTRA_ROOM);
 
-		Log.d(TAG, "onCreate() - mRoom=>" + mRoom);
+		Log.d(TAG, "onCreate() - customerId=>" + Customer.getCurrentCustomer().getId());
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
@@ -92,10 +65,10 @@ public class EstimateListFragment extends Fragment implements
 		Log.d(TAG, "onCreateView()");
 		
 		// Get reference to the layout.
-		View v = inflater.inflate(R.layout.fragment_estimatelist, parent, false);
-
+		View v = inflater.inflate(R.layout.fragment_estimate_overview, parent, false);
+	
 		// Configure the listView.
-		mListView = (ListView)v.findViewById(R.id.listViewEstimateTable);
+		mListView = (ListView)v.findViewById(R.id.listViewEstimateOverview);
 		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		mListView.setEmptyView(v.findViewById(R.id.estimatelist_empty));
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate, mListView, false);
@@ -107,21 +80,23 @@ public class EstimateListFragment extends Fragment implements
 				EstimateTable.COLUMN_ITEM_NAME,
 				EstimateTable.COLUMN_ITEM_SIZE,
 				EstimateTable.COLUMN_QUANTITY,
+				"Subtotal",
 				EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateTable.COLUMN_COMMENT,
 				EstimateTable._ID,
-				EstimateTable.COLUMN_COMMENT // TODO
 		};
 		
 		int[] columnsLayout = {
-				R.id.textViewListItemEstimateItemName,
-				R.id.textViewListItemEstimateSize,
-				R.id.textViewListItemEstimateQuantity,
-				R.id.textViewListItemEstimateMode,
-				R.id.textViewListItemEstimateComment
+				R.id.textViewListItemEstimateOverviewName,
+				R.id.textViewListItemEstimateOverviewSize,
+				R.id.textViewListItemEstimateOverviewQuantity,
+				R.id.textViewListItemEstimateOverviewSubtotal,
+				R.id.textViewListItemEstimateOverviewMode,
+				R.id.textViewListItemEstimateOverviewComment
 		};
 		
 		mAdapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.listitem_estimate, // layout
+				R.layout.listitem_estimate_overview, // layout
 				null,  // cursor
 				columns, // column names
 				columnsLayout, 0); // columns layout
@@ -130,7 +105,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Retrieve data from database.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
+			.retrieveDataForCustomer(Customer.getCurrentCustomer().getId(), this);
 		EstimateDataManager.get(getActivity()).closeDatabase();
 		
 		// Respond to short clicks for proceeding to estimate.
@@ -157,20 +132,6 @@ public class EstimateListFragment extends Fragment implements
 	}
 	
 	@Override
-	public void onResume()
-	{
-		super.onResume();
-		Log.d(TAG, "onResume()");
-	}
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		Log.d(TAG, "onPause()");
-	}
-
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id)
 	{
@@ -192,7 +153,7 @@ public class EstimateListFragment extends Fragment implements
 		
 			// Inflate the menu using a special inflater defined in the ActionMode class.
 			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_estimatecontent, menu);
+			inflater.inflate(R.menu.context_estimate_overview, menu);
 			return true;
 		}
 				
@@ -208,7 +169,7 @@ public class EstimateListFragment extends Fragment implements
 		{
 			switch (item.getItemId())
 			{
-				case R.id.contextmenu_delete_estimateitem: // Delete menu item.
+				case R.id.contextmenu_delete_estimate_overview: // Delete menu item.
 					
 					// Retrieve the selected room's position.
 					deleteEstimateItem();
@@ -229,7 +190,7 @@ public class EstimateListFragment extends Fragment implements
 			mActionMode = null;
 		}
 	};
-
+	
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id)
@@ -251,7 +212,7 @@ public class EstimateListFragment extends Fragment implements
 	
 		return true; // Long click was consumed.
 	}
-
+	
 	/**
 	 * Clear list selection.
 	 */
@@ -274,7 +235,7 @@ public class EstimateListFragment extends Fragment implements
 			clearListSelection();
 		}
 	}
-
+	
 	/**
 	 * Adjust the cursor position by 1 because the list header takes
 	 * the position 0 on the listView. 
@@ -314,13 +275,13 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
+			.retrieveDataForCustomer(Customer.getCurrentCustomer().getId(), this);
 		
 		// Close database.
 		EstimateDataManager.get(getActivity()).closeDatabase();
 	}
 	
-
+	
 	/**
 	 * If a parent activity is registered in the manifest file,
 	 * enable the Up button.
@@ -337,7 +298,7 @@ public class EstimateListFragment extends Fragment implements
 			Log.d(TAG, "Couldn't enable the Up button");
 		}
 	}
-
+	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu)
 	{
@@ -357,7 +318,7 @@ public class EstimateListFragment extends Fragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 		
 		// Inflate the menu, adding menu items to the action bar.
-		inflater.inflate(R.menu.fragment_estimatelist, menu);
+		inflater.inflate(R.menu.fragment_estimate_overview, menu);
 	}
 	
 	/**
@@ -380,35 +341,16 @@ public class EstimateListFragment extends Fragment implements
 					NavUtils.navigateUpFromSameTask(getActivity());
 				}
 				return true; // Indicate that no further processing is necessary.
-
-			case R.id.optionsmenu_new_item:
+	
+			case R.id.optionsmenu_edit_estimate:
 				
-				// Show the delete dialog.
-				new AddItemDialog().show(getFragmentManager(), DIALOG_ADD_ITEM);
+				// Proceed to estimate editing.
+				//TODO
 				return true; // Indicate that no further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);
 	 	}
-	}
-	
-	/**
-	 * Insert into database the specified item.
-	 * Update the listView's UI.
-	 */
-	private void addEstimateItem(EstimateItem item)
-	{
-		EstimateDataManager manager = EstimateDataManager.get(getActivity());
-		
-		// Insert this item to database.
-		manager.insertItem(item);
-		
-		// Re-query to refresh the CursorAdapter.
-		EstimateDataManager.get(getActivity())
-			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
-		
-		// Close database.
-		manager.closeDatabase();
 	}
 	
 	/**
@@ -418,134 +360,4 @@ public class EstimateListFragment extends Fragment implements
 	{
 		mAdapter.changeCursor(cursor);
 	}
-	
-	/**
-	 * Add the selected item to the estimate.
-	 */
-	class AddItemDialog extends DialogFragment
-	{
-		private AutoCompleteTextView mAutoCompleteItemName;
-		private EditText mEditTextSize;
-		private EditText mEditTextQuantity;
-		private Spinner mSpinnerMode;
-		private EditText mEditTextComment;
-		
-		// For validation.
-		private String mName;
-		private double mSize;
-		private int mQuantity;
-		
-		// The room list for autoComplete.
-		private final String[] mMovingItems = EstimateListFragment.this.getActivity()
-				.getResources().getStringArray(R.array.moving_items);
-		
-		/*
-		 * Configure the dialog.
-		 */
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState)
-		{
-			// Define the response to buttons.
-			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
-			{ 
-				public void onClick(DialogInterface dialog, int which) 
-				{ 
-					switch (which) 
-					{ 
-						case DialogInterface.BUTTON_POSITIVE:
-							
-							// TODO Validation for the input.
-							if (!isInputValid())
-							{
-								Utils.showToast(getActivity(), "Invalid input");
-								return;
-							}
-							
-							// Prepare the user-inputted data.
-							EstimateItem item = new EstimateItem(
-								Customer.getCurrentCustomer().getId(),
-								mName,       // validated
-								mSize,       // validated
-								mQuantity,   // validated
-								mSize * mQuantity,
-								mRoom,       // from parent fragment
-								mSpinnerMode.getSelectedItem().toString(),
-								mEditTextComment.getText().toString()
-							);
-							
-							// Delegate it to addMovingItem method.
-							EstimateListFragment.this.addEstimateItem(item);
-							break; 
-							
-						case DialogInterface.BUTTON_NEGATIVE: 
-							// do nothing 
-							break; 
-					} 
-				}
-			};
-			
-			// Inflate the dialog's root view.
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_additem, null);
-			
-			// Configure the AutoCompleteTextView.
-			mAutoCompleteItemName = (AutoCompleteTextView)v.findViewById(R.id.AutoCompleteTextViewMovingItems);
-			mAutoCompleteItemName.setAdapter(new ArrayAdapter<String>(getActivity(),
-					android.R.layout.simple_dropdown_item_1line,
-					this.mMovingItems));
-			
-			// Configure the Spinner.
-			mSpinnerMode = (Spinner)v.findViewById(R.id.spinnerTransportMode);
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-					getActivity(),
-					R.array.transport_modes, // a string-array defined in res/values/strings.xml
-					android.R.layout.simple_spinner_item); // the default layout
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
-			mSpinnerMode.setAdapter(adapter);
-			
-			// The others widgets.
-			mEditTextSize = (EditText)v.findViewById(R.id.editTextItemSize);
-			mEditTextQuantity = (EditText)v.findViewById(R.id.editTextItemQuantity);
-			mEditTextComment = (EditText)v.findViewById(R.id.editTextItemComment);
-			
-			// Create and return a dialog.
-			return new AlertDialog.Builder(getActivity())
-				.setTitle("Adding an item")
-				.setView(v)
-				.setPositiveButton("Add", listener)
-				.setNegativeButton("Cancel", listener)
-				.create();
-		}
-		
-		/**
-		 * Validate the user's input and store data in instance variables.
-		 */
-		private boolean isInputValid()
-		{
-			// Check that size and quantity are in correct format.
-			try
-			{
-				this.mSize = Double.parseDouble(mEditTextSize.getText().toString());
-				this.mQuantity = Integer.parseInt(mEditTextQuantity.getText().toString());
-			}
-			catch(NumberFormatException e)
-			{
-				Log.e(TAG, "isInputValid() - ", e);
-				return false;
-			}
-			
-			// Check that name is filled out.
-			this.mName = mAutoCompleteItemName.getText().toString();
-			return !mName.equals("");
-		}
-		
-		@Override
-		public void onPause()
-		{
-			// Close the dialog as soon as the device orientation changes.
-			dismiss();
-			super.onPause();
-		}
-	}
-
 }

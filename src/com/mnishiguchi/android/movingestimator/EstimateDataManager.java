@@ -71,6 +71,7 @@ class EstimateDataManager
 				cv.put(EstimateTable.COLUMN_ITEM_NAME, item.name);
 				cv.put(EstimateTable.COLUMN_ITEM_SIZE, item.size);
 				cv.put(EstimateTable.COLUMN_QUANTITY, item.quantity);
+				cv.put(EstimateTable.COLUMN_SUBTOTAL, item.subtotal);
 				cv.put(EstimateTable.COLUMN_ROOM, item.room);
 				cv.put(EstimateTable.COLUMN_TRANSPORT_MODE, item.mode);
 				cv.put(EstimateTable.COLUMN_COMMENT, item.comment);
@@ -143,6 +144,50 @@ class EstimateDataManager
 				whereClause, whereArgs) > 0;
 	}
 	
+	// TODO
+	/**
+	 * Retrieve estimate data for the specified customer.
+	 * Update the fragment's listView after completing the loading.
+	 */
+	void retrieveDataForCustomer(String customerId, final EstimateOverviewFragment fragment)
+	{
+		// Prepare the params.
+		String[] params = {customerId};
+		
+		// Configure the task.
+		new AsyncTask<String[], Void, Cursor>() {
+
+			@Override
+			protected Cursor doInBackground(String[]... params)
+			{
+				String[] columns = {
+						EstimateTable._ID,
+						EstimateTable.COLUMN_ITEM_NAME,
+						EstimateTable.COLUMN_ITEM_SIZE,
+						EstimateTable.COLUMN_QUANTITY,
+						EstimateTable.COLUMN_SUBTOTAL,
+						EstimateTable.COLUMN_TRANSPORT_MODE,
+						EstimateTable.COLUMN_COMMENT,
+				};
+				String whereClause =
+						EstimateTable.COLUMN_CUSTOMER_ID + " = ? AND " +
+						EstimateTable.COLUMN_ROOM + " = ?";
+				String[] whereArgs = params[0];
+				String orderBy = columns[4] + " ASC";
+						
+				return mDbHelper.getWritableDatabase().query(
+						EstimateTable.TABLE_NAME,
+						columns, whereClause, whereArgs, null, null, orderBy);
+			}
+			
+			protected void onPostExecute(Cursor result)
+			{
+				fragment.refreshCursorAdapter(result);
+			}
+		
+		}.execute(params); // Execute the task.
+	}
+	
 	/**
 	 * Retrieve estimate data for the specified room of the specified customer.
 	 * Update the fragment's listView after completing the loading.
@@ -154,8 +199,7 @@ class EstimateDataManager
 		String[] params = {customerId, room};
 		
 		// Configure the task.
-		AsyncTask<String[], Void, Cursor> queryTask =
-				new AsyncTask<String[], Void, Cursor>() {
+		new AsyncTask<String[], Void, Cursor>() {
 
 			@Override
 			protected Cursor doInBackground(String[]... params)
@@ -183,10 +227,8 @@ class EstimateDataManager
 			{
 				fragment.refreshCursorAdapter(result);
 			}
-		};
-		
-		// Execute the task.
-		queryTask.execute(params);
+			
+		}.execute(params);
 	}
 	
 	/**
