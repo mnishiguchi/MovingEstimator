@@ -108,8 +108,8 @@ public class EstimateListFragment extends Fragment implements
 				EstimateTable.COLUMN_QUANTITY,
 				EstimateTable.COLUMN_SUBTOTAL,
 				EstimateTable.COLUMN_TRANSPORT_MODE,
-				EstimateTable._ID,
-				EstimateTable.COLUMN_COMMENT
+				EstimateTable.COLUMN_COMMENT,
+				EstimateTable._ID
 		};
 		
 		int[] columnsLayout = {
