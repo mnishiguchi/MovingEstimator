@@ -31,7 +31,7 @@ public class CustomerEditFragment extends Fragment
 {
 	private static final String TAG = "movingestimator.CustomerEditFragment";
 	
-	public static final String EXTRA_CUSTOMER_ID_EDIT = "com.mnishiguchi.android.movingestimator.customer_id_edit";
+	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.customer_id_edit";
 	
 	public static final int REQUEST_DATE = 1;
 	
@@ -64,7 +64,7 @@ public class CustomerEditFragment extends Fragment
 	{
 		// Prepare arguments.
 		Bundle args = new Bundle(); // Contains key-value pairs.
-		args.putString(EXTRA_CUSTOMER_ID_EDIT, customerId);
+		args.putString(EXTRA_CUSTOMER_ID, customerId);
 		
 		// Creates a fragment instance and sets its arguments.
 		CustomerEditFragment fragment = new CustomerEditFragment();
@@ -86,7 +86,7 @@ public class CustomerEditFragment extends Fragment
 		}
 		
 		// Retrieve the arguments.
-		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID_EDIT);
+		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
@@ -516,7 +516,7 @@ public class CustomerEditFragment extends Fragment
 	private void setActionBarTitle()
 	{
 		// Set the ActionBar's title.
-		getActivity().getActionBar().setTitle(mCustomer.toString());
+		getActivity().setTitle(mCustomer.toString() + " | EDIT");
 		getActivity().getActionBar().setSubtitle(mCustomer.getOrganization());
 	}
 	

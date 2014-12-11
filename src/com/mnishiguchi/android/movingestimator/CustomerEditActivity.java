@@ -9,6 +9,7 @@ import android.util.Log;
 public class CustomerEditActivity extends FragmentActivity
 {
 	private static String TAG = "movingestimator.CustomerEditActivity";
+	public static final String EXTRA_CUSTOMER_ID = "com.mnishiguchi.android.movingestimator.customer_id";
 	
 	private String mId;
 	
@@ -17,7 +18,7 @@ public class CustomerEditActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
 		
-		mId = getIntent().getStringExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT);
+		mId = getIntent().getStringExtra(EXTRA_CUSTOMER_ID);
 
 		// Get a FragmentManager
 		FragmentManager fm = getSupportFragmentManager();
@@ -28,7 +29,7 @@ public class CustomerEditActivity extends FragmentActivity
 		// Check if there is already a fragment in the fragment list.
 		if (fragment == null)
 		{
-			fragment = createFragment();  // Create a new Fragment.
+			fragment = createFragment(); // Create a new Fragment.
 			
 			// Add the Fragment to the list.
 			fm.beginTransaction()

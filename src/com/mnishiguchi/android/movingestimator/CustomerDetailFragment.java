@@ -657,7 +657,7 @@ public class CustomerDetailFragment extends Fragment
 			case R.id.optionsmenu_edit:
 				
 				i = new Intent(getActivity(), CustomerEditActivity.class);
-				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, mCustomer.getId());
+				i.putExtra(CustomerEditActivity.EXTRA_CUSTOMER_ID, mCustomer.getId());
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				

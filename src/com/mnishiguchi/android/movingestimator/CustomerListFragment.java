@@ -320,7 +320,7 @@ public class CustomerListFragment extends ListFragment
 			case R.id.contextmenu_edit:
 				
 				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
-				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT,
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID,
 						selectedCustomer.get(position).getId());
 				startActivity(i);
 				return true; // No further processing is necessary.
@@ -398,7 +398,7 @@ public class CustomerListFragment extends ListFragment
 		
 		if (customer.getId() != null)
 		{
-			i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID_EDIT, customer.getId());
+			i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID, customer.getId());
 			Log.e(TAG, "mCustomer.getId()" + customer.getId());
 			startActivity(i);
 		}
