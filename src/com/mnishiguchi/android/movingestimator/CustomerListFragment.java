@@ -387,6 +387,8 @@ public class CustomerListFragment extends ListFragment
 	
 	private void addNewCustomer()
 	{
+		Log.e(TAG, "addNewCustomer()");
+		
 		// Create and add a new Customer object to the FileCabinet's list.
 		Customer customer = new Customer();
 		FileCabinet.get(getActivity()).addCustomer(customer) ;
@@ -399,7 +401,7 @@ public class CustomerListFragment extends ListFragment
 		if (customer.getId() != null)
 		{
 			i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID, customer.getId());
-			Log.e(TAG, "mCustomer.getId()" + customer.getId());
+			Log.e(TAG, "mCustomer.getId()=>" + customer.getId());
 			startActivity(i);
 		}
 	}

@@ -154,6 +154,16 @@ class EstimateDataManager
 		// Prepare the params.
 		String[] params = {customerId, mode};
 		
+		for (String s : params)
+		{
+			if (null == s)
+			{
+				Log.e(TAG, "retrieveDataForMode() - params[0]=>" + params[0] +
+						" - params[1]=>" + params[1]);
+				return;
+			}
+		}
+		
 		// Configure the task.
 		new AsyncTask<String[], Void, Cursor>() {
 
@@ -197,6 +207,16 @@ class EstimateDataManager
 	{
 		// Prepare the params.
 		String[] params = {customerId, room};
+		
+		for (String s : params)
+		{
+			if (null == s)
+			{
+				Log.e(TAG, "retrieveDataForMode() - params[0]=>" + params[0] +
+						" - params[1]=>" + params[1]);
+				return;
+			}
+		}
 		
 		// Configure the task.
 		new AsyncTask<String[], Void, Cursor>() {

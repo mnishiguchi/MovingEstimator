@@ -657,18 +657,20 @@ public class CustomerDetailFragment extends Fragment
 			case R.id.optionsmenu_edit:
 				
 				i = new Intent(getActivity(), CustomerEditActivity.class);
-				i.putExtra(CustomerEditActivity.EXTRA_CUSTOMER_ID, mCustomer.getId());
+				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID, mCustomer.getId());
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
 			case R.id.optionsmenu_estimate:
 				
-				i = new Intent(getActivity(), EstimateModeListActivity.class);
+				i = new Intent(getActivity(), EstimateOverviewActivity.class);
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
 			case R.id.optionsmenu_email: // TODO
-
+				
+				i = new Intent(getActivity(), EstimateRoomListActivity.class);
+				startActivity(i);
 				return true; 
 				
 			default:

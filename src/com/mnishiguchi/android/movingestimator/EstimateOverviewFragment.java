@@ -1,16 +1,8 @@
 package com.mnishiguchi.android.movingestimator;
 
-import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
-import com.mnishiguchi.android.movingestimator.EstimateListFragment.AddItemDialog;
-
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -24,22 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 
 public class EstimateOverviewFragment extends Fragment implements
 	AdapterView.OnItemClickListener
 {
 	private static final String TAG = "movingestimator.EstimateOverviewFragment";
-	public static final String EXTRA_MODE = "com.mnishiguchi.android.movingestimator.mode";
 	
 	// listView.
 	private ListView mListView;
 	private SimpleCursorAdapter mAdapter;
 	private String mMode;
-	
 	
 	// Remember the last click.
 	private int mClickedPosition = 0; // Default => 0
@@ -47,32 +37,10 @@ public class EstimateOverviewFragment extends Fragment implements
 	// Remember the ActionMode.
 	private ActionMode mActionMode;
 	
-	/**
-	 * Creates a new fragment instance.
-	 */
-	public static EstimateOverviewFragment newInstance(String mode)
-	{
-		Log.d(TAG, "newInstance() - mode=>" + mode);
-		
-		// Prepare arguments.
-		Bundle args = new Bundle();  // Contains key-value pairs.
-		args.putString(EXTRA_MODE, mode);
-		
-		// Creates a fragment instance and sets its arguments.
-		EstimateOverviewFragment fragment = new EstimateOverviewFragment();
-		fragment.setArguments(args);
-		
-		return fragment;
-	}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		// Retrieve the arguments.
-		mMode = getArguments().getString(EXTRA_MODE);
-		Log.d(TAG, "onCreate() - mRoom=>" + mMode);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
@@ -134,6 +102,39 @@ public class EstimateOverviewFragment extends Fragment implements
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
 		
+		
+		//--- Spinner ---
+		
+		final Spinner spinner = (Spinner)v.findViewById(R.id.spinnerEstimateOverview);
+		
+		// Create an ArrayAdapter using the string array.
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				getActivity(),
+				R.array.transport_modes, // a string-array defined in res/values/strings.xml
+				android.R.layout.simple_spinner_item); // the default layout
+		
+		// Specify the dropdown layout to use.
+		// The standard layout defined by the platform.
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+		
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id)
+			{
+				//TODO
+				// do smething.
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{ } // Required, but not used in this implementation.
+		});
+		
 		// Return the root view.
 		return v;
 	}
@@ -144,56 +145,7 @@ public class EstimateOverviewFragment extends Fragment implements
 	{
 		// Remember the selected position
 		mClickedPosition = position;
-		
-		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
-		getRowIdAtLastClickedPosition();
-	}
-	
-	/**
-	 * Clear list selection.
-	 */
-	void clearListSelection()
-	{
-		mListView.clearChoices();
-		mAdapter.notifyDataSetChanged();
-	}
-
-	
-	/**
-	 * Adjust the cursor position by 1 because the list header takes
-	 * the position 0 on the listView. 
-	 */
-	private long getRowIdAtLastClickedPosition()
-	{
-		Cursor cursor = mAdapter.getCursor();
-		cursor.moveToPosition(mClickedPosition - 1); // Subtract one.
-		return cursor.getLong(cursor.getColumnIndex("_id"));
-	}
-	
-	/**
-	 * If a parent activity is registered in the manifest file,
-	 * enable the Up button.
-	 */
-	private void setupActionBarUpButton()
-	{
-		if (!Utils.hasTwoPane(getActivity()) &&
-				NavUtils.getParentActivityIntent(getActivity() ) != null)
-		{
-			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-		else
-		{
-			Log.d(TAG, "Couldn't enable the Up button");
-		}
-	}
-	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu)
-	{
-		super.onPrepareOptionsMenu(menu);
-		
-		// Show delete item only in the two-pane mode.
-		// menu.findItem(R.id.optionsmenu_delete).setVisible(Utils.hasTwoPane(getActivity()));
+		Log.d(TAG, "onItemClick() - position=>" + mClickedPosition);
 	}
 	
 	/**
@@ -215,8 +167,6 @@ public class EstimateOverviewFragment extends Fragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		//Intent i;
-		
 		// Check the selected menu item and respond to it.
 		switch (item.getItemId() )
 		{
@@ -249,4 +199,23 @@ public class EstimateOverviewFragment extends Fragment implements
 	{
 		mAdapter.changeCursor(cursor);
 	}
+	
+
+	/**
+	 * If a parent activity is registered in the manifest file,
+	 * enable the Up button.
+	 */
+	private void setupActionBarUpButton()
+	{
+		if (NavUtils.getParentActivityIntent(getActivity() ) != null)
+		{
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		else
+		{
+			Log.d(TAG, "Couldn't enable the Up button");
+		}
+	}
+
+
 }

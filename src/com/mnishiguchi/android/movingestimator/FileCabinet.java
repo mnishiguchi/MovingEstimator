@@ -97,6 +97,8 @@ class FileCabinet
 	void addCustomer(Customer customer)
 	{
 		mCustomers.add(customer);
+		
+		Log.e(TAG, customer + "(" + customer.getId() + ") added");
 	}
 	
 	/**

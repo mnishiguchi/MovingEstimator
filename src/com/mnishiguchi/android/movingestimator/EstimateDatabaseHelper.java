@@ -3,6 +3,7 @@ package com.mnishiguchi.android.movingestimator;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 
 public class EstimateDatabaseHelper extends SQLiteOpenHelper
 {
@@ -19,15 +20,16 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 	// SQL for creating a table.
 	private static final String SQL_CREATE_ESTIMATES =
 		"CREATE TABLE " + EstimateContract.EstimateTable.TABLE_NAME + " (" +
-		EstimateContract.EstimateTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-		EstimateContract.EstimateTable.COLUMN_CUSTOMER_ID + TEXT_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_ESTIMATE_DATE + INTEGER_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_ITEM_NAME + TEXT_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_ITEM_SIZE + REAL_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_QUANTITY + INTEGER_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_ROOM + TEXT_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_TRANSPORT_MODE + TEXT_TYPE + COMMA_SEP +
-		EstimateContract.EstimateTable.COLUMN_COMMENT + TEXT_TYPE +
+		EstimateTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+		EstimateTable.COLUMN_CUSTOMER_ID + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_ESTIMATE_DATE + INTEGER_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_ITEM_NAME + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_ITEM_SIZE + REAL_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_QUANTITY + INTEGER_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_SUBTOTAL + REAL_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_ROOM + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_TRANSPORT_MODE + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_COMMENT + TEXT_TYPE +
 	" )";
 
 	// SQL for dropping a table.

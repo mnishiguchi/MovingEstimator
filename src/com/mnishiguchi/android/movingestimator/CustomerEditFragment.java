@@ -1,6 +1,5 @@
 package com.mnishiguchi.android.movingestimator;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -80,16 +79,20 @@ public class CustomerEditFragment extends Fragment
 		
 		Log.d(TAG, "onCreate()");
 		
-		if (null == getArguments()){
+		if (null == getArguments())
+		{
 			Log.e(TAG, "null == getArguments()");
 			return;
 		}
 		
 		// Retrieve the arguments.
 		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
-
+		Log.e(TAG, "customerId=>" + customerId);
+		
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
+		
+		Log.e(TAG, "mCustomer=>" + mCustomer);
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
