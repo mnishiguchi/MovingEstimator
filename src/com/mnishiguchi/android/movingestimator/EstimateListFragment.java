@@ -131,6 +131,7 @@ public class EstimateListFragment extends Fragment implements
 		// Retrieve data from database.
 		EstimateDataManager.get(getActivity())
 			.retrieveDataForRoom(Customer.getCurrentCustomer().getId(), mRoom, this);
+		EstimateDataManager.get(getActivity()).closeDatabase();
 		
 		// Respond to short clicks for proceeding to estimate.
 		mListView.setOnItemClickListener(this);
@@ -155,15 +156,6 @@ public class EstimateListFragment extends Fragment implements
 		}
 	}
 	
-	/*
-	 * Have the photo ready as soon as this Fragment's view becomes visible to the user.
-	 */
-	@Override
-	public void onStart()
-	{
-		super.onStart();
-	}
-	
 	@Override
 	public void onResume()
 	{
@@ -176,15 +168,6 @@ public class EstimateListFragment extends Fragment implements
 	{
 		super.onPause();
 		Log.d(TAG, "onPause()");
-	}
-	
-	/*
-	 * Unload the photo as soon as this Fragment's view becomes invisible to the user.
-	 */
-	@Override
-	public void onStop()
-	{
-		super.onStop();
 	}
 
 	@Override

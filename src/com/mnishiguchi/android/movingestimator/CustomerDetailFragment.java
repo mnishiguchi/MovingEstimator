@@ -128,9 +128,6 @@ public class CustomerDetailFragment extends Fragment
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 		
-		// Remember the customer globally.
-		Customer.setCurrentCustomer(mCustomer);
-		
 		Log.d(TAG, "onCreate() - mCustomer=>" + mCustomer.getLastName());
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
@@ -366,34 +363,34 @@ public class CustomerDetailFragment extends Fragment
 		// --- Checking For Camera Availability ---
 		
 		// if camera is not available, disable camera functionality.
-		
-		PackageManager pm = getActivity().getPackageManager();
-		boolean hasCamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
-				pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
-				Camera.getNumberOfCameras() > 0;
-		if (!hasCamera)
+		if (!Utils.hasCamera(getActivity()))
 		{
 			mBtnPhoto.setEnabled(false);
 		}
-		
 		
 		// Return the root-layout.
 		return v;
 	}
 	
-	/*
-	 * Remove the CAB when the pager is swiped.
-	 */
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser)
 	{
 		super.setUserVisibleHint(isVisibleToUser);
-		if (!isVisibleToUser)
+		
+		Log.d(TAG, "isVisibleToUser=>" + isVisibleToUser);
+		if (isVisibleToUser)
 		{
+			// Remember the current customer here because the viewPager's
+			// position is not reliable.
+			Customer.setCurrentCustomer(mCustomer);
+		}
+		else
+		{
+			// Remove the CAB when the pager is swiped.
 			finishCAB();
 		}
 	}
-	
+
 	/*
 	 * Have the photo ready as soon as this Fragment's view becomes visible to the user.
 	 */
@@ -403,19 +400,6 @@ public class CustomerDetailFragment extends Fragment
 		super.onStart();
 		
 		showThumbnail();
-	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		Log.d(TAG, "onPause()");
 	}
 	
 	/*

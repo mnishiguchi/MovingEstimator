@@ -39,8 +39,6 @@ public class EstimatePagerActivity extends FragmentActivity implements
 		// Get the list of crimes via the FileCabinet singleton.
 		mRooms = Customer.getCurrentCustomer().getRooms();
 		
-		//setTitle(R.string.actionbar_title_rooms);
-		
 		// Configuration.
 		setupPagerAdapter();
 		setupInitialPagerItem();
@@ -101,7 +99,12 @@ public class EstimatePagerActivity extends FragmentActivity implements
 		setActionBarTitle();
 	}
 	
-	// Invoked when a new page becomes selected.
+	/*
+	 * Invoked when a new page becomes selected.
+	 * Pager's position is not reliable for the currently shown page because
+	 * the pager trys to prepare fragments before and after the visible position.
+	 * Use setUserVisibleHint(boolean isVisibleToUser) for a visible fragment.
+	 */
 	@Override
 	public void onPageSelected(int position)
 	{
@@ -110,12 +113,12 @@ public class EstimatePagerActivity extends FragmentActivity implements
 		mPosition = position;
 		
 		// Set the new page's title.
-		setActionBarTitle();
+		setTitle(Customer.getCurrentCustomer().toString() + " | " + mRooms.get(mPosition));
 	}
 	
 	private void setActionBarTitle()
 	{
-		setTitle(Customer.getCurrentCustomer().toString() + " | " + mRooms.get(mPosition));
+		
 	}
 	
 	// Invoked when the current page is scrolled

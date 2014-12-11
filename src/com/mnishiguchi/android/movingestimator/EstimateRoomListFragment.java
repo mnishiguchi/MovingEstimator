@@ -164,7 +164,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		setupActionBarUpButton();
 		
 		// Set the customer name on the Actionbar.
-		getActivity().setTitle(mCustomer.toString() + "'s estimate");
+		getActivity().setTitle(mCustomer.toString() + " | ESTIMATE");
 		
 		// Reload the list.
 		mAdapter.notifyDataSetChanged();

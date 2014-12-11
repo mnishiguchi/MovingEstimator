@@ -208,9 +208,6 @@ public class CustomerListFragment extends ListFragment
 		// Clear the current customer.
 		Customer.setCurrentCustomer(null);
 		
-		// Set the action-bar title.
-		getActivity().setTitle(R.string.actionbar_title_list);
-		
 		// Reload the listView.
 		((CustomerListAdapter)getListAdapter()).notifyDataSetChanged();
 		
@@ -230,6 +227,15 @@ public class CustomerListFragment extends ListFragment
 		
 		// Remember the selected position
 		mPositionSelected = position;
+		
+		// Remember the current customer.
+		Customer.setCurrentCustomer(customer);
+		
+		if (Utils.hasTwoPane(getActivity()))
+		{
+			// Set the customer name on the Actionbar.
+			getActivity().setTitle(customer.toString());
+		}
 		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(customer);

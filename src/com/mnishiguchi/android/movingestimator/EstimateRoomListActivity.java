@@ -11,15 +11,10 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 {
 	private static final String TAG = "movingestimator.RoomListActivity";
 	
-	// Remember the current customer id as a static field.
-	private String mCurrentCustomerId;
-	
 	@Override
 	protected Fragment createFragment()
 	{
-		mCurrentCustomerId = Customer.getCurrentCustomer().getId();
-		Log.d(TAG, "mCustomerId: " + mCurrentCustomerId);
-		
+		//Log.d(TAG, "mCustomerId=>" + Customer.getCurrentCustomer().getId());
 		return new EstimateRoomListFragment();
 	}
 
@@ -34,7 +29,7 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 	public void onPause()
 	{
 		super.onPause();
-		mCurrentCustomerId = Customer.getCurrentCustomer().getId();
+		
 	}
 	
 	@Override

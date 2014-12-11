@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.hardware.Camera;
 import android.widget.Toast;
 
 public class Utils
@@ -32,6 +33,14 @@ public class Utils
 		PackageManager pm = activity.getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(i, 0);
 		return (activities.size() > 0);
+	}
+	
+	static boolean hasCamera(Activity activity)
+	{
+		PackageManager pm = activity.getPackageManager();
+		return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
+				pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
+				Camera.getNumberOfCameras() > 0;
 	}
 	
 	/**

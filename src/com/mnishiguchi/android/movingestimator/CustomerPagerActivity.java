@@ -1,7 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +10,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 public class CustomerPagerActivity extends FragmentActivity
 	implements CustomerDetailFragment.DetailCallbacks
@@ -42,12 +39,18 @@ public class CustomerPagerActivity extends FragmentActivity
 		// Get the list of crimes via the FileCabinet singleton.
 		mCustomers = FileCabinet.get(this).getCustomers();
 		
-		setTitle(R.string.actionbar_title_customer_info);
+		//setTitle(R.string.actionbar_title_customer_info);
 		
 		// Configuration.
 		setupPagerAdapter();
 		setupInitialPagerItem();
 		setupPagerListener();
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
 	}
 	
 	private void setupPagerAdapter()
@@ -91,6 +94,9 @@ public class CustomerPagerActivity extends FragmentActivity
 			if (mCustomers.get(i).getId().equals(customerId))
 			{
 				mViewPager.setCurrentItem(i);
+				
+				// Remember the initial position.
+				mPosition = i;
 				break;
 			}
 		}
@@ -102,6 +108,7 @@ public class CustomerPagerActivity extends FragmentActivity
 		mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			
 			// Invoked when a new page becomes selected.
+			// Position is not reliable because the pager open the adjacent pages.
 			@Override
 			public void onPageSelected(int position)
 			{
@@ -110,7 +117,7 @@ public class CustomerPagerActivity extends FragmentActivity
 				mPosition = position;
 				
 				// Get the customer at the passed-in position.
-				Customer customer = mCustomers.get(position);
+				Customer customer = mCustomers.get(mPosition);
 
 				// Set the new page's title.
 				if (customer.getLastName() != null || !customer.getLastName().equals(""))
