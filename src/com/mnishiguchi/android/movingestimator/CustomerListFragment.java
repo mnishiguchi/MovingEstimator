@@ -324,8 +324,11 @@ public class CustomerListFragment extends ListFragment
 				
 			case R.id.contextmenu_estimate:
 				
-				i = new Intent(getActivity(), EstimateOverviewActivity.class);
-				startActivity(i);
+				if (Customer.getCurrentCustomer() != null)
+				{
+					i = new Intent(getActivity(), EstimateOverviewActivity.class);
+					startActivity(i);
+				}
 				
 				return true;
 				
