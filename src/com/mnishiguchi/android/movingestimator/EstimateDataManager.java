@@ -27,7 +27,7 @@ class EstimateDataManager
 	 */
 	private EstimateDataManager(Context appContext)
 	{
-		Log.d(TAG, "FileCabinet constructor");
+		Log.d(TAG, "EstimateDataManager constructor");
 		
 		// Remember the application context.
 		mAppContext = appContext;
@@ -87,8 +87,6 @@ class EstimateDataManager
 				{
 					Log.e(TAG, "Error inserting an estimate item - ");
 				}
-				
-				closeDatabase();
 			}
 		};
 		
@@ -183,7 +181,6 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.setupSpinner(result);
-				closeDatabase();
 			}
 		
 		}.execute(params); // Execute the task.
@@ -238,7 +235,6 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.refreshCursorAdapter(result);
-				closeDatabase();
 			}
 		
 		}.execute(params); // Execute the task.
@@ -294,7 +290,6 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.refreshCursorAdapter(result);
-				closeDatabase();
 			}
 			
 		}.execute(params);

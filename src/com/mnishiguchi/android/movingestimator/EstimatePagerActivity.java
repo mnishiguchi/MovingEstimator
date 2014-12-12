@@ -77,8 +77,11 @@ public class EstimatePagerActivity extends FragmentActivity implements
 	 */
 	private void setupInitialPagerItem()
 	{
+		// Get the selected room via intent.
 		String initialRoom = (String)getIntent()
 			.getStringExtra(EstimatePagerActivity.EXTRA_ROOM);
+		Log.d(TAG, "initialRoom=>" + initialRoom);
+		
 		for (int i = 0; i < mRooms.size(); i++)
 		{
 			if (mRooms.get(i).equals(initialRoom))

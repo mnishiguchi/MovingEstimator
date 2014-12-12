@@ -52,6 +52,9 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
+		
+		// Action bar title
+		getActivity().setTitle(Customer.getCurrentCustomer().toString() + " | ESTIMATE");
 	}
 	
 	@Override

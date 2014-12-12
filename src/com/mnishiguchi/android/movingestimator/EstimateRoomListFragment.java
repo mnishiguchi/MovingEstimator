@@ -219,6 +219,8 @@ public class EstimateRoomListFragment extends Fragment implements
 		// Get the selected room.
 		final String clickedRoom = (String)parent.getItemAtPosition(position);
 		
+		Log.d(TAG, "onItemClick() - clickedRoom=>" + clickedRoom);
+		
 		// Remember the selected position
 		mClickedPosition = position;
 		
