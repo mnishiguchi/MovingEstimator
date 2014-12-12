@@ -5,20 +5,19 @@
 	<string name="app_name">MovingEstimator</string>
 	<string name="action_settings">Settings</string>
 	
-	<!-- ActionBar -->
+	<!-- Action Bar -->
 	<string name="actionbar_title_list">Customer List</string>
 	<string name="actionbar_title_customer_info">Customer Information</string>
 	<string name="actionbar_title_estimate">Estimate</string>
 	
-	<!-- EmptyList -->
+	<!-- Empty List -->
 	<string name="customerlist_empty">No customer exists.</string>
 	<string name="roomlist_empty">No room registered.</string>
 	<string name="estimatelist_empty">No item in this room.</string>
 	<string name="estimate_overview_empty">No item registered.</string>
 	<string name="modelist_empty">No item registered.</string>
 	
-	
-	<!-- MenuItems -->
+	<!-- Menu Items -->
 	<string name="menuitem_new">New</string>	
 	<string name="menuitem_delete">Delete</string>
 	<string name="menuitem_edit">Edit</string>
@@ -34,7 +33,7 @@
 	<string name="date_picker_title">Setting Date</string>
 	<string name="time_picker_title">Setting Time</string>
 	
-	<!-- mSpinnerPrefix -->
+	<!-- Spinner Prefix -->
 	<string-array name="prefixes">
 		<item>Mr.</item>
 		<item>Ms.</item>
@@ -42,7 +41,7 @@
 		<item>Mrs.</item>
 	</string-array>
 	
-	<!-- TransportMode -->
+	<!-- Transport Mode -->
 	<string-array name="transport_modes">
 		<item>Ocean1</item>
 		<item>Ocean2</item>
@@ -53,6 +52,46 @@
 		<item>Disposal</item>
 		<item>Storage</item>
 	</string-array>
+	
+	<!-- Estimate Report -->
+	<string name="estimate_report_subject">ESTIMATE | %1$s</string>
+	<string name="send_report">Send estimate data</string>
+	
+	<string name="customer_info">
+		\nName=>%1$s
+		\nOrganization=>%2$s
+		\nEmail=>%3$s
+		\nHome=>%4$s
+		\nWork=>%5$s
+		\nCell=>%6$s
+		\n
+	</string>
+	
+	<string name="moving_info">
+		\nFrom=>%1$s
+		\nTo=>%2$s
+		\nDate=>%3$s
+		\nSchedule=>%4$s
+		\nHome Description=>%5$s
+		\nSpecial Order=>%6$s
+		\nGeneral Comment=>%7$s
+		\n
+	</string>
+	
+	<!-- UI widgets -->
+	<string name="name">Name:</string>
+	<string name="organization">Organization:</string>
+	<string name="email">Email:</string>
+	<string name="home">Home:</string>
+	<string name="work">Work:</string>
+	<string name="cell">Cell:</string>
+	<string name="from">From:</string>
+	<string name="to">To:</string>
+	<string name="comment">Comment:</string>
+	<string name="moving_date">Moving Date:</string>
+	<string name="description_home">Home Description:</string>
+	<string name="special_order">Special Order:</string>
+	<string name="comment_general">General Comment:</string>
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
@@ -75,10 +114,10 @@
 		<item>Back Yard</item>
 		<item>Basement</item>
 		<item>Bathroom</item>
-		<item>Bedroom-1</item>
-		<item>Bedroom-2</item>
-		<item>Bedroom-3</item>
-		<item>Bedroom-4</item>
+		<item>Bedroom1</item>
+		<item>Bedroom2</item>
+		<item>Bedroom3</item>
+		<item>Bedroom4</item>
 		<item>Cellar</item>
 		<item>Closet</item>
 		<item>Den</item>
@@ -109,15 +148,46 @@
 	
 	<!-- Moving Items -->
 	<string-array name="moving_items">
+		<!-- Carton box -->
 		<item>Small Box</item>
 		<item>Medium Box</item>
 		<item>Large Box</item>
 		<item>Desk</item>
-		<item>TV</item>
+
+		<!-- Living room -->
 		<item>Sofa</item>
+		<item>Armcharir</item>
+		<item>Ottoman</item>
+		<item>Folding Chair</item>
+		<item>Coffee Table</item>
+		<item>Side Table</item>
+		<item>Display Shelf</item>
+		<item>Sideboard</item>
+		<item>China Cabinet</item>
+		<item>Dining Table</item>
+		<item>Dining Chair</item>
+		<item>High Chair</item>
+		<item>Garden Table</item>
+		<item>Garden Chair</item>
+		<item>Chest of Drawers</item>
+		<item>Dresser</item>
+		<item>Mirror</item>
+		<item>Floor lamp</item>
+		<item>TV</item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
+		<item></item>
 	</string-array>
-		<string name="select_one">Select one</string>
-		<string name="cu_ft">cu ft</string>
-		<string name="total_volume_">TOTAL VOLUME:</string>
+	
+	<!-- others -->
+	<string name="cu_ft">cu ft</string>
+	<string name="total_volume_">TOTAL VOLUME:</string>
 	
 </resources>

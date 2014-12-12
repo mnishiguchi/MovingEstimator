@@ -162,7 +162,6 @@ public class CustomerListFragment extends ListFragment
 							Log.d(TAG, "onActionItemClicked - contextmenu_delete");
 							
 							// Show Delete Confirmation dialog.
-							//DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedItems())
 							DeleteDialog.newInstance(CustomerListFragment.this, getMultiSelectedListItems())
 								.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 
@@ -261,7 +260,6 @@ public class CustomerListFragment extends ListFragment
 		
 		// Get a reference to the subtitle menu item.
 		//MenuItem menuSubtitle = menu.findItem(R.id.customerlist_menuitem_subtitle);
-		
 	}
 	
 	@Override

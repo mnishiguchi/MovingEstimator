@@ -103,11 +103,11 @@ public class EstimateListFragment extends Fragment implements
 		mListView.addHeaderView(header, null, false);
 		
 		String[] columns = {
-				EstimateTable.COLUMN_ITEM_NAME,
-				EstimateTable.COLUMN_ITEM_SIZE,
+				EstimateTable.COLUMN_NAME,
+				EstimateTable.COLUMN_SIZE,
 				EstimateTable.COLUMN_QUANTITY,
 				EstimateTable.COLUMN_SUBTOTAL,
-				EstimateTable.COLUMN_TRANSPORT_MODE,
+				EstimateTable.COLUMN_MODE,
 				EstimateTable.COLUMN_COMMENT,
 				EstimateTable._ID
 		};

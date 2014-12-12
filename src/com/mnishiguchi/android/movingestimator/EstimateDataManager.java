@@ -1,5 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.io.IOException;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -68,24 +70,24 @@ class EstimateDataManager
 				
 				ContentValues cv = new ContentValues();
 				cv.put(EstimateTable.COLUMN_CUSTOMER_ID, item.customerId);
-				cv.put(EstimateTable.COLUMN_ITEM_NAME, item.name);
-				cv.put(EstimateTable.COLUMN_ITEM_SIZE, item.size);
+				cv.put(EstimateTable.COLUMN_NAME, item.name);
+				cv.put(EstimateTable.COLUMN_SIZE, item.size);
 				cv.put(EstimateTable.COLUMN_QUANTITY, item.quantity);
 				cv.put(EstimateTable.COLUMN_SUBTOTAL, item.subtotal);
 				cv.put(EstimateTable.COLUMN_ROOM, item.room);
-				cv.put(EstimateTable.COLUMN_TRANSPORT_MODE, item.mode);
+				cv.put(EstimateTable.COLUMN_MODE, item.mode);
 				cv.put(EstimateTable.COLUMN_COMMENT, item.comment);
 				
 				// Return the row ID of the newly inserted row, or -1 if an error occurred
 				return mDbHelper.getWritableDatabase().insert(
 						EstimateTable.TABLE_NAME, null, cv);
 			}
-			protected void onPostExecute(boolean success)
+			protected void onPostExecute(Long rowId)
 			{
-				Log.d(TAG, "success=>" + success);
-				if (!success)
+				Log.d(TAG, "insertRowId=>" + rowId);
+				if (rowId == -1)
 				{
-					Log.e(TAG, "Error inserting an estimate item - ");
+					Log.e(TAG, "Error inserting an estimate item");
 				}
 			}
 		};
@@ -143,6 +145,69 @@ class EstimateDataManager
 				EstimateTable.TABLE_NAME,
 				whereClause, whereArgs) > 0;
 	}
+
+	void createCSVReport(String customerId)
+	{
+		// Prepare the params.
+		String[] params = {customerId};
+		
+		// Validation.
+		if (null == params[0])
+		{
+			Log.e(TAG, "createCSVReport, params[0]=>" + params[0]);
+			return;
+		}
+		
+		// Configure the task.
+		new AsyncTask<String[], Void, Boolean>() {
+			
+			@Override
+			protected Boolean doInBackground(String[]... params)
+			{
+				String[] customerId = params[0];
+				
+				String[] columns = {
+						EstimateTable.COLUMN_MODE,
+						EstimateTable.COLUMN_NAME,
+						EstimateTable.COLUMN_SIZE,
+						EstimateTable.COLUMN_QUANTITY,
+						EstimateTable.COLUMN_SUBTOTAL,
+						EstimateTable.COLUMN_ROOM,
+						EstimateTable.COLUMN_COMMENT,
+				};
+				String whereClause = EstimateTable.COLUMN_CUSTOMER_ID + " = ?";
+				String[] whereArgs = customerId;
+				String groupBy = null;
+				String having = null;
+				String orderBy = columns[0] + "," + columns[5];
+						
+				Cursor result = mDbHelper.getWritableDatabase().query(
+						EstimateTable.TABLE_NAME,
+						columns, whereClause, whereArgs, groupBy, having, orderBy);
+				
+				Log.e(TAG, "createCSVReport, result.getCount()=>" + result.getCount());
+				try
+				{
+					CSVReporter.createCSVReport(mAppContext, customerId[0], result);
+					return true;
+				}
+				catch (IOException e)
+				{
+					Log.e(TAG, "Error creating a csv report", e);
+					return false;
+				}
+			}
+			
+			protected void onPostExecute(boolean success)
+			{
+				if (!success)
+				{
+					Utils.showToast(mAppContext, "Couldn't create a csv file");
+				}
+			}
+		
+		}.execute(params); // Execute the task.
+	}
 	
 	void retrieveModesForCustomer(String customerId, final EstimateOverviewFragment fragment)
 	{
@@ -166,7 +231,7 @@ class EstimateDataManager
 			protected Cursor doInBackground(String[]... params)
 			{
 				String[] columns = {
-						EstimateTable.COLUMN_TRANSPORT_MODE
+						EstimateTable.COLUMN_MODE
 				};
 				String whereClause = EstimateTable.COLUMN_CUSTOMER_ID + " = ?";
 				String[] whereArgs = params[0];
@@ -214,8 +279,8 @@ class EstimateDataManager
 			{
 				String[] columns = {
 						EstimateTable._ID,
-						EstimateTable.COLUMN_ITEM_NAME,
-						EstimateTable.COLUMN_ITEM_SIZE,
+						EstimateTable.COLUMN_NAME,
+						EstimateTable.COLUMN_SIZE,
 						EstimateTable.COLUMN_QUANTITY,
 						EstimateTable.COLUMN_SUBTOTAL,
 						EstimateTable.COLUMN_ROOM,
@@ -223,7 +288,7 @@ class EstimateDataManager
 				};
 				String whereClause =
 						EstimateTable.COLUMN_CUSTOMER_ID + " = ? AND " +
-						EstimateTable.COLUMN_TRANSPORT_MODE + " = ?";
+						EstimateTable.COLUMN_MODE + " = ?";
 				String[] whereArgs = params[0];
 				String orderBy = columns[5] + " ASC";
 						
@@ -271,11 +336,11 @@ class EstimateDataManager
 			{
 				String[] columns = {
 						EstimateTable._ID,
-						EstimateTable.COLUMN_ITEM_NAME,
-						EstimateTable.COLUMN_ITEM_SIZE,
+						EstimateTable.COLUMN_NAME,
+						EstimateTable.COLUMN_SIZE,
 						EstimateTable.COLUMN_QUANTITY,
 						EstimateTable.COLUMN_SUBTOTAL,
-						EstimateTable.COLUMN_TRANSPORT_MODE,
+						EstimateTable.COLUMN_MODE,
 						EstimateTable.COLUMN_COMMENT,
 				};
 				String whereClause =

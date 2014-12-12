@@ -23,12 +23,12 @@ public final class EstimateContract
 		public static final String TABLE_NAME = "moving_estimate";
 		public static final String COLUMN_CUSTOMER_ID = "customer_id";
 		public static final String COLUMN_ESTIMATE_DATE = "estimate_date";
-		public static final String COLUMN_ITEM_NAME = "name";
-		public static final String COLUMN_ITEM_SIZE = "size";
+		public static final String COLUMN_NAME = "name";
+		public static final String COLUMN_SIZE = "size";
 		public static final String COLUMN_QUANTITY = "quantity";
 		public static final String COLUMN_SUBTOTAL = "subtotal";
 		public static final String COLUMN_ROOM = "room";
-		public static final String COLUMN_TRANSPORT_MODE = "transport_mode";
+		public static final String COLUMN_MODE = "transport_mode";
 		public static final String COLUMN_COMMENT = "comment";
 	}
 }

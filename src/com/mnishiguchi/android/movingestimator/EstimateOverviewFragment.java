@@ -80,8 +80,8 @@ public class EstimateOverviewFragment extends Fragment implements
 		mFooterText = (TextView)footer.findViewById(R.id.textViewFooterEstimateOverview);
 		
 		String[] columns = {
-				EstimateTable.COLUMN_ITEM_NAME,
-				EstimateTable.COLUMN_ITEM_SIZE,
+				EstimateTable.COLUMN_NAME,
+				EstimateTable.COLUMN_SIZE,
 				EstimateTable.COLUMN_QUANTITY,
 				EstimateTable.COLUMN_SUBTOTAL,
 				EstimateTable.COLUMN_ROOM,

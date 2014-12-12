@@ -32,7 +32,6 @@
 				android:src="@drawable/ic_menu_camera" />
 		</LinearLayout>
 	
-	
 	<!-- Section1 : Customer Information -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"

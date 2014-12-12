@@ -1,6 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -668,15 +670,72 @@ public class CustomerDetailFragment extends Fragment
 				startActivity(i);
 				return true; // Indicate that no further processing is necessary.
 				
-			case R.id.optionsmenu_email: // TODO
+			case R.id.optionsmenu_email:
+
+				// Create a csv file for estimate.
+				EstimateDataManager.get(getActivity())
+					.createCSVReport(Customer.getCurrentCustomer().getId());
 				
-				i = new Intent(getActivity(), EstimateRoomListActivity.class);
-				startActivity(i);
+				// TODO
+				// Attach csv file.
+				
+				// send.
+				reportEstimate();
+				
 				return true; 
 				
 			default:
 				return super.onOptionsItemSelected(item);
 	 	}
+	}
+	
+	private void reportEstimate()
+	{
+		Intent i = new Intent(Intent.ACTION_SEND);
+		i.setType("text/plain");
+		i.putExtra(Intent.EXTRA_TEXT, getEstimateReport());
+		i.putExtra(Intent.EXTRA_SUBJECT, R.string.estimate_report_subject);
+		
+		// Set the chooser so that the user can choose every time they push this button.
+		i = Intent.createChooser(i, getString(R.string.send_report));
+		startActivity(i);
+	}
+
+	/**
+	 * Create a string for the reporting purpose.
+	 */
+	private String getEstimateReport()
+	{
+		Customer customer = Customer.getCurrentCustomer();
+		
+		String report = "";
+		report += getString(R.string.customer_info,
+				customer.toString() + ", " + customer.getFirstName(),
+				customer.getOrganization(),
+				customer.getEmail(),
+				customer.getPhoneHome(),
+				customer.getPhoneWork(),
+				customer.getPhoneCell()
+				);
+		report += getString(R.string.moving_info,
+				"",//customer.from,
+				"",//customer.to,
+				formatDateForReport(customer.getMovingDate()),
+				customer.getMovingDateComment(),
+				customer.getHomeDescription(),
+				customer.getSpecialOrder(),
+				customer.getGeneralComment()
+				);
+		
+		return report;
+	}
+
+	private String formatDateForReport(Date date)
+	{
+		if (null == date) return "";
+		
+		String dateFormat = "EEE, MMM dd";
+		return (String) DateFormat.format(dateFormat, date).toString();
 	}
 	
 	/**

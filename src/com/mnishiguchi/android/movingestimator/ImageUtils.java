@@ -46,7 +46,7 @@ public class ImageUtils
 		// Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 		
 		// Ensure that the external storage is available.
-		if (! Environment. getExternalStorageState ().equals (Environment .MEDIA_MOUNTED ))
+		if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
 		{
 			Log.e(TAG, "External Storage is not available." );
 			return null;

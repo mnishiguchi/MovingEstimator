@@ -23,12 +23,12 @@ public class EstimateDatabaseHelper extends SQLiteOpenHelper
 		EstimateTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 		EstimateTable.COLUMN_CUSTOMER_ID + TEXT_TYPE + COMMA_SEP +
 		EstimateTable.COLUMN_ESTIMATE_DATE + INTEGER_TYPE + COMMA_SEP +
-		EstimateTable.COLUMN_ITEM_NAME + TEXT_TYPE + COMMA_SEP +
-		EstimateTable.COLUMN_ITEM_SIZE + REAL_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_SIZE + REAL_TYPE + COMMA_SEP +
 		EstimateTable.COLUMN_QUANTITY + INTEGER_TYPE + COMMA_SEP +
 		EstimateTable.COLUMN_SUBTOTAL + REAL_TYPE + COMMA_SEP +
 		EstimateTable.COLUMN_ROOM + TEXT_TYPE + COMMA_SEP +
-		EstimateTable.COLUMN_TRANSPORT_MODE + TEXT_TYPE + COMMA_SEP +
+		EstimateTable.COLUMN_MODE + TEXT_TYPE + COMMA_SEP +
 		EstimateTable.COLUMN_COMMENT + TEXT_TYPE +
 	" )";
 
