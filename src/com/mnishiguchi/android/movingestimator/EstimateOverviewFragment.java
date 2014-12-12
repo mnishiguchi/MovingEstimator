@@ -52,11 +52,7 @@ public class EstimateOverviewFragment extends Fragment implements
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
 		
-<<<<<<< HEAD
-		// Action bar title
-=======
 		// Set the action bar title.
->>>>>>> removing-estimatePager
 		getActivity().setTitle(Customer.getCurrentCustomer().toString() + " | ESTIMATE");
 	}
 	

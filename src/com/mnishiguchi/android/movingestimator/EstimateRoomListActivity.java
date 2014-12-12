@@ -63,8 +63,8 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 		else // Single-pane
 		{
 			// Start the EstimatePagerActivity..
-			Intent i = new Intent(this, EstimatePagerActivity.class);
-			i.putExtra(EstimatePagerActivity.EXTRA_ROOM, room);
+			Intent i = new Intent(this, EstimateListActivity.class);
+			i.putExtra(EstimateListActivity.EXTRA_ROOM, room);
 			startActivity(i);
 		}
 	}

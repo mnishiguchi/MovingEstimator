@@ -57,7 +57,7 @@
 				android:value=".EstimateOverviewActivity"/>
 		</activity>
 		
-		<activity android:name=".EstimatePagerActivity"
+		<activity android:name=".EstimateListActivity"
 			android:label="@string/app_name" >
 			<!-- For the Up Button -->
 			<meta-data android:name="android.support.PARENT_ACTIVITY"

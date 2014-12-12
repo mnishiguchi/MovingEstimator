@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -312,11 +311,12 @@ public class CustomerListFragment extends ListFragment
 		selectedCustomer.put(position, adapter.getItem(position));
 	
 		// Get the selected menu item and respond to it.
+		Intent i;
 		switch (item.getItemId())
 		{
 			case R.id.contextmenu_edit:
 				
-				Intent i = new Intent(getActivity(), CustomerEditActivity.class);
+				i = new Intent(getActivity(), CustomerEditActivity.class);
 				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID,
 						selectedCustomer.get(position).getId());
 				startActivity(i);
@@ -324,7 +324,8 @@ public class CustomerListFragment extends ListFragment
 				
 			case R.id.contextmenu_estimate:
 				
-				// TODO
+				i = new Intent(getActivity(), EstimateOverviewActivity.class);
+				startActivity(i);
 				
 				return true;
 				
@@ -354,14 +355,40 @@ public class CustomerListFragment extends ListFragment
 			super(getActivity(), 0, customers);
 		}
 		
+		/** 
+		 * A ViewHolder stores the TextViews of a list item.
+		 * It can be attached to a View as a tag.
+		 */
+		private class ViewHolder
+		{
+			TextView name;
+			TextView company;
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
+			ViewHolder holder = null;
+			Log.v(TAG, String.valueOf(position));
+			
 			// If the convertView wasn't provided, inflate a new one. (Else recycle it)
 			if (null == convertView)
 			{
 				convertView = getActivity().getLayoutInflater()
 						.inflate(R.layout.listitem_customer, null);
+				
+				// Get references to the TextViews and store them in a VewHolder object.
+				holder = new ViewHolder();
+				holder.name = (TextView)convertView.findViewById(R.id.listitem_customer_customername);
+				holder.company = (TextView)convertView.findViewById(R.id.listitem_customer_company);
+				
+				// Attach the ViewHolder to the view as a tag.
+				convertView.setTag(holder);
+			}
+			else
+			{
+				// Get the ViewHolder object attached to the recycled view.
+				holder = (ViewHolder)convertView.getTag();
 			}
 			
 			// --- Configure the convertView for this particular Customer ---
@@ -369,14 +396,9 @@ public class CustomerListFragment extends ListFragment
 			// Get the crime object in question.
 			Customer customer = getItem(position);
 			
-			// TODO - Implement with a ViewHolder.
-			
-			TextView customerName = (TextView)
-					convertView.findViewById(R.id.listitem_customer_customername);
-			customerName.setText(customer.toString());
-			TextView company = (TextView)
-					convertView.findViewById(R.id.listitem_customer_company);
-			company.setText(customer.getOrganization());
+			// Set the data text on each TextView.
+			holder.name.setText(customer.toString());
+			holder.company.setText(customer.getOrganization());
 			
 			return convertView;
 		}
