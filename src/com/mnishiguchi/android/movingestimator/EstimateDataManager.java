@@ -234,7 +234,12 @@ class EstimateDataManager
 			
 			protected void onPostExecute(Cursor result)
 			{
+<<<<<<< HEAD
 				fragment.refreshCursorAdapter(result);
+=======
+				fragment.refreshListView(result);
+				closeDatabase();
+>>>>>>> removing-estimatePager
 			}
 		
 		}.execute(params); // Execute the task.

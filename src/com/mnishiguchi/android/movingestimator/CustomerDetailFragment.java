@@ -8,9 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -381,8 +379,11 @@ public class CustomerDetailFragment extends Fragment
 		if (isVisibleToUser)
 		{
 			// Remember the current customer here because the viewPager's
-			// position is not reliable.
+			// position changes when it prepares for next move.
 			Customer.setCurrentCustomer(mCustomer);
+			
+			// Set the action bar title.
+			getActivity().setTitle(mCustomer.toString());
 		}
 		else
 		{
