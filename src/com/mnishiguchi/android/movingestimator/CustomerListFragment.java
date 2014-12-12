@@ -231,12 +231,9 @@ public class CustomerListFragment extends ListFragment
 		// Remember the current customer.
 		Customer.setCurrentCustomer(customer);
 		
-		if (Utils.hasTwoPane(getActivity()))
-		{
-			// Set the customer name on the Actionbar.
-			getActivity().setTitle(customer.toString());
-		}
-		
+		// Set the action bar title.
+		getActivity().setTitle(customer.toString());
+
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(customer);
 	}

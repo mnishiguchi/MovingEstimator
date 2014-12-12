@@ -237,7 +237,7 @@ class EstimateDataManager
 			
 			protected void onPostExecute(Cursor result)
 			{
-				fragment.refreshCursorAdapter(result);
+				fragment.refreshListView(result);
 				closeDatabase();
 			}
 		

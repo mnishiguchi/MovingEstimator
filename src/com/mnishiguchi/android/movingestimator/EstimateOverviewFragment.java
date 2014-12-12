@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ActionMode;
@@ -52,6 +51,9 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
+		
+		// Set the action bar title.
+		getActivity().setTitle(Customer.getCurrentCustomer().toString() + " | ESTIMATE");
 	}
 	
 	@Override
@@ -122,8 +124,7 @@ public class EstimateOverviewFragment extends Fragment implements
 	}
 	
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id)
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
 		// Remember the selected position
 		mClickedPosition = position;
@@ -191,15 +192,10 @@ public class EstimateOverviewFragment extends Fragment implements
 			cursor.moveToNext();
 		}
 		
-		ArrayAdapter adapter = new ArrayAdapter<String>(
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getActivity(),
 				android.R.layout.simple_spinner_item, // layout file
 				modes); // columns layout
-		
-		///ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-		//		getActivity(),
-		//		R.array.transport_modes, // a string-array defined in res/values/strings.xml
-		//		android.R.layout.simple_spinner_item); // the default layout
 		
 		// Set the dropdown layout.
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
@@ -218,7 +214,9 @@ public class EstimateOverviewFragment extends Fragment implements
 				
 				// Retrieve data from database for the listView.
 				EstimateDataManager.get(getActivity()).retrieveDataForMode(
-						Customer.getCurrentCustomer().getId(), mode, EstimateOverviewFragment.this);
+						Customer.getCurrentCustomer().getId(),
+						mode,
+						EstimateOverviewFragment.this);
 			}
 
 			@Override
@@ -230,7 +228,7 @@ public class EstimateOverviewFragment extends Fragment implements
 	/**
 	 * Refresh the CursorAdapter.
 	 */
-	public void refreshCursorAdapter(Cursor cursor)
+	public void refreshListView(Cursor cursor)
 	{
 		Log.d(TAG, "refreshCursorAdapter()");
 		mAdapter.changeCursor(cursor);
@@ -270,6 +268,5 @@ public class EstimateOverviewFragment extends Fragment implements
 			Log.d(TAG, "Couldn't enable the Up button");
 		}
 	}
-
 
 }
