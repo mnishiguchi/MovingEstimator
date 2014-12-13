@@ -40,9 +40,8 @@ class CSVReporter
 		return file;
 	}
 	
-	static void createCSVReport(Context context, String customerId, Cursor cursor) throws IOException
+	static File createCSVReport(Context context, String customerId, Cursor cursor) throws IOException
 	{
-		//String filename = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 		String filename = "report_" +
 				new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date())
 				+ ".csv";
@@ -98,5 +97,7 @@ class CSVReporter
 		
 		writer.writeAll(data);
 		writer.close();
+		
+		return file;
 	}
 }

@@ -206,35 +206,4 @@ class FileCabinet
 		new SaveCustomersTask().execute();
 	}
 	
-	@SuppressWarnings("unused")
-	private void initFakeCustomers()
-	{
-		Random r = new Random();
-		
-		for (int i = 0; i < 12; i++)
-		{
-			Customer c = new Customer();
-			c.setRefNumber(String.valueOf(r.nextInt(999999)));
-			c.setFirstName("Masa" + UUID.randomUUID().toString().toLowerCase().substring(0, 4));
-			c.setLastName("Nishiguchi" + i);
-			String prefix = (i%2 == 0) ? "Mr." : "Ms.";   // Every other one
-			c.setPrefix(prefix);
-			c.setOrganization("My Company - " + i);
-			c.setAddress(String.valueOf(r.nextInt(1000)) + " Random Rd. NW Washington, DC 20123");
-			c.setEmail(UUID.randomUUID().toString().substring(0, 6) + "@" + "mnishiguchi.com");
-			c.setPhoneHome("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
-			c.setPhoneWork("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
-			c.setPhoneCell("" + r.nextInt(999) + "-" + r.nextInt(999) + "-" + r.nextInt(9999));
-			c.setVolumeOcean(r.nextInt(30));
-			c.setVolumeAir(r.nextInt(100));
-			//c.setVolumeComment("This is the notes on the moving limit.");
-			c.setMovingDate(new Date());
-			//c.setMovingDateComment("Some comment on moving date.");
-			//c.setHomeDescription("This is the home description.");
-			//c.setSpecialOrders("Something special ;)");
-			//c.setGeneralComment("This is the GeneralComment.");
-			
-			mCustomers.add(c);
-		}
-	}
 }

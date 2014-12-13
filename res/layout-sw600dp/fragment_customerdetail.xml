@@ -185,31 +185,11 @@
 					android:layout_weight="2"
 					android:ems="10" />
 			</TableRow>
-			
-			<!-- Home Address -->
-			<TableRow
-				android:id="@+id/tableRow7"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="4dp">
-				<TextView
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:text="Address:" />
-				<TextView
-					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:id="@+id/textViewAddress"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="2"
-					android:ems="10" />
-			</TableRow>
+
+
 		</TableLayout>
 	</LinearLayout>
 
-	
 	
 	<!-- Section2 : Moving Information -->
 	
@@ -219,122 +199,88 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Moving Volume" />
+		android:text="Moving Information" />
 	
-	<!-- Moving Volume -->
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Ocean:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewVolumeOcean"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="VolumeOcean"
-			android:ems="10" />
-	</LinearLayout>
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Air:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewVolumeAir"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:hint="VolumeAir"
-			android:ems="10" />
-	</LinearLayout>
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="12dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewVolumeComment"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:ems="10" />
-	</LinearLayout>
+
 	
 	<!-- Moving Date -->
-	<TextView
-		style="?android:listSeparatorTextViewStyle"
-		android:layout_marginTop="32dp"
-		android:layout_marginBottom="4dp"
+
+	<TableLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Moving Schedule" />
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Moving Date:" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewMovingDate"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2" />
-	</LinearLayout>
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="12dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:orientation="horizontal">
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1" />
-		<TextView
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:id="@+id/textViewMovingDateComment"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="2"
-			android:ems="10" />
-	</LinearLayout>
+		android:shrinkColumns="0"
+		android:padding="8dp">
+		
+		<TableRow
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:padding="4dp">
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="From:" />
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/textViewFrom"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2" />
+		</TableRow>
+		<TableRow
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:padding="4dp">
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="To:" />
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/textViewTo"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2" />
+		</TableRow>
+		<TableRow
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:padding="4dp">
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Moving Date:" />
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/textViewMovingDate"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2" />
+		</TableRow>
+		<TableRow
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:padding="4dp">
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			<TextView
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/textViewMovingSchedule"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="2"
+				android:ems="10" />
+		</TableRow>
+	</TableLayout>
+
 	
 	<!-- Home Description -->
 	<TextView
@@ -389,6 +335,4 @@
 		android:ems="10" />
 
 </LinearLayout>
-
-
 </ScrollView>

@@ -28,7 +28,7 @@ public final class EstimateContract
 		public static final String COLUMN_QUANTITY = "quantity";
 		public static final String COLUMN_SUBTOTAL = "subtotal";
 		public static final String COLUMN_ROOM = "room";
-		public static final String COLUMN_MODE = "transport_mode";
+		public static final String COLUMN_MODE = "mode";
 		public static final String COLUMN_COMMENT = "comment";
 	}
 }

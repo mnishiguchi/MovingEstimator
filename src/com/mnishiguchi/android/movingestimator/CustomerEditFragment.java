@@ -43,10 +43,10 @@ public class CustomerEditFragment extends Fragment
 	EditText mEtRefNumber, mEtFirstName, mEtLastName;
 	Spinner mSpinnerPrefix;
 	EditText mEtOrganization;
-	EditText mEtAddress, mEtEmail, mEtPhoneHome, mEtPhoneWork, mEtPhoneCell;
-	EditText mEtVolumeOcean, mEtVolumeAir, mEtVolumeComment;
+	EditText mEtEmail, mEtPhoneHome, mEtPhoneWork, mEtPhoneCell;
+	EditText mEtFrom, mEtTo;
 	Button mBtnMovingDate;
-	EditText mEtMovingDateComment;
+	EditText mEtMovingSchedule;
 	EditText mEtHomeDescription;
 	EditText mEtSpecialOrder;
 	EditText mEtGeneralComment;
@@ -241,28 +241,7 @@ public class CustomerEditFragment extends Fragment
 			public void afterTextChanged(Editable s)
 			{ } // Required, but not used in this implementation.
 		});
-		
-		// --- mEtAddress ---
-		
-		mEtAddress = (EditText)v.findViewById(R.id.editTextAddress);
-		mEtAddress.setText(mCustomer.getAddress());
-		mEtAddress.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence input, int start, int before, int count)
-			{
-				mCustomer.setAddress(input.toString());
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{ } // Required, but not used in this implementation.
-			
-			@Override
-			public void afterTextChanged(Editable s)
-			{ } // Required, but not used in this implementation.
-		});
-		
+
 		// --- mEtEmail ---
 		
 		mEtEmail = (EditText)v.findViewById(R.id.editTextEmail);
@@ -347,25 +326,38 @@ public class CustomerEditFragment extends Fragment
 			{ } // Required, but not used in this implementation.
 		});
 		
-		// --- mBtnVolumeOcean ---
 		
-		mEtVolumeOcean = (EditText)v.findViewById(R.id.editTextVolumeOcean);
-		mEtVolumeOcean.setText(String.valueOf(mCustomer.getVolumeOcean()));
+		// --- mEtFrom ---
 		
-		// --- mBtnVolumeAir ---
-		
-		mEtVolumeAir = (EditText)v.findViewById(R.id.editTextVolumeAir);
-		mEtVolumeAir.setText(String.valueOf(mCustomer.getVolumeAir()));
-		
-		// --- mEtVolumeComment ---
-		mEtVolumeComment = (EditText)v.findViewById(R.id.editTextVolumeComment);
-		mEtVolumeComment.setText(mCustomer.getVolumeComment());
-		mEtVolumeComment.addTextChangedListener(new TextWatcher() {
+		mEtFrom = (EditText)v.findViewById(R.id.editTextFrom);
+		mEtFrom.setText(mCustomer.getFrom());
+		mEtFrom.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence input, int start, int before, int count)
 			{
-				mCustomer.setVolumeComment(input.toString());
+				mCustomer.setFrom(input.toString());
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			{ } // Required, but not used in this implementation.
+			
+			@Override
+			public void afterTextChanged(Editable s)
+			{ } // Required, but not used in this implementation.
+		});
+		
+		// --- mEtTo ---
+		
+		mEtTo = (EditText)v.findViewById(R.id.editTextTo);
+		mEtTo.setText(mCustomer.getTo());
+		mEtTo.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence input, int start, int before, int count)
+			{
+				mCustomer.setTo(input.toString());
 			}
 			
 			@Override
@@ -405,14 +397,14 @@ public class CustomerEditFragment extends Fragment
 		
 		// --- mEtMovingDateComment ---
 		
-		mEtMovingDateComment = (EditText)v.findViewById(R.id.editTextMovingDateComment);
-		mEtMovingDateComment.setText(mCustomer.getMovingDateComment());
-		mEtMovingDateComment.addTextChangedListener(new TextWatcher() {
+		mEtMovingSchedule = (EditText)v.findViewById(R.id.editTextMovingSchedule);
+		mEtMovingSchedule.setText(mCustomer.getMovingSchedule());
+		mEtMovingSchedule.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence input, int start, int before, int count)
 			{
-				mCustomer.setMovingDateComment(input.toString());
+				mCustomer.setMovingSchedule(input.toString());
 			}
 			
 			@Override

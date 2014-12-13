@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import java.io.File;
 import java.io.IOException;
 
 import android.content.ContentValues;
@@ -146,7 +147,7 @@ class EstimateDataManager
 				whereClause, whereArgs) > 0;
 	}
 
-	void createCSVReport(String customerId)
+	void createCSVReport(String customerId, final CustomerDetailFragment fragment)
 	{
 		// Prepare the params.
 		String[] params = {customerId};
@@ -159,10 +160,10 @@ class EstimateDataManager
 		}
 		
 		// Configure the task.
-		new AsyncTask<String[], Void, Boolean>() {
+		new AsyncTask<String[], Void, File>() {
 			
 			@Override
-			protected Boolean doInBackground(String[]... params)
+			protected File doInBackground(String[]... params)
 			{
 				String[] customerId = params[0];
 				
@@ -188,21 +189,24 @@ class EstimateDataManager
 				Log.e(TAG, "createCSVReport, result.getCount()=>" + result.getCount());
 				try
 				{
-					CSVReporter.createCSVReport(mAppContext, customerId[0], result);
-					return true;
+					return CSVReporter.createCSVReport(mAppContext, customerId[0], result);
 				}
 				catch (IOException e)
 				{
 					Log.e(TAG, "Error creating a csv report", e);
-					return false;
+					return null;
 				}
 			}
 			
-			protected void onPostExecute(boolean success)
+			protected void onPostExecute(File csvFile)
 			{
-				if (!success)
+				if (null == csvFile)
 				{
 					Utils.showToast(mAppContext, "Couldn't create a csv file");
+				}
+				else
+				{
+					fragment.sendReport(csvFile);
 				}
 			}
 		

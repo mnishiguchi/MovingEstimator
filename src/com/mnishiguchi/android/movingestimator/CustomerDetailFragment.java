@@ -47,9 +47,8 @@ public class CustomerDetailFragment extends Fragment
 	
 	// UI components
 	TextView mTvRefNumber, mTvCustomerName,mTvOrganization,
-		mTvAddress, mTvEmail, mTvPhoneHome, mTvPhoneWork, mTvPhoneCell,
-		mTvVolumeOcean, mTvVolumeAir, mTvVolumeComment,
-		mTvMovingDate, mTvMovingDateComment,
+		mTvEmail, mTvPhoneHome, mTvPhoneWork, mTvPhoneCell,
+		mTvFrom, mTvTo, mTvMovingDate, mTvMovingSchedule,
 		mTvHomeDescription, mTvSpecialOrder, mTvGeneralComment;
 	ImageView mThumbnail;
 	ImageButton mBtnPhoto;
@@ -177,11 +176,6 @@ public class CustomerDetailFragment extends Fragment
 		mTvOrganization = (TextView)v.findViewById(R.id.textViewOrganization);
 		mTvOrganization.setText(mCustomer.getOrganization());
 		
-		// --- Address ---
-		
-		mTvAddress = (TextView)v.findViewById(R.id.textViewAddress);
-		mTvAddress.setText(mCustomer.getAddress());
-		
 		// --- Email ---
 		
 		mTvEmail = (TextView)v.findViewById(R.id.textViewEmail);
@@ -202,21 +196,15 @@ public class CustomerDetailFragment extends Fragment
 		mTvPhoneCell = (TextView)v.findViewById(R.id.textViewPhoneCell);
 		mTvPhoneCell.setText(mCustomer.getPhoneCell());
 		
-		// --- VolumeOcean ---
+		// --- From ---
 		
-		mTvVolumeOcean = (TextView)v.findViewById(R.id.textViewVolumeOcean);
-		mTvVolumeOcean.setText(String.valueOf(mCustomer.getVolumeOcean()));
+		mTvFrom = (TextView)v.findViewById(R.id.textViewFrom);
+		mTvFrom.setText(String.valueOf(mCustomer.getTo()));
 		
-		// --- VolumeAir ---
+		// --- To ---
 		
-		mTvVolumeAir = (TextView)v.findViewById(R.id.textViewVolumeAir);
-		mTvVolumeAir.setText(String.valueOf(mCustomer.getVolumeAir()));
-		
-		// --- VolumeComment ---
-		mTvVolumeComment = (TextView)v.findViewById(R.id.textViewVolumeComment);
-		String volumeComment = (null == mCustomer.getVolumeComment()) ?
-				"" : mCustomer.getVolumeComment();
-		mTvVolumeComment.setText(volumeComment);
+		mTvTo = (TextView)v.findViewById(R.id.textViewTo);
+		mTvTo.setText(String.valueOf(mCustomer.getTo()));
 		
 		// --- MovingDate ---
 		
@@ -228,10 +216,10 @@ public class CustomerDetailFragment extends Fragment
 		
 		// --- mEtMovingDateComment ---
 		
-		mTvMovingDateComment = (TextView)v.findViewById(R.id.textViewMovingDateComment);
-		temp = (null == mCustomer.getVolumeComment()) ?
-				"" : mCustomer.getVolumeComment();
-		mTvMovingDateComment.setText(temp);
+		mTvMovingSchedule = (TextView)v.findViewById(R.id.textViewMovingSchedule);
+		temp = (null == mCustomer.getMovingSchedule()) ?
+				"" : mCustomer.getMovingSchedule();
+		mTvMovingSchedule.setText(temp);
 
 		// --- HomeDescription ---
 		
@@ -662,26 +650,20 @@ public class CustomerDetailFragment extends Fragment
 				i = new Intent(getActivity(), CustomerEditActivity.class);
 				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID, mCustomer.getId());
 				startActivity(i);
-				return true; // Indicate that no further processing is necessary.
+				return true; // no further processing is necessary.
 				
 			case R.id.optionsmenu_estimate:
 				
 				i = new Intent(getActivity(), EstimateOverviewActivity.class);
 				startActivity(i);
-				return true; // Indicate that no further processing is necessary.
+				return true; // no further processing is necessary.
 				
-			case R.id.optionsmenu_email:
+			case R.id.optionsmenu_report:
 
 				// Create a csv file for estimate.
 				EstimateDataManager.get(getActivity())
-					.createCSVReport(Customer.getCurrentCustomer().getId());
-				
-				// TODO
-				// Attach csv file.
-				
-				// send.
-				reportEstimate();
-				
+					.createCSVReport(Customer.getCurrentCustomer().getId(), this);
+
 				return true; 
 				
 			default:
@@ -689,12 +671,29 @@ public class CustomerDetailFragment extends Fragment
 	 	}
 	}
 	
-	private void reportEstimate()
+	/**
+	 * Invoked after a csv file is created.
+	 * Send a report with that csv file attached.
+	 * @param csvFile
+	 */
+	public void sendReport(File csvFile)
 	{
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("text/plain");
+		
+		// Subject.
+		i.putExtra(Intent.EXTRA_SUBJECT, getString(
+				R.string.estimate_report_subject, Customer.getCurrentCustomer()));
+		
+		// Body.
 		i.putExtra(Intent.EXTRA_TEXT, getEstimateReport());
-		i.putExtra(Intent.EXTRA_SUBJECT, R.string.estimate_report_subject);
+
+		// Attachment.
+		if (csvFile != null)
+		{
+			Uri uri = Uri.fromFile(csvFile);
+			i.putExtra(Intent.EXTRA_STREAM, uri);
+		}
 		
 		// Set the chooser so that the user can choose every time they push this button.
 		i = Intent.createChooser(i, getString(R.string.send_report));
@@ -718,10 +717,10 @@ public class CustomerDetailFragment extends Fragment
 				customer.getPhoneCell()
 				);
 		report += getString(R.string.moving_info,
-				"",//customer.from,
-				"",//customer.to,
+				customer.getFrom(),
+				customer.getTo(),
 				formatDateForReport(customer.getMovingDate()),
-				customer.getMovingDateComment(),
+				customer.getMovingSchedule(),
 				customer.getHomeDescription(),
 				customer.getSpecialOrder(),
 				customer.getGeneralComment()

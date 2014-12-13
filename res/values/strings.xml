@@ -22,7 +22,7 @@
 	<string name="menuitem_delete">Delete</string>
 	<string name="menuitem_edit">Edit</string>
 	<string name="menuitem_estimate">Estimate</string>
-	<string name="menuitem_email">Email Data</string>
+	<string name="menuitem_report">Send Data</string>
 	<string name="menuitem_getlocation">Get Location</string>
 	<string name="menuitem_about">About</string>
 	<string name="menuitem_new_room">New Room</string>

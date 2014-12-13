@@ -11,9 +11,9 @@
 		android:title="@string/menuitem_edit"
 		android:showAsAction="ifRoom|withText" />
 	
-	<item android:id="@+id/optionsmenu_email"
+	<item android:id="@+id/optionsmenu_report"
 		android:icon="@drawable/ic_menu_send"
-		android:title="@string/menuitem_email"
+		android:title="@string/menuitem_report"
 		android:showAsAction="never" />
 		
 	<item android:id="@+id/optionsmenu_delete"

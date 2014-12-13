@@ -35,16 +35,14 @@ public class Customer
 	private static final String JSON_LAST_NAME = "lastName";
 	private static final String JSON_PREFIX = "prefix";
 	private static final String JSON_ORGANIZATION = "organization";
-	private static final String JSON_ADDRESS = "address";
 	private static final String JSON_EMAIL = "email";
 	private static final String JSON_PHONE_HOME = "phoneHome";
 	private static final String JSON_PHONE_WORK = "phoneWork";
 	private static final String JSON_PHONE_CELL = "phoneCell";
-	private static final String JSON_VOLUME_OCEAN = "volumeOcean";
-	private static final String JSON_VOLUME_AIR = "volumeAir";
-	private static final String JSON_VOLUME_COMMENT = "volumeComment";
+	private static final String JSON_FROM = "volumeOcean";
+	private static final String JSON_TO = "volumeAir";
 	private static final String JSON_MOVING_DATE = "movingDate";
-	private static final String JSON_MOVING_DATE_COMMENT = "movingDateComment";
+	private static final String JSON_MOVING_SCHEDULE = "movingSchedule";
 	private static final String JSON_HOME_DESCRIPTION = "homeDescription";
 	private static final String JSON_SPECIAL_ORDER = "specialOrder";
 	private static final String JSON_GENERAL_COMMENT = "generalComment";
@@ -60,16 +58,14 @@ public class Customer
 	private String mLastName = "";
 	private String mPrefix = "";
 	private String mOrganization = "";
-	private String mAddress = "";
 	private String mEmail = "";
 	private String mPhoneHome = "";
 	private String mPhoneWork = "";
 	private String mPhoneCell = "";
-	private double mVolumeOcean = 0.0;
-	private double mVolumeAir = 0.0;
-	private String mVolumeComment = "";
+	private String mFrom = "";
+	private String mTo = "";
 	private Date mMovingDate = null;
-	private String mMovingDateComment = "";
+	private String mMovingSchedule = "";
 	private String mHomeDescription = "";
 	private String mSpecialOrder = "";
 	private String mGeneralComment = "";
@@ -107,21 +103,19 @@ public class Customer
 		mLastName = json.getString(JSON_LAST_NAME);
 		mPrefix = json.getString(JSON_PREFIX);
 		mOrganization = json.getString(JSON_ORGANIZATION);
-		mAddress = json.getString(JSON_ADDRESS);
 		mEmail = json.getString(JSON_EMAIL);
 		mPhoneHome = json.getString(JSON_PHONE_WORK);
 		mPhoneWork = json.getString(JSON_PHONE_WORK);
 		mPhoneCell = json.getString(JSON_PHONE_CELL);
-		mVolumeOcean = (float)json.getDouble(JSON_VOLUME_OCEAN);
-		mVolumeAir = (float)json.getDouble(JSON_VOLUME_AIR);
-		mVolumeComment = json.getString(JSON_VOLUME_COMMENT);
+		mFrom = json.getString(JSON_FROM);
+		mTo = json.getString(JSON_TO);
 
 		if (json.has(JSON_MOVING_DATE))
 		{
 			mMovingDate = new Date(json.getLong(JSON_MOVING_DATE));
 		}
 
-		mMovingDateComment = json.getString(JSON_MOVING_DATE_COMMENT);
+		mMovingSchedule = json.getString(JSON_MOVING_SCHEDULE);
 		mHomeDescription = json.getString(JSON_HOME_DESCRIPTION);
 		mSpecialOrder = json.getString(JSON_SPECIAL_ORDER);
 		mGeneralComment = json.getString(JSON_GENERAL_COMMENT);
@@ -155,21 +149,19 @@ public class Customer
 		json.put(JSON_LAST_NAME, mLastName);
 		json.put(JSON_PREFIX, mPrefix);
 		json.put(JSON_ORGANIZATION, mOrganization);
-		json.put(JSON_ADDRESS, mAddress);
 		json.put(JSON_EMAIL, mEmail);
 		json.put(JSON_PHONE_HOME, mPhoneHome);
 		json.put(JSON_PHONE_WORK, mPhoneWork);
 		json.put(JSON_PHONE_CELL, mPhoneCell);
-		json.put(JSON_VOLUME_OCEAN, mVolumeOcean);
-		json.put(JSON_VOLUME_AIR, mVolumeAir);
-		json.put(JSON_VOLUME_COMMENT, mVolumeComment);
+		json.put(JSON_FROM, mFrom);
+		json.put(JSON_TO, mTo);
 		
 		if (mMovingDate != null)
 		{
 			json.put(JSON_MOVING_DATE, mMovingDate.getTime()); // convert Date to long
 		}
 		
-		json.put(JSON_MOVING_DATE_COMMENT, mMovingDateComment);
+		json.put(JSON_MOVING_SCHEDULE, mMovingSchedule);
 		json.put(JSON_HOME_DESCRIPTION, mHomeDescription);
 		json.put(JSON_SPECIAL_ORDER, mSpecialOrder);
 		json.put(JSON_GENERAL_COMMENT, mGeneralComment);
@@ -258,16 +250,6 @@ public class Customer
 		mOrganization = organization;
 	}
 
-	public String getAddress()
-	{
-		return mAddress;
-	}
-
-	public void setAddress(String address)
-	{
-		mAddress = address;
-	}
-
 	public String getEmail()
 	{
 		return mEmail;
@@ -308,36 +290,6 @@ public class Customer
 		mPhoneCell = phoneCell;
 	}
 
-	public double getVolumeOcean()
-	{
-		return mVolumeOcean;
-	}
-
-	public void setVolumeOcean(float volumeOcean)
-	{
-		mVolumeOcean = volumeOcean;
-	}
-
-	public double getVolumeAir()
-	{
-		return mVolumeAir;
-	}
-
-	public void setVolumeAir(float volumeAir)
-	{
-		mVolumeAir = volumeAir;
-	}
-
-	public String getVolumeComment()
-	{
-		return mVolumeComment;
-	}
-
-	public void setVolumeComment(String volumeComment)
-	{
-		mVolumeComment = volumeComment;
-	}
-
 	public Date getMovingDate()
 	{
 		return mMovingDate;
@@ -346,16 +298,6 @@ public class Customer
 	public void setMovingDate(Date movingDate)
 	{
 		mMovingDate = movingDate;
-	}
-
-	public String getMovingDateComment()
-	{
-		return mMovingDateComment;
-	}
-
-	public void setMovingDateComment(String movingDateComment)
-	{
-		mMovingDateComment = movingDateComment;
 	}
 
 	public String getHomeDescription()
@@ -411,6 +353,36 @@ public class Customer
 	public void setRooms(ArrayList<String> rooms)
 	{
 		mRooms = rooms;
+	}
+
+	public String getFrom()
+	{
+		return mFrom;
+	}
+
+	public void setFrom(String from)
+	{
+		mFrom = from;
+	}
+
+	public String getTo()
+	{
+		return mTo;
+	}
+
+	public void setTo(String to)
+	{
+		mTo = to;
+	}
+
+	public String getMovingSchedule()
+	{
+		return mMovingSchedule;
+	}
+
+	public void setMovingSchedule(String movingSchedule)
+	{
+		mMovingSchedule = movingSchedule;
 	}
 	
 	
