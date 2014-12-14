@@ -158,17 +158,10 @@ public class EstimateListFragment extends Fragment implements
 	}
 	
 	@Override
-	public void onResume()
-	{
-		super.onResume();
-		Log.d(TAG, "onResume()");
-	}
-	
-	@Override
 	public void onPause()
 	{
 		super.onPause();
-		Log.d(TAG, "onPause()");
+		EstimateDataManager.get(getActivity()).closeDatabase();
 	}
 
 	@Override

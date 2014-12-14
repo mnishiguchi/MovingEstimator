@@ -147,6 +147,10 @@ class EstimateDataManager
 				whereClause, whereArgs) > 0;
 	}
 
+	/**
+	 * Create a CSV file for the specified customer's estimate data.
+	 * Then call CustomerDetailFragment.sendReport().
+	 */
 	void createCSVReport(String customerId, final CustomerDetailFragment fragment)
 	{
 		// Prepare the params.
@@ -186,7 +190,12 @@ class EstimateDataManager
 						EstimateTable.TABLE_NAME,
 						columns, whereClause, whereArgs, groupBy, having, orderBy);
 				
-				Log.e(TAG, "createCSVReport, result.getCount()=>" + result.getCount());
+				if (result.getColumnCount() < 0)
+				{
+					Log.e(TAG, "createCSVReport, result.getCount()=>" + result.getCount());
+					return null;
+				}
+				
 				try
 				{
 					return CSVReporter.createCSVReport(mAppContext, customerId[0], result);
@@ -213,6 +222,10 @@ class EstimateDataManager
 		}.execute(params); // Execute the task.
 	}
 	
+	/**
+	 * Retrieve a list of transport modes for this customer.
+	 * Then call EstimateOverviewFragment.setupSpinner().
+	 */
 	void retrieveModesForCustomer(String customerId, final EstimateOverviewFragment fragment)
 	{
 		// Prepare the params.
@@ -304,8 +317,6 @@ class EstimateDataManager
 			protected void onPostExecute(Cursor result)
 			{
 				fragment.refreshListView(result);
-				closeDatabase();
-
 			}
 		
 		}.execute(params); // Execute the task.

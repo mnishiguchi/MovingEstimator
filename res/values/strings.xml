@@ -41,18 +41,6 @@
 		<item>Mrs.</item>
 	</string-array>
 	
-	<!-- Transport Mode -->
-	<string-array name="transport_modes">
-		<item>Ocean1</item>
-		<item>Ocean2</item>
-		<item>Air1</item>
-		<item>Air2</item>
-		<item>Local1</item>
-		<item>Local2</item>
-		<item>Disposal</item>
-		<item>Storage</item>
-	</string-array>
-	
 	<!-- Estimate Report -->
 	<string name="estimate_report_subject">ESTIMATE | %1$s</string>
 	<string name="send_report">Send estimate data</string>
@@ -95,10 +83,27 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		DEVELOPED BY\n---------------------------------------\n
-		Masatoshi Nishiguchi\n
-		masatoshi.nishiguchi@udc.edu
+		DEVELOPED BY
+		\n---------------------------------------
+		\nMasatoshi Nishiguchi
+		\nmasatoshi.nishiguchi@udc.edu
 	</string>
+	
+	<!-- Estimate Overview -->
+	<string name="cu_ft"></string>
+	<string name="total_volume_">TOTAL VOLUME:</string>
+	
+	<!-- Transport Mode -->
+	<string-array name="transport_modes">
+		<item>Ocean1</item>
+		<item>Ocean2</item>
+		<item>Air1</item>
+		<item>Air2</item>
+		<item>Local1</item>
+		<item>Local2</item>
+		<item>Disposal</item>
+		<item>Storage</item>
+	</string-array>
 	
 	<!-- Default Rooms -->
 	<string-array name="rooms_default">
@@ -149,15 +154,19 @@
 	<!-- Moving Items -->
 	<string-array name="moving_items">
 		<!-- Carton box -->
-		<item>Small Box</item>
-		<item>Medium Box</item>
-		<item>Large Box</item>
-		<item>Desk</item>
+		<item>S Carton</item>
+		<item>M Carton</item>
+		<item>L Carton</item>
+		<item>MM Carton</item>
+		<item>Golf Carton</item>
+		<item>Wardrobe Carton</item>
+		<item>Custom Carton</item>
 
-		<!-- Living room -->
+		<!-- household items -->
 		<item>Sofa</item>
 		<item>Armcharir</item>
 		<item>Ottoman</item>
+		<item>Folding Table</item>
 		<item>Folding Chair</item>
 		<item>Coffee Table</item>
 		<item>Side Table</item>
@@ -174,20 +183,111 @@
 		<item>Mirror</item>
 		<item>Floor lamp</item>
 		<item>TV</item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
-		<item></item>
+		<item>Entertainment Center</item>
+		<item>DVD Player</item>
+		<item>CD</item>
+		<item>DVD</item>
+		<item>Audio Player</item>
+		<item>Speaker</item>
+		<item>Desktop PC</item>
+		<item>Laptop</item>
+		<item>Printer</item>
+		<item>Scanner</item>
+		<item>Clothing</item>
+		<item>Stackable Drawer</item>
+		<item>3-drawer cabinet</item>
+		<item>Pipe Cloting Rack</item>
+		<item>Towels</item>
+		<item>Pants Press</item>
+		<item>Shoes</item>
+		<item>Bags</item>
+		<item>Handbags</item>
+		<item>Picture Frame</item>
+		<item>Photo Frame</item>
+		<item>Poster Frame</item>
+		<item>Decorative Frame</item>
+		<item>Hina Ningo</item>
+		<item>Gogatsu Ningyo</item>
+		<item>Ornaments</item>
+		<item>Dolls</item>
+		<item>Mirror</item>
+		<item>Xmas Tree</item>
+		<item>Books</item>
+		<item>Documents</item>
+		<item>Files</item>
+		<item>Desk Lamp</item>
+		<item>Microwave</item>
+		<item>3-tier Shelf</item>
+		<item>4-tier Shelf</item>
+		<item>5-tier Shelf</item>
+		<item>Wall Shelf</item>
+		<item>Sewing Machine</item>
+		<item>Sewing Supplies</item>
+		<item>Vacuum Cleaner</item>
+		<item>Iron w/ Iron Board</item>
+		<item>Rice Cooker</item>
+		<item>Telephone</item>
+		<item>Bed King</item>
+		<item>Bed Queen</item>
+		<item>Bed Double/Full</item>
+		<item>Bed Single/Twin</item>
+		<item>Headboard</item>
+		<item>Footboard</item>
+		<item>Bunk Bed</item>
+		<item>Baby Crib</item>
+		<item>Futon</item>
+		<item>Desk</item>
+		<item>Chair</item>
+		<item>PC Desk</item>
+		<item>Bookshelf</item>
+		<item>Upright Piano</item>
+		<item>Electronic Piano</item>
+		<item>Electronic Keyboard</item>
+		<item>Golf Set</item>
+		<item>Ski</item>
+		<item>Ski Boots</item>
+		<item>Snowboard</item>
+		<item>Surfboard</item>
+		<item>Bicycle</item>
+		<item>Folding Bicycle</item>
+		<item>Toy</item>
+		<item>Suitcase</item>
+		<item>Rug</item>
+		<item>Carpet</item>
+		<item>Mat</item>
+		<item>China</item>
+		<item>Cooking Pots</item>
+		<item>Cooking Utensils</item>
+		<item>Cooking Supplies</item>
+		<item>Silverware</item>
+		<item>Glassware</item>
+		<item>Food Containers</item>
+		<item>Rocking Chair</item>
+		<item>Bean Bag</item>
+		<item>Recliner</item>
+		<item>Stool</item>
+		<item>Bench</item>
+		<item>Couch</item>
+		<item>Love Seat</item>
+		<item>Hammock</item>
+		<item>Mattress</item>
+		<item>Sofa Bed</item>
+		<item>Billiard Table</item>
+		<item>Chess Table</item>
+		<item>Video Game Console</item>
+		<item>Kotatsu</item>
+		<item>Coffee Table</item>
+		<item>Workbench</item>
+		<item>Nightstand</item>
+		<item>Safe</item>
+		<item>Wine Rack</item>
+		<item>Beddings</item>
+		<item>Cushions</item>
+		<item>Curtains</item>
+		<item>File Cabinet</item>
+		<item>Stationary</item>
+		<item>Cleaning Supplies</item>
+		<item>Bath Supplies</item>
 	</string-array>
-	
-	<!-- others -->
-	<string name="cu_ft">cu ft</string>
-	<string name="total_volume_">TOTAL VOLUME:</string>
 	
 </resources>

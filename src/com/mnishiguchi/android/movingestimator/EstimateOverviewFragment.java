@@ -67,7 +67,6 @@ public class EstimateOverviewFragment extends Fragment implements
 	
 		// Configure the listView.
 		mListView = (ListView)v.findViewById(R.id.listViewEstimateOverview);
-		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		mListView.setEmptyView(v.findViewById(R.id.estimate_overview_empty));
 		
 		// Header and footer
@@ -78,6 +77,9 @@ public class EstimateOverviewFragment extends Fragment implements
 		mListView.addFooterView(footer, null, false);
 		
 		mFooterText = (TextView)footer.findViewById(R.id.textViewFooterEstimateOverview);
+		
+		
+		//--- Set up the list adapter ---
 		
 		String[] columns = {
 				EstimateTable.COLUMN_NAME,
@@ -102,8 +104,14 @@ public class EstimateOverviewFragment extends Fragment implements
 				R.layout.listitem_estimate_overview, // layout file
 				null,  // cursor
 				columns, // column names
-				columnsLayout, 0); // columns layout
-				
+				columnsLayout, 0) { // columns layout
+		
+			// Disable clicks on the list item.
+			public boolean isEnabled(int position) 
+			{ 
+				return false; 
+			} 
+		};
 		mListView.setAdapter(mAdapter);
 		
 		// Respond to short clicks for proceeding to estimate.
@@ -121,6 +129,13 @@ public class EstimateOverviewFragment extends Fragment implements
 
 		// Return the root view.
 		return v;
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		EstimateDataManager.get(getActivity()).closeDatabase();
 	}
 	
 	@Override
