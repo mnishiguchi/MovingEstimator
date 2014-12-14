@@ -28,6 +28,7 @@
 	<string name="menuitem_new_room">New Room</string>
 	<string name="menuitem_new_item">Add Item</string>
 	<string name="menuitem_edit_estimate">Edit Estimate</string>
+	<string name="menuitem_settings">Settings</string>
 	
 	<!-- Date/time picker -->
 	<string name="date_picker_title">Setting Date</string>
@@ -67,9 +68,10 @@
 	</string>
 	
 	<!-- UI widgets -->
+	<string name="ref_number">Ref#</string>
 	<string name="reference_number">Reference number</string>
 	<string name="name">Name</string>
-	<string name="last_name_first_name_prefix">Last name,    First name,    Prefix</string>
+	<string name="last_name_first_name_prefix">Last name, First name, Prefix</string>
 	<string name="last_name">Last name</string>
 	<string name="first_name">First name</string>
 	<string name="organization">Organization</string>
@@ -81,6 +83,7 @@
 	<string name="phone_home">Phone(Home)</string>
 	<string name="phone_work">Phone(Work)</string>
 	<string name="phone_cell">Phone(Cell)</string>
+	<string name="moving_information">Moving Information</string>
 	<string name="from">From</string>
 	<string name="to">To</string>
 	<string name="comment">Comment</string>
@@ -89,7 +92,7 @@
 	<string name="home_description">Home description</string>
 	<string name="special_order">Special order</string>
 	<string name="general_comment">General comment</string>
-
+	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
 		DEVELOPED BY
@@ -298,9 +301,6 @@
 		<item>Cleaning Supplies</item>
 		<item>Bath Supplies</item>
 	</string-array>
-		<string name="ref_number">Ref#:</string>
-		<string name="moving_information">Moving Information</string>
-	
+		<string name="org">Org</string>
 
-	
 </resources>

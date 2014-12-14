@@ -446,7 +446,7 @@ public class CustomerEditFragment extends Fragment
 			@Override
 			public void onTextChanged(CharSequence input, int start, int before, int count)
 			{
-				mCustomer.setHomeDescription(input.toString());
+				mCustomer.setSpecialOrder(input.toString());
 			}
 			
 			@Override

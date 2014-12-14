@@ -196,7 +196,7 @@ public class CustomerDetailFragment extends Fragment
 		// --- From ---
 		
 		mTvFrom = (TextView)v.findViewById(R.id.textViewFrom);
-		mTvFrom.setText(String.valueOf(mCustomer.getTo()));
+		mTvFrom.setText(String.valueOf(mCustomer.getFrom()));
 		
 		// --- To ---
 		
@@ -779,4 +779,5 @@ public class CustomerDetailFragment extends Fragment
 				.create();
 		}
 	}
+
 }

@@ -89,7 +89,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Org:  " 
+					android:text="@string/org" 
 					/>
 				<TextView
 					android:id="@+id/textViewOrganization"
@@ -126,7 +126,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="@string/phone_home" />
+					android:text="@string/home" />
 				<TextView
 					android:id="@+id/textViewPhoneHome"
 					android:layout_width="0dp"
@@ -142,7 +142,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="@string/phone_work" />
+					android:text="@string/work" />
 				<TextView
 					android:id="@+id/textViewPhoneWork"
 					android:layout_width="0dp"
@@ -158,7 +158,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="@string/phone_cell" />
+					android:text="@string/cell" />
 				<TextView
 					android:id="@+id/textViewPhoneCell"
 					android:layout_width="0dp"

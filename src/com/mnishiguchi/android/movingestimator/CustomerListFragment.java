@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,6 +41,9 @@ public class CustomerListFragment extends ListFragment
 	
 	private static final String DIALOG_DELETE = "deleteDialog";
 	private static final String DIALOG_ABOUT = "aboutDialog";
+	private static final String DIALOG_PASSWORD = "passwordDialog";
+	
+	private static final String PASSWORD = "password";
 	
 	// Reference to the list of customers stored in FileCabinet.
 	private ArrayList<Customer> mCustomers;
@@ -280,6 +286,13 @@ public class CustomerListFragment extends ListFragment
 				AboutDialog.newInstance().show(getFragmentManager(), DIALOG_ABOUT);
 				return true;  // No further processing is necessary.
 				
+			// --- SETTINGS ---
+					
+			case R.id.optionsmenu_settings:
+
+				new PasswordDialog().show(getFragmentManager(), DIALOG_PASSWORD);
+				return true; 
+				
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -406,8 +419,6 @@ public class CustomerListFragment extends ListFragment
 	
 	private void addNewCustomer()
 	{
-		//Log.e(TAG, "addNewCustomer()");
-		
 		// Create and add a new Customer object to the FileCabinet's list.
 		Customer customer = new Customer();
 		FileCabinet.get(getActivity()).addCustomer(customer) ;
@@ -479,9 +490,6 @@ public class CustomerListFragment extends ListFragment
 		
 		// Notify the hosting activity.
 		mCallbacks.onListItemsDeleted(customers);
-		
-		// Notify the user about the result.
-		//Utils.showToast(getActivity(), size + " deleted");
 	}
 	
 	@SuppressLint("NewApi")
@@ -492,12 +500,12 @@ public class CustomerListFragment extends ListFragment
 		// Delete animation.
 		final View view = getListAdapter().getView(position, null, getListView());
 		view.animate()
-			.setDuration (1000)
+			.setDuration(1000)
 			.alpha (0)
-			.withEndAction (new Runnable() {
+			.withEndAction(new Runnable() {
 				
 				@Override
-				public void run ()
+				public void run()
 				{
 					// Remove the data from model layer.
 					FileCabinet.get(getActivity()).deleteCustomer(clickedIitem);
@@ -629,6 +637,88 @@ public class CustomerListFragment extends ListFragment
 			mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 			
 			return mTextView;
+		}
+		
+		@Override
+		public void onPause()
+		{
+			// Close the dialog as soon as the device orientation changes.
+			dismiss();
+			super.onPause();
+		}
+	}
+	
+	static class PasswordDialog extends DialogFragment
+	{
+		private EditText mEtPassword;
+		
+		// For validation.
+		private String mPassword;
+		
+		/*
+		 * Configure the dialog.
+		 */
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState)
+		{
+			// Define the response to buttons.
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
+			{ 
+				public void onClick(DialogInterface dialog, int which) 
+				{ 
+					switch (which) 
+					{ 
+						case DialogInterface.BUTTON_POSITIVE:
+							
+							// Do nothing if the room is invalid.
+							mPassword = mEtPassword.getText().toString();
+							if (!isRoomValid())
+							{
+								Utils.showToast(getActivity(), "Invalid password");
+								return;
+							}
+							
+							// Save the password.
+							getActivity().getPreferences(Context.MODE_PRIVATE)
+								.edit()
+								.putString(PASSWORD, mPassword)
+								.commit();
+							break; 
+							
+						case DialogInterface.BUTTON_NEGATIVE: 
+							// do nothing 
+							break; 
+					} 
+				}
+			};
+			
+			// Inflate the dialog's root view.
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			View v = inflater.inflate(R.layout.dialog_password, null);
+			
+			// Get a reference to the user input.
+			mEtPassword = (EditText)v.findViewById(R.id.EditTextPassword);
+			
+			String currentPassword = getActivity().getPreferences(Context.MODE_PRIVATE)
+					.getString(PASSWORD, "(none set)");
+			
+			// Create and return a dialog.
+			return new AlertDialog.Builder(getActivity())
+				.setTitle("Change Password")
+				.setView(v)
+				.setMessage("(Currently: " + currentPassword + ")")
+				.setPositiveButton("Change", listener)
+				.setNegativeButton("Cancel", listener)
+				.create();
+		}
+		
+		/**
+		 * Check if the user input is valid.
+		 */
+		private boolean isRoomValid()
+		{
+			// TODO
+			return true;
 		}
 		
 		@Override
