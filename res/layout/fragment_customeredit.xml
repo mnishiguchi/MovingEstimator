@@ -5,7 +5,7 @@
 	android:layout_height="wrap_content" >
 <LinearLayout
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_height="wrap_content"
 	android:layout_marginLeft="16dp"
 	android:layout_marginRight="16dp"
 	android:layout_marginTop="16dp"
@@ -17,14 +17,14 @@
 		style="?android:listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Reference number" />
+		android:text="@string/reference_number" />
 	<EditText
 		android:id="@+id/editTextRefNumber"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
-		android:hint="Reference number"
+		android:hint="@string/reference_number"
 		android:ems="10" />
 
 	<!-- CustomerName -->
@@ -33,7 +33,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="16dp"
-		android:text="Last name,    First name,    Prefix" />
+		android:text="@string/last_name_first_name_prefix" />
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="2"
 			android:ems="10"
-			android:hint="Last name"
+			android:hint="@string/last_name"
 			android:inputType="textPersonName"/>
 		<EditText
 			android:id="@+id/editTextFirstName"
@@ -55,7 +55,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="2"
 			android:ems="10"
-			android:hint="First name"
+			android:hint="@string/first_name"
 			android:inputType="textPersonName"/>
 		<Spinner
 			android:id="@+id/spinnerPrefix"
@@ -70,7 +70,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Organization" />
+		android:text="@string/organization" />
 		
 	<EditText
 		android:id="@+id/editTextOrganization"
@@ -79,7 +79,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="Organization"
+		android:hint="@string/organization"
 		android:inputType="textPersonName"/>
 
 	<!-- E-mail -->
@@ -88,7 +88,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="E-mail" />
+		android:text="@string/email" />
 	<EditText
 		android:id="@+id/editTextEmail"
 		android:layout_width="match_parent"
@@ -96,7 +96,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="E-mail"
+		android:hint="@string/email"
 		android:inputType="textEmailAddress" />
 	
 	<!-- Phone Numbers -->
@@ -105,7 +105,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Phone Number" />
+		android:text="@string/phone_number" />
 	
 	<!-- Home -->
 	<LinearLayout
@@ -119,14 +119,14 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Home:" />
+			android:text="@string/home" />
 		<EditText
 			android:id="@+id/editTextPhoneHome"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="5"
 			android:ems="10"
-			android:hint="Phone(Home)"
+			android:hint="@string/phone_home"
 			android:inputType="phone" />
 	</LinearLayout>
 	
@@ -142,14 +142,14 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Work:" />
+			android:text="@string/work" />
 		<EditText
 			android:id="@+id/editTextPhoneWork"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="5"
 			android:ems="10"
-			android:hint="Phone(Work)"
+			android:hint="@string/phone_work"
 			android:inputType="phone" />
 	</LinearLayout>
 	
@@ -165,14 +165,14 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:ems="10"
-			android:text="Cell:" />
+			android:text="@string/cell" />
 		<EditText
 			android:id="@+id/editTextPhoneCell"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="5"
 			android:ems="10"
-			android:hint="Phone(Cell)"
+			android:hint="@string/phone_cell"
 			android:inputType="phone" />
 	</LinearLayout>
 	
@@ -182,7 +182,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="From:" />
+		android:text="@string/from" />
 	<EditText
 		android:id="@+id/editTextFrom"
 		android:layout_width="match_parent"
@@ -190,7 +190,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="From"
+		android:hint="@string/from"
 		android:inputType="textPostalAddress" />
 	
 	<!-- To -->
@@ -199,7 +199,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="To:" />
+		android:text="@string/to" />
 	<EditText
 		android:id="@+id/editTextTo"
 		android:layout_width="match_parent"
@@ -207,17 +207,16 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="To"
+		android:hint="@string/to"
 		android:inputType="textPostalAddress" />
 	
-
 	<!-- Moving Date -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Moving Date" />
+		android:text="@string/moving_date" />
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -237,10 +236,8 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="2"
 			android:ems="10"
-			android:hint="Comment on schedule" />
+			android:hint="@string/comment_on_schedule" />
 	</LinearLayout>
-	
-
 	
 	<!-- Home Description -->
 	<TextView
@@ -248,7 +245,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Home Description" />
+		android:text="@string/home_description" />
 	<EditText
 		android:id="@+id/editTextHomeDescription"
 		android:layout_width="match_parent"
@@ -256,7 +253,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="Description of the home" />
+		android:hint="@string/home_description" />
 	
 	<!-- Special order -->
 	<TextView
@@ -264,7 +261,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Special order" />
+		android:text="@string/special_order" />
 	<EditText
 		android:id="@+id/editTextSpecialOrder"
 		android:layout_width="match_parent"
@@ -272,7 +269,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:ems="10"
-		android:hint="Special order" />
+		android:hint="@string/special_order" />
 	
 	<!-- General Comment -->
 	<TextView
@@ -280,7 +277,7 @@
 		android:layout_marginTop="16dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="General Comment" />
+		android:text="@string/general_comment" />
 	<EditText
 		android:id="@+id/editTextGeneralComment"
 		android:layout_width="match_parent"
@@ -289,7 +286,7 @@
 		android:layout_marginRight="16dp"
 		android:layout_marginBottom ="32dp"
 		android:ems="10"
-		android:hint="General Comment" />
+		android:hint="@string/general_comment" />
 
 </LinearLayout>
 </ScrollView>

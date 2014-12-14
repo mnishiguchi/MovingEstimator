@@ -54,7 +54,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Ref#:" />
+					android:text="@string/ref_number" />
 				<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:id="@+id/textViewRefNumber"
@@ -199,7 +199,7 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Moving Information" />
+		android:text="@string/moving_information" />
 	
 
 	

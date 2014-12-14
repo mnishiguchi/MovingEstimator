@@ -45,7 +45,6 @@
 			
 			<!-- Reference number -->
 			<TableRow
-				android:id="@+id/tableRow0"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content" 
 				android:padding="4dp">
@@ -53,7 +52,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Ref#:" 
+					android:text="@string/ref_number" 
 					/>
 				<TextView
 					android:id="@+id/textViewRefNumber"
@@ -72,7 +71,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Name:" />
+					android:text="@string/name" />
 				<TextView
 					android:id="@+id/textViewCustomerName"
 					android:layout_width="0dp"
@@ -109,7 +108,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="E-mail:" />
+					android:text="@string/email" />
 				<TextView
 					android:id="@+id/textViewEmail"
 					android:layout_width="0dp"
@@ -127,7 +126,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Home:" />
+					android:text="@string/phone_home" />
 				<TextView
 					android:id="@+id/textViewPhoneHome"
 					android:layout_width="0dp"
@@ -143,7 +142,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Work:" />
+					android:text="@string/phone_work" />
 				<TextView
 					android:id="@+id/textViewPhoneWork"
 					android:layout_width="0dp"
@@ -159,7 +158,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Cell:" />
+					android:text="@string/phone_cell" />
 				<TextView
 					android:id="@+id/textViewPhoneCell"
 					android:layout_width="0dp"
@@ -179,7 +178,7 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Moving Information" />
+		android:text="@string/moving_information" />
 	
 	<!-- Moving Date -->
 
@@ -197,7 +196,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="From:" />
+				android:text="@string/from" />
 			<TextView
 				android:id="@+id/textViewFrom"
 				android:layout_width="0dp"
@@ -212,7 +211,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="To:" />
+				android:text="@string/to" />
 			<TextView
 				android:id="@+id/textViewTo"
 				android:layout_width="0dp"
@@ -227,7 +226,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="Moving Date:" />
+				android:text="@string/moving_date" />
 			<TextView
 				android:id="@+id/textViewMovingDate"
 				android:layout_width="0dp"
@@ -259,7 +258,7 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Home Description" />
+		android:text="@string/home_description" />
 	<TextView
 		android:id="@+id/textViewHomeDescription"
 		android:layout_width="match_parent"
@@ -275,7 +274,7 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Special order" />
+		android:text="@string/special_order" />
 	<TextView
 		android:id="@+id/textViewSpecialOrder"
 		android:layout_width="match_parent"
@@ -291,7 +290,7 @@
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="General Comment" />
+		android:text="@string/general_comment" />
 	<TextView
 		android:id="@+id/textViewGeneralComment"
 		android:layout_width="match_parent"
