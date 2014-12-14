@@ -23,7 +23,6 @@ class EstimateDataManager
 	
 	private Context mAppContext;
 	private EstimateDatabaseHelper mDbHelper;
-	//private SharedPreferences mPrefs;
 	
 	/**
 	 * Private constructor.
@@ -36,7 +35,6 @@ class EstimateDataManager
 		mAppContext = appContext;
 		
 		mDbHelper = new EstimateDatabaseHelper(mAppContext);
-		//mPrefs = mAppContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
 	}
 	
 	/**
@@ -103,8 +101,6 @@ class EstimateDataManager
 	 */
 	public boolean deleteSingleRow(long rowId) 
 	{
-		Log.d(TAG, "deleteSingleRow() - rowId: " + rowId);
-		
 		// DELETE FROM table_name WHERE some_column=some_value;
 		String whereClause = EstimateTable._ID + " = ?";
 		String[] whereArgs = new String[] {String.valueOf(rowId)};
@@ -282,8 +278,8 @@ class EstimateDataManager
 		{
 			if (null == s)
 			{
-				Log.e(TAG, "retrieveDataForMode() - params[0]=>" + params[0] +
-						" - params[1]=>" + params[1]);
+				Log.e(TAG, "retrieveDataForMode(), params[0]=>" + params[0] +
+						", params[1]=>" + params[1]);
 				return;
 			}
 		}
@@ -337,8 +333,8 @@ class EstimateDataManager
 		{
 			if (null == s)
 			{
-				Log.e(TAG, "retrieveDataForMode() - params[0]=>" + params[0] +
-						" - params[1]=>" + params[1]);
+				Log.e(TAG, "retrieveDataForMode(), params[0]=>" + params[0] +
+						", params[1]=>" + params[1]);
 				return;
 			}
 		}

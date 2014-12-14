@@ -40,13 +40,17 @@ class CSVReporter
 		return file;
 	}
 	
+	/**
+	 * Create a CSV file for the customer's data in the directory "Download/app_name"
+	 */
 	static File createCSVReport(Context context, String customerId, Cursor cursor) throws IOException
 	{
+		// Generate a unique file name base on the current time.
 		String filename = "report_" +
 				new SimpleDateFormat("yyyMMdd_HHmm_ss_SSS", Locale.US).format(new Date())
 				+ ".csv";
 
-		// Create a directory with the app name.
+		// Create a file in the directory "Download/app_name".
 		File dir = getCSVStorageDir(context.getResources().getString(R.string.app_name));
 		File file = new File(dir,filename);
 		
@@ -54,16 +58,18 @@ class CSVReporter
 		{
 			Log.e(TAG, "createCSVReport(), dir=>" + dir + ", file=>" + file);
 		}
+		
+		// Create a CSV write for this file.
 		CSVWriter writer = new CSVWriter(new FileWriter(file));
 
-		// Temporary storage.
+		// Temporary storage for preparing contents.
 		List<String[]> data = new ArrayList<String[]>();
 		
 		// Customer name.
 		data.add(new String[] {FileCabinet.get(context).getCustomer(customerId).toString()});
 		data.add(new String[] {""}); // Empty line.
 		
-		// CSV header.
+		// Table header.
 		data.add(new String[] {
 				EstimateTable.COLUMN_MODE,
 				EstimateTable.COLUMN_NAME,
@@ -74,7 +80,7 @@ class CSVReporter
 				EstimateTable.COLUMN_COMMENT,
 		});
 		
-		// CSV body based on the query result.
+		// Table body based on the query result.
 		String mode, name, size, quantity, subtotal, room, comment;
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast())

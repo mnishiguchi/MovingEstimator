@@ -1,6 +1,7 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -127,8 +128,6 @@ public class CustomerDetailFragment extends Fragment
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
 		
-		Log.d(TAG, "onCreate() - mCustomer=>" + mCustomer.getLastName());
-		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 		
@@ -140,8 +139,6 @@ public class CustomerDetailFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
 			Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreateView()");
-		
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_customerdetail, parent, false);
 		
@@ -365,7 +362,7 @@ public class CustomerDetailFragment extends Fragment
 	{
 		super.setUserVisibleHint(isVisibleToUser);
 		
-		Log.d(TAG, "isVisibleToUser=>" + isVisibleToUser);
+		//Log.d(TAG, "isVisibleToUser=>" + isVisibleToUser);
 		if (isVisibleToUser)
 		{
 			// Remember the current customer here because the viewPager's
@@ -413,7 +410,7 @@ public class CustomerDetailFragment extends Fragment
 		
 		if (requestCode == REQUEST_DEFAULT_CAMERA)
 		{
-			Log.d(TAG, "After camera activity, mPhotoPath: " + mPhotoFilepath);
+			//Log.d(TAG, "After camera taken, mPhotoPath=>" + mPhotoFilepath);
 			
 			// Delete the old photo, if any.
 			if (mCustomer.getPhoto() != null)
@@ -439,7 +436,6 @@ public class CustomerDetailFragment extends Fragment
 			{
 				Photo photo = new Photo(mPhotoFilename);
 				mCustomer.setPhoto(photo);
-				Log.d(TAG, "photo.getFilename(): " + photo.getFilename());
 				
 				// Notify it.
 				mCallbacks.onCustomerUpdated(mCustomer);
@@ -449,6 +445,9 @@ public class CustomerDetailFragment extends Fragment
 				
 				// Forget the filepath.
 				mPhotoFilepath = null;
+				
+				// Save updated customers data.
+				FileCabinet.get(getActivity()).saveCustomers();
 			}
 			else
 			{
@@ -488,7 +487,6 @@ public class CustomerDetailFragment extends Fragment
 			
 			// Remember the filepath.
 			mPhotoFilepath = photoFile.getAbsolutePath();
-			Log.e(TAG, "After createImageFile(): " + mPhotoFilepath);
 			
 			// Continue only if the File was successfully created
 			if (photoFile != null)
@@ -513,7 +511,7 @@ public class CustomerDetailFragment extends Fragment
 		}
 		else
 		{
-			Log.d(TAG, "Couldn't enable the Up button");
+			Log.e(TAG, "Couldn't enable the Up button");
 		}
 	}
 
@@ -544,7 +542,7 @@ public class CustomerDetailFragment extends Fragment
 	 */
 	private void deleteCustomer()
 	{
-		Log.d(TAG, "deleteCustomer() - mCustomer.getLastName(): " + mCustomer.getLastName());
+		//Log.d(TAG, "deleteCustomer(), mCustomer.getLastName()=>" + mCustomer.getLastName());
 	
 		// Get the crime title.
 		String customerString =
@@ -574,7 +572,7 @@ public class CustomerDetailFragment extends Fragment
 	{
 		if (null == mCustomer.getPhoto())
 		{
-			Utils.showToast(getActivity(), "Couldn't find any photo to delete");
+			//Utils.showToast(getActivity(), "Couldn't find any photo to delete");
 			return ; // Fail.
 		}
 		
@@ -585,14 +583,17 @@ public class CustomerDetailFragment extends Fragment
 		boolean success = mCustomer.getPhoto().deletePhoto(getActivity());
 		if (success)
 		{
-			Utils.showToast(getActivity(), "old photo deleted");
+			Utils.showToast(getActivity(), "A photo deleted");
 			
 			// Set the reference to null.
 			mCustomer.setPhoto(null);
+			
+			// Save updated customers data.
+			FileCabinet.get(getActivity()).saveCustomers();
 		}
 		else
 		{
-			Utils.showToast(getActivity(), "Couldn't delete the old photo");
+			Utils.showToast(getActivity(), "Couldn't delete the photo");
 		}
 	}
 
@@ -673,12 +674,12 @@ public class CustomerDetailFragment extends Fragment
 	
 	/**
 	 * Invoked after a csv file is created.
-	 * Send a report with that csv file attached.
+	 * Send a report with that csv file and photo file attached.
 	 * @param csvFile
 	 */
 	public void sendReport(File csvFile)
 	{
-		Intent i = new Intent(Intent.ACTION_SEND);
+		Intent i = new Intent(Intent.ACTION_SEND_MULTIPLE);
 		i.setType("text/plain");
 		
 		// Subject.
@@ -688,12 +689,22 @@ public class CustomerDetailFragment extends Fragment
 		// Body.
 		i.putExtra(Intent.EXTRA_TEXT, getEstimateReport());
 
-		// Attachment.
+		// Attachments.
+		ArrayList<Uri> uris = new ArrayList<Uri>();
+		
 		if (csvFile != null)
 		{
-			Uri uri = Uri.fromFile(csvFile);
-			i.putExtra(Intent.EXTRA_STREAM, uri);
+			uris.add(Uri.fromFile(csvFile));
 		}
+		
+		if (mCustomer.getPhoto() != null)
+		{
+			File dir = ImageUtils.getPictureStorageDir(getActivity());
+			File photoFile = new File(dir, mCustomer.getPhoto().getFilename());
+			uris.add(Uri.fromFile(photoFile));
+		}
+
+		i.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 		
 		// Set the chooser so that the user can choose every time they push this button.
 		i = Intent.createChooser(i, getString(R.string.send_report));
@@ -719,7 +730,7 @@ public class CustomerDetailFragment extends Fragment
 		report += getString(R.string.moving_info,
 				customer.getFrom(),
 				customer.getTo(),
-				formatDateForReport(customer.getMovingDate()),
+				customer.getMovingDateString(),
 				customer.getMovingSchedule(),
 				customer.getHomeDescription(),
 				customer.getSpecialOrder(),
@@ -727,14 +738,6 @@ public class CustomerDetailFragment extends Fragment
 				);
 		
 		return report;
-	}
-
-	private String formatDateForReport(Date date)
-	{
-		if (null == date) return "";
-		
-		String dateFormat = "EEE, MMM dd";
-		return (String) DateFormat.format(dateFormat, date).toString();
 	}
 	
 	/**

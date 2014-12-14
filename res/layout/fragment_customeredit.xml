@@ -289,7 +289,7 @@
 		android:layout_marginRight="16dp"
 		android:layout_marginBottom ="32dp"
 		android:ems="10"
-		android:hint="General Comment." />
+		android:hint="General Comment" />
 
 </LinearLayout>
 </ScrollView>

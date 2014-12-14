@@ -39,8 +39,8 @@ public class Customer
 	private static final String JSON_PHONE_HOME = "phoneHome";
 	private static final String JSON_PHONE_WORK = "phoneWork";
 	private static final String JSON_PHONE_CELL = "phoneCell";
-	private static final String JSON_FROM = "volumeOcean";
-	private static final String JSON_TO = "volumeAir";
+	private static final String JSON_FROM = "from";
+	private static final String JSON_TO = "to";
 	private static final String JSON_MOVING_DATE = "movingDate";
 	private static final String JSON_MOVING_SCHEDULE = "movingSchedule";
 	private static final String JSON_HOME_DESCRIPTION = "homeDescription";
@@ -196,6 +196,7 @@ public class Customer
 	
 	public String getMovingDateString()
 	{
+		if (null == mMovingDate) return "TBD";
 		return (String) android.text.format.DateFormat
 				.format("yyyy-MM-dd hh:mma", mMovingDate);
 	}

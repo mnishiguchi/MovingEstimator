@@ -86,7 +86,6 @@ public class CustomerListFragment extends ListFragment
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		
 		// Notify the FragmentManager that this fragment needs to receive options menu callbacks.
@@ -370,7 +369,7 @@ public class CustomerListFragment extends ListFragment
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			ViewHolder holder = null;
-			Log.v(TAG, String.valueOf(position));
+			//Log.v(TAG, "getView(), position=>" + String.valueOf(position));
 			
 			// If the convertView wasn't provided, inflate a new one. (Else recycle it)
 			if (null == convertView)
@@ -407,7 +406,7 @@ public class CustomerListFragment extends ListFragment
 	
 	private void addNewCustomer()
 	{
-		Log.e(TAG, "addNewCustomer()");
+		//Log.e(TAG, "addNewCustomer()");
 		
 		// Create and add a new Customer object to the FileCabinet's list.
 		Customer customer = new Customer();
@@ -421,7 +420,7 @@ public class CustomerListFragment extends ListFragment
 		if (customer.getId() != null)
 		{
 			i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID, customer.getId());
-			Log.e(TAG, "mCustomer.getId()=>" + customer.getId());
+			//Log.e(TAG, "mCustomer.getId()=>" + customer.getId());
 			startActivity(i);
 		}
 	}
@@ -431,7 +430,7 @@ public class CustomerListFragment extends ListFragment
 	 */
 	void updateListView()
 	{
-		Log.d(TAG, "updateListView() - mCustomers.size(): " + mCustomers.size());
+		//Log.d(TAG, "updateListView() - mCustomers.size(): " + mCustomers.size());
 		((CustomerListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
@@ -482,7 +481,7 @@ public class CustomerListFragment extends ListFragment
 		mCallbacks.onListItemsDeleted(customers);
 		
 		// Notify the user about the result.
-		Utils.showToast(getActivity(), size + " deleted");
+		//Utils.showToast(getActivity(), size + " deleted");
 	}
 	
 	@SuppressLint("NewApi")
@@ -490,6 +489,7 @@ public class CustomerListFragment extends ListFragment
 	{
 		final Customer clickedIitem = (Customer)getListAdapter().getItem(position);
 		
+		// Delete animation.
 		final View view = getListAdapter().getView(position, null, getListView());
 		view.animate()
 			.setDuration (1000)
