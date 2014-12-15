@@ -59,7 +59,10 @@ public class DateTimeEditDialog extends DialogFragment
 		mDate = (Date)getArguments().getSerializable(EXTRA_DATE);
 		
 		// Option list items.
-		String[] options = {"Set Date", "Set Time"};
+		String[] options = {
+				getActivity().getString(R.string.set_date),
+				getActivity().getString(R.string.set_time)
+		};
 		
 		// Configure the AlertDialog and return it.
 		return new AlertDialog.Builder(getActivity() )
@@ -179,7 +182,7 @@ class DatePickerDialog extends DialogFragment
 		// Configure it and return it.
 		return new AlertDialog.Builder(getActivity() )
 				.setView(dialogView)
-				.setTitle(R.string.date_picker_title)
+				.setTitle(R.string.set_date)
 				.setPositiveButton(
 						android.R.string.ok,
 						new DialogInterface.OnClickListener() {
@@ -293,7 +296,7 @@ class TimePickerDialog extends DialogFragment
 		// Configure it and return it.
 		return new AlertDialog.Builder(getActivity() )
 				.setView(dialogView)
-				.setTitle(R.string.time_picker_title)
+				.setTitle(R.string.set_time)
 				.setPositiveButton(
 						android.R.string.ok, new DialogInterface.OnClickListener() {
 							

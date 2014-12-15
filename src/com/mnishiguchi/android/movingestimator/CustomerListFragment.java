@@ -311,8 +311,11 @@ public class CustomerListFragment extends ListFragment
 	
 		// Get the selected list item.
 		CustomerListAdapter adapter = (CustomerListAdapter)getListAdapter();
-		SparseArray<Customer> selectedCustomer = new SparseArray<Customer>(1);
-		selectedCustomer.put(position, adapter.getItem(position));
+		SparseArray<Customer> selectedCustomers = new SparseArray<Customer>(1);
+		selectedCustomers.put(position, adapter.getItem(position));
+		
+		// Remember the selected customer.
+		Customer.setCurrentCustomer(selectedCustomers.get(position));
 	
 		// Get the selected menu item and respond to it.
 		Intent i;
@@ -322,7 +325,7 @@ public class CustomerListFragment extends ListFragment
 				
 				i = new Intent(getActivity(), CustomerEditActivity.class);
 				i.putExtra(CustomerEditFragment.EXTRA_CUSTOMER_ID,
-						selectedCustomer.get(position).getId());
+						selectedCustomers.get(position).getId());
 				startActivity(i);
 				return true; // No further processing is necessary.
 				
@@ -339,7 +342,7 @@ public class CustomerListFragment extends ListFragment
 			case R.id.contextmenu_delete:
 				
 				// Show Delete Confirmation dialog.
-				DeleteDialog.newInstance(CustomerListFragment.this, selectedCustomer)
+				DeleteDialog.newInstance(CustomerListFragment.this, selectedCustomers)
 					.show(getActivity().getSupportFragmentManager(), DIALOG_DELETE);
 				
 				return true;

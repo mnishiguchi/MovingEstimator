@@ -2,7 +2,7 @@
 <resources>
 
 	<!-- Application -->
-	<string name="app_name">MovingEstimator</string>
+	<string name="app_name">Moving Estimator</string>
 	<string name="action_settings">Settings</string>
 	
 	<!-- Action Bar -->
@@ -31,8 +31,8 @@
 	<string name="menuitem_settings">Settings</string>
 	
 	<!-- Date/time picker -->
-	<string name="date_picker_title">Setting Date</string>
-	<string name="time_picker_title">Setting Time</string>
+	<string name="set_date">Set date</string>
+	<string name="set_time">Set time</string>
 	
 	<!-- Spinner Prefix -->
 	<string-array name="prefixes">

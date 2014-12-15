@@ -196,7 +196,7 @@ public class Customer
 	{
 		if (null == mMovingDate) return "TBD";
 		return (String) android.text.format.DateFormat
-				.format("yyyy-MM-dd hh:mma", mMovingDate);
+				.format("yyyy-MM-dd / hh:mma", mMovingDate);
 	}
 
 	public String getRefNumber()
