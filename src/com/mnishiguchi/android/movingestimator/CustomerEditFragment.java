@@ -75,6 +75,8 @@ public class CustomerEditFragment extends Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		super.onCreate(savedInstanceState);
+		
 		// Retrieve the arguments.
 		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
 		//Log.e(TAG, "customerId=>" + customerId);
@@ -89,7 +91,6 @@ public class CustomerEditFragment extends Fragment
 		// Remember the original prefix
 		mPrefix = mCustomer.getPrefix();
 	}
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
