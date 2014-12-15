@@ -43,7 +43,9 @@ public class CustomerListFragment extends ListFragment
 	private static final String DIALOG_ABOUT = "aboutDialog";
 	private static final String DIALOG_PASSWORD = "passwordDialog";
 	
-	private static final String PASSWORD = "password";
+	// For shared preferences
+	private final static String PREFS = "prefs";
+	private static final String PREF_PASSWORD = "password";
 	
 	// Reference to the list of customers stored in FileCabinet.
 	private ArrayList<Customer> mCustomers;
@@ -290,7 +292,7 @@ public class CustomerListFragment extends ListFragment
 					
 			case R.id.optionsmenu_settings:
 
-				new PasswordDialog().show(getFragmentManager(), DIALOG_PASSWORD);
+				new ChangePasswordDialog().show(getFragmentManager(), DIALOG_PASSWORD);
 				return true; 
 				
 			default:
@@ -648,12 +650,13 @@ public class CustomerListFragment extends ListFragment
 		}
 	}
 	
-	static class PasswordDialog extends DialogFragment
+	static class ChangePasswordDialog extends DialogFragment
 	{
 		private EditText mEtPassword;
 		
 		// For validation.
 		private String mPassword;
+		SharedPreferences prefs;
 		
 		/*
 		 * Configure the dialog.
@@ -661,6 +664,8 @@ public class CustomerListFragment extends ListFragment
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
 		{
+			prefs = getActivity().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+			
 			// Define the response to buttons.
 			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
 			{ 
@@ -670,19 +675,16 @@ public class CustomerListFragment extends ListFragment
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							// Do nothing if the room is invalid.
 							mPassword = mEtPassword.getText().toString();
-							if (!isRoomValid())
-							{
-								Utils.showToast(getActivity(), "Invalid password");
-								return;
-							}
 							
 							// Save the password.
-							getActivity().getPreferences(Context.MODE_PRIVATE)
-								.edit()
-								.putString(PASSWORD, mPassword)
+							prefs.edit()
+								.putString(PREF_PASSWORD, mPassword)
 								.commit();
+							
+							// Notify the user.
+							Utils.showToast(getActivity(), "New Password: "
+									+ prefs.getString(PREF_PASSWORD, ""));
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -694,31 +696,23 @@ public class CustomerListFragment extends ListFragment
 			
 			// Inflate the dialog's root view.
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_password, null);
+			View v = inflater.inflate(R.layout.dialog_change_password, null);
 			
 			// Get a reference to the user input.
 			mEtPassword = (EditText)v.findViewById(R.id.EditTextPassword);
 			
-			String currentPassword = getActivity().getPreferences(Context.MODE_PRIVATE)
-					.getString(PASSWORD, "(none set)");
+			String currentPassword = getActivity()
+					.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+					.getString(PREF_PASSWORD, "");
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
 				.setTitle("Change Password")
 				.setView(v)
-				.setMessage("(Currently: " + currentPassword + ")")
+				.setMessage("Currently : " + currentPassword + "")
 				.setPositiveButton("Change", listener)
 				.setNegativeButton("Cancel", listener)
 				.create();
-		}
-		
-		/**
-		 * Check if the user input is valid.
-		 */
-		private boolean isRoomValid()
-		{
-			// TODO
-			return true;
 		}
 		
 		@Override

@@ -10,6 +10,13 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		CustomerDetailFragment.DetailCallbacks
 {
 	@Override
+	protected int getLayoutResId()
+	{
+		// an alias resource defined in res/values/refs.xml
+		return R.layout.activity_masterdetail_1; 
+	}
+	
+	@Override
 	protected Fragment createFragment()
 	{
 		// Return an instance of the fragment that the activity is hosting. 
@@ -24,14 +31,14 @@ public class CustomerListActivity extends SingleFragmentActivity implements
 		// clear the selection.
 		getListFragment().clearListSelection();
 	}
-	
-	@Override
-	protected int getLayoutResId()
-	{
-		// an alias resource defined in res/values/refs.xml
-		return R.layout.activity_masterdetail_1; 
-	}
 
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+		finish();
+	}
+	
 	@Override
 	public void onListItemClicked(Customer customer)
 	{
