@@ -12,21 +12,21 @@
 		android:layout_weight="3"
 		android:text="@string/total_volume_"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewFooterEstimateOverview"
@@ -34,7 +34,7 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="2"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:layout_width="0dp"
@@ -42,14 +42,14 @@
 		android:layout_weight="2"
 		android:text="@string/cu_ft"
 		android:gravity="left"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_weight="3"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 
 </LinearLayout>

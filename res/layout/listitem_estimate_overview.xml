@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:paddingLeft="16dp"
-	android:paddingRight="16dp"
-	android:paddingTop="16dp"
-	android:paddingBottom="16dp"
+	android:paddingLeft="12dp"
+	android:paddingRight="12dp"
+	android:paddingTop="12dp"
+	android:paddingBottom="12dp"
 	android:background="@drawable/background_activated">
  
 	<TextView
@@ -15,7 +15,7 @@
 		android:text="Name"
 		android:layout_weight="3"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateOverviewSize"
@@ -24,7 +24,7 @@
 		android:text="Size"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateOverviewQuantity"
@@ -33,7 +33,7 @@
 		android:text="Qty"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateOverviewSubtotal"
@@ -42,7 +42,7 @@
 		android:text="Subtotal"
 		android:layout_weight="2"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateOverviewRoom"
@@ -51,7 +51,7 @@
 		android:text="Room"
 		android:layout_weight="2"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateOverviewComment"
@@ -61,7 +61,7 @@
 		android:ellipsize="marquee"
 		android:layout_weight="3"
 		android:gravity="center"
-		android:textSize="16sp">
+		android:textSize="12sp">
 	</TextView>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -146,6 +147,7 @@ class DatePickerDialog extends DialogFragment
 	/**
 	 * Creates a new AlertDialog object and configure it.
 	 */
+	@SuppressLint("InflateParams")
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
@@ -257,6 +259,7 @@ class TimePickerDialog extends DialogFragment
 	/**
 	 * Creates a new AlertDialog object and configure it.
 	 */
+	@SuppressLint("InflateParams")
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{

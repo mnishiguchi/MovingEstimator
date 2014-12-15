@@ -3,10 +3,10 @@
 	android:id="@+id/relativeLayout1"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:paddingLeft="12dp"
-	android:paddingRight="12dp"
-	android:paddingTop="12dp"
-	android:paddingBottom="12dp"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp"
+	android:paddingTop="16dp"
+	android:paddingBottom="16dp"
 	android:background="@drawable/background_activated">
  
 	<TextView
@@ -16,7 +16,7 @@
 		android:text="Name"
 		android:layout_weight="3"
 		android:gravity="center"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateSize"
@@ -25,7 +25,7 @@
 		android:text="Size"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateQuantity"
@@ -34,7 +34,7 @@
 		android:text="Qty"
 		android:layout_weight="1"
 		android:gravity="center"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateSubtotal"
@@ -43,7 +43,7 @@
 		android:text="Qty"
 		android:layout_weight="2"
 		android:gravity="center"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateMode"
@@ -52,7 +52,7 @@
 		android:text="Mode"
 		android:layout_weight="2"
 		android:gravity="center"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 	<TextView
 		android:id="@+id/textViewListItemEstimateComment"
@@ -62,7 +62,7 @@
 		android:ellipsize="marquee"
 		android:layout_weight="3"
 		android:gravity="left"
-		android:textSize="12sp">
+		android:textSize="16sp">
 	</TextView>
 
 </LinearLayout>
