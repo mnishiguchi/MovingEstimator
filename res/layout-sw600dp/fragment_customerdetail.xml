@@ -185,7 +185,7 @@
 	
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
-		android:layout_marginTop="32dp"
+		android:layout_marginTop="8dp"
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
 	<!-- Home Description -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
-		android:layout_marginTop="32dp"
+		android:layout_marginTop="16dp"
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
 	<!-- Special order -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
-		android:layout_marginTop="32dp"
+		android:layout_marginTop="16dp"
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -304,7 +304,7 @@
 	<!-- General Comment -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
-		android:layout_marginTop="32dp"
+		android:layout_marginTop="16dp"
 		android:layout_marginBottom="4dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

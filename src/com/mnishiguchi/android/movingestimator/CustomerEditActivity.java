@@ -1,7 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 public class CustomerEditActivity extends SingleFragmentActivity
 {

@@ -51,6 +51,7 @@ public class CustomerListFragment extends ListFragment
 	private ArrayList<Customer> mCustomers;
 	
 	// Remember the currently selected item.
+	@SuppressWarnings("unused")
 	private int mPositionSelected;
 	
 	// remember the reference to the hosting activity for callbacks.
@@ -243,15 +244,6 @@ public class CustomerListFragment extends ListFragment
 		mCallbacks.onListItemClicked(customer);
 	}
 	
-	/**
-	 * Set the customer name as a title and the company name as a subtitle.
-	 */
-	private void setActionBarTitle(Customer customer)
-	{
-		getActivity().setTitle(customer.toString());
-		getActivity().getActionBar().setSubtitle(customer.getOrganization());
-	}
-	
 	/* Options Menu on the ActionBar.
 	 * Creates the options menu and populates it with the items
 	 * defined in res/menu/fragment_customerlist.xml.
@@ -380,6 +372,7 @@ public class CustomerListFragment extends ListFragment
 			TextView company;
 		}
 		
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
@@ -661,6 +654,7 @@ public class CustomerListFragment extends ListFragment
 		/*
 		 * Configure the dialog.
 		 */
+		@SuppressLint("InflateParams")
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
 		{

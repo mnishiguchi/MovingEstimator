@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,8 +23,7 @@ import android.widget.TextView;
 
 import com.mnishiguchi.android.movingestimator.EstimateContract.EstimateTable;
 
-public class EstimateOverviewFragment extends Fragment implements
-	AdapterView.OnItemClickListener
+public class EstimateOverviewFragment extends Fragment
 {
 	private static final String TAG = "movingestimator.EstimateOverviewFragment";
 	
@@ -34,12 +32,6 @@ public class EstimateOverviewFragment extends Fragment implements
 	private SimpleCursorAdapter mAdapter;
 	private TextView mFooterText;
 	private Spinner mSpinner;
-	
-	// Remember the last click.
-	private int mClickedPosition = 0; // Default => 0
-	
-	// Remember the ActionMode.
-	private ActionMode mActionMode;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -71,13 +63,15 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		// Header and footer
 		// Note: The header becomes the position zero.
-		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header_estimate_overview, mListView, false);
+		ViewGroup header = (ViewGroup) inflater
+				.inflate(R.layout.header_estimate_overview, mListView, false);
 		mListView.addHeaderView(header, null, false);
-		ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.footer_estimate_overview, mListView, false);
+		
+		ViewGroup footer = (ViewGroup) inflater
+				.inflate(R.layout.footer_estimate_overview, mListView, false);
 		mListView.addFooterView(footer, null, false);
 		
 		mFooterText = (TextView)footer.findViewById(R.id.textViewFooterEstimateOverview);
-		
 		
 		//--- Set up the list adapter ---
 		
@@ -114,9 +108,6 @@ public class EstimateOverviewFragment extends Fragment implements
 		};
 		mListView.setAdapter(mAdapter);
 		
-		// Respond to short clicks for proceeding to estimate.
-		mListView.setOnItemClickListener(this);
-		
 		//--- Spinner ---
 		
 		mSpinner = (Spinner)v.findViewById(R.id.spinnerEstimateOverview);
@@ -136,14 +127,6 @@ public class EstimateOverviewFragment extends Fragment implements
 	{
 		super.onPause();
 		EstimateDataManager.get(getActivity()).closeDatabase();
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-	{
-		// Remember the selected position
-		mClickedPosition = position;
-		Log.d(TAG, "onItemClick() - position=>" + mClickedPosition);
 	}
 	
 	/**
@@ -166,7 +149,7 @@ public class EstimateOverviewFragment extends Fragment implements
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		// Check the selected menu item and respond to it.
-		switch (item.getItemId() )
+		switch (item.getItemId())
 		{
 			// Respond to the enabled Up icon as if it were an existing options menu item.
 			case android.R.id.home:
@@ -196,13 +179,13 @@ public class EstimateOverviewFragment extends Fragment implements
 	 */
 	public void setupSpinner(Cursor cursor)
 	{
-		Log.d(TAG, "setupSpinner(), cursor.getCount()=>" + cursor.getCount());
+		//Log.d(TAG, "setupSpinner(), cursor.getCount()=>" + cursor.getCount());
 		ArrayList<String> modes = new ArrayList<String>();
 		
 		cursor.moveToFirst();
 		while (cursor.isAfterLast() == false)
 		{
-			Log.d(TAG, "setupSpinner(), cursor.getString(0)=>" + cursor.getString(0));
+			//Log.d(TAG, "setupSpinner(), cursor.getString(0)=>" + cursor.getString(0));
 			modes.add(cursor.getString(0));
 			cursor.moveToNext();
 		}
@@ -245,13 +228,14 @@ public class EstimateOverviewFragment extends Fragment implements
 	 */
 	public void refreshListView(Cursor cursor)
 	{
-		Log.d(TAG, "refreshCursorAdapter()");
 		mAdapter.changeCursor(cursor);
 		
 		mFooterText.setText("" + getVolume(cursor));
 	}
 	
-
+	/**
+	 * Caluculate the sum of subtotals.
+	 */
 	private double getVolume(Cursor cursor)
 	{
 		double volume = 0;
@@ -260,7 +244,7 @@ public class EstimateOverviewFragment extends Fragment implements
 		
 		while (!cursor.isAfterLast())
 		{
-			volume += cursor.getDouble(4);
+			volume += cursor.getDouble(4); // "subtotal" column
 			
 			cursor.moveToNext();
 		}
@@ -274,7 +258,7 @@ public class EstimateOverviewFragment extends Fragment implements
 	 */
 	private void setupActionBarUpButton()
 	{
-		if (NavUtils.getParentActivityIntent(getActivity() ) != null)
+		if (NavUtils.getParentActivityIntent(getActivity()) != null)
 		{
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 		}

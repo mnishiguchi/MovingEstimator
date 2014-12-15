@@ -2,7 +2,6 @@ package com.mnishiguchi.android.movingestimator;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -18,7 +17,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;

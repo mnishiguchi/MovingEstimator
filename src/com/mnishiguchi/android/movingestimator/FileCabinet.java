@@ -1,9 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
 
 import android.content.Context;
 import android.os.AsyncTask;

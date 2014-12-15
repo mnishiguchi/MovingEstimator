@@ -1,5 +1,6 @@
 package com.mnishiguchi.android.movingestimator;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +22,7 @@ public class EnterPasswordActivity extends FragmentActivity
 	private static final String PREFS = "prefs"; // fileneme of sorts
 	private static final String PREF_PASSWORD = "password";
 	private static String mCurrentPassword;
+	private static String DIALOG_PASSWORD = "enterPassword";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,9 +33,15 @@ public class EnterPasswordActivity extends FragmentActivity
 		Log.d(TAG, "mCurrentPassword" + mCurrentPassword);
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_fragment);
-
-		new EnterPasswordDialog().show(getSupportFragmentManager(), "");
+		setContentView(R.layout.activity_enter_password);
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		new EnterPasswordDialog().show(getSupportFragmentManager(), DIALOG_PASSWORD);
 	}
 	
 	@Override
@@ -51,6 +59,7 @@ public class EnterPasswordActivity extends FragmentActivity
 		/*
 		 * Configure the dialog.
 		 */
+		@SuppressLint("InflateParams")
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
 		{
@@ -101,9 +110,13 @@ public class EnterPasswordActivity extends FragmentActivity
 		@Override
 		public void onPause()
 		{
-			// Close the dialog as soon as the device orientation changes.
-			dismiss();
 			super.onPause();
+			
+			// Close the dialog.
+			this.dismiss();
+			
+			// Close the activity.
+			EnterPasswordActivity.this.finish();
 		}
 	}
 }
