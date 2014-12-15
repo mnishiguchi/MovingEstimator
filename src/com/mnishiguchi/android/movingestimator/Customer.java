@@ -9,11 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class Customer
 {
-	private static String TAG = "movingestimator.Customer";
+	//private static String TAG = "movingestimator.Customer";
 	
 	// Remember the current customer globally.
 	private static Customer sCurrentCustomer;
@@ -24,7 +22,7 @@ public class Customer
 	
 	static void setCurrentCustomer(Customer customer)
 	{
-		Log.d(TAG, "setCurrentCustomer()=>" + customer);
+		//Log.d(TAG, "setCurrentCustomer()=>" + customer);
 		sCurrentCustomer = customer;
 	}
 	
@@ -95,7 +93,7 @@ public class Customer
 	 */
 	public Customer(JSONObject json) throws JSONException
 	{
-		Log.e(TAG, json.toString());
+		//Log.e(TAG, json.toString());
 		
 		mId = json.getString(JSON_ID);
 		mRefNumber = json.getString(JSON_REF_NUMBER);
@@ -104,7 +102,7 @@ public class Customer
 		mPrefix = json.getString(JSON_PREFIX);
 		mOrganization = json.getString(JSON_ORGANIZATION);
 		mEmail = json.getString(JSON_EMAIL);
-		mPhoneHome = json.getString(JSON_PHONE_WORK);
+		mPhoneHome = json.getString(JSON_PHONE_HOME);
 		mPhoneWork = json.getString(JSON_PHONE_WORK);
 		mPhoneCell = json.getString(JSON_PHONE_CELL);
 		mFrom = json.getString(JSON_FROM);

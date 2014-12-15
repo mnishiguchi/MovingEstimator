@@ -85,8 +85,6 @@ public class EstimateRoomListFragment extends Fragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreate");
-		
 		super.onCreate(savedInstanceState);
 		
 		// Get the customer with that id.
@@ -101,8 +99,7 @@ public class EstimateRoomListFragment extends Fragment implements
 			// Create a new list with the default rooms.
 			ArrayList<String> rooms = new ArrayList<String>();
 			String[] defaultRooms = getActivity().getResources().getStringArray(R.array.rooms_default);
-			Log.d(TAG, "getStringArray(R.array.rooms_default).length: " + defaultRooms.length);
-			
+		
 			for (String each : defaultRooms)
 			{
 				rooms.add(each);
@@ -176,8 +173,7 @@ public class EstimateRoomListFragment extends Fragment implements
 	public void onPause()
 	{
 		super.onPause();
-		Log.d(TAG, "onPause()");
-		
+
 		if (mActionMode != null)
 		{
 			mActionMode.finish();
@@ -218,8 +214,6 @@ public class EstimateRoomListFragment extends Fragment implements
 
 		// Get the selected room.
 		final String clickedRoom = (String)parent.getItemAtPosition(position);
-		
-		Log.d(TAG, "onItemClick() - clickedRoom=>" + clickedRoom);
 		
 		// Remember the selected position
 		mClickedPosition = position;
@@ -285,8 +279,6 @@ public class EstimateRoomListFragment extends Fragment implements
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id)
 	{
-		Log.d(TAG, "onLongClick()");
-		
 		// Ignore the long click if already in the ActionMode.
 		if (mActionMode != null) return false;
 		
@@ -375,8 +367,6 @@ public class EstimateRoomListFragment extends Fragment implements
 	 */
 	private void addRoom(String room)
 	{
-		Log.d(TAG, "addRoom -" + room);
-		
 		// Access the customer's room list and add a new room.
 		mCustomer.getRooms().add(room);
 		
@@ -434,6 +424,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		/*
 		 * Configure the dialog.
 		 */
+		@SuppressLint("InflateParams")
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
 		{
@@ -508,5 +499,4 @@ public class EstimateRoomListFragment extends Fragment implements
 			super.onPause();
 		}
 	}
-	
 }

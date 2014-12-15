@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 public class EstimateRoomListActivity extends SingleFragmentActivity implements
 	EstimateRoomListFragment.ListCallbacks
 {
-	private static final String TAG = "movingestimator.RoomListActivity";
+	//private static final String TAG = "movingestimator.RoomListActivity";
 	
 	@Override
 	protected Fragment createFragment()
 	{
-		//Log.d(TAG, "mCustomerId=>" + Customer.getCurrentCustomer().getId());
 		return new EstimateRoomListFragment();
 	}
 
@@ -24,21 +22,12 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 		// an alias resource defined in res/values/refs.xml
 		return R.layout.activity_masterdetail_2; 
 	}
-
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		
-	}
 	
 	@Override
 	public void onListItemClicked(String room)
 	{
 		if (Utils.hasTwoPane(this)) // Two-pane
 		{
-			Log.d(TAG, "onListItemClicked - Two pane");
-			
 			FragmentManager fm = getSupportFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			
@@ -62,7 +51,7 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 		}
 		else // Single-pane
 		{
-			// Start the EstimatePagerActivity..
+			// Start the EstimateListActivity..
 			Intent i = new Intent(this, EstimateListActivity.class);
 			i.putExtra(EstimateListActivity.EXTRA_ROOM, room);
 			startActivity(i);
@@ -86,17 +75,11 @@ public class EstimateRoomListActivity extends SingleFragmentActivity implements
 
 	@Override
 	public void onListReset()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{ } // Required but not used in this implementation.
 
 	@Override
 	public void onActionMode()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{ } // Required but not used in this implementation.
 	
 	private void removeEstimateListFragment()
 	{

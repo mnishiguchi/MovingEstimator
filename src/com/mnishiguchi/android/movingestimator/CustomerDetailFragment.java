@@ -99,8 +99,6 @@ public class CustomerDetailFragment extends Fragment
 	
 	/**
 	 * Creates a new fragment instance and set the specified id as fragment's arguments.
-	 * @param crimeId a UUID
-	 * @return a new fragment instance with the specified UUID attached as its arguments.
 	 */
 	public static CustomerDetailFragment newInstance(String customerId)
 	{
@@ -416,27 +414,14 @@ public class CustomerDetailFragment extends Fragment
 				deletePhoto();
 			}
 
+			// The image should have saved in mPhotoFileUri
 			Uri photoUri = null;
-
-			if (null == resultData)
-			{
-				// A known bug here! The image should have saved in fileUri
-				Utils.showToast(getActivity(), "Image saved successfully");
-				photoUri  = mPhotoFileUri;
-			}
-			else
-			{
-				photoUri  = resultData.getData();
-				Utils.showToast(getActivity(), "Image saved successfully in: " + resultData.getData());
-			}
+			photoUri  = mPhotoFileUri;
 
 			if (photoUri != null)
 			{
 				Photo photo = new Photo(mPhotoFilename);
 				mCustomer.setPhoto(photo);
-				
-				// Notify it.
-				mCallbacks.onCustomerUpdated(mCustomer);
 				
 				// Set the photo on the imageView.
 				showThumbnail();
@@ -446,6 +431,12 @@ public class CustomerDetailFragment extends Fragment
 				
 				// Save updated customers data.
 				FileCabinet.get(getActivity()).saveCustomers();
+				
+				// Notify the hosting activity.
+				mCallbacks.onCustomerUpdated(mCustomer);
+				
+				// Notify the user.
+				Utils.showToast(getActivity(), "A photo saved successfully");
 			}
 			else
 			{
@@ -540,8 +531,6 @@ public class CustomerDetailFragment extends Fragment
 	 */
 	private void deleteCustomer()
 	{
-		//Log.d(TAG, "deleteCustomer(), mCustomer.getLastName()=>" + mCustomer.getLastName());
-	
 		// Get the crime title.
 		String customerString =
 				(null == mCustomer.getLastName() || mCustomer.toString().equals("")) ?

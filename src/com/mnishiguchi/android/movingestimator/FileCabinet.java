@@ -36,8 +36,6 @@ class FileCabinet
 	 */
 	private FileCabinet(Context appContext)
 	{
-		Log.d(TAG, "FileCabinet constructor");
-		
 		// Remember the application context.
 		mAppContext = appContext;
 		
@@ -101,7 +99,6 @@ class FileCabinet
 	/**
 	 * Delete a customer from the list.
 	 * Ensure that other things associated with this customer is deleted. (e.g. photo, db...)
-	 * @param customer
 	 */
 	void deleteCustomer(Customer customer)
 	{
@@ -135,7 +132,6 @@ class FileCabinet
 		{
 			ArrayList<Customer> customers = null;
 			
-			Log.d(TAG, "LoadCustomersTask.doInBackground");
 			try
 			{
 				// Load the customer from disk.
@@ -150,7 +146,6 @@ class FileCabinet
 		
 		protected void onPostExecute(ArrayList<Customer> customers)
 		{
-			Log.d(TAG, "LoadCustomersTask.onPostExecute");
 			if (customers != null) // Success.
 			{
 				// Add all the loaded customers to mCustomers.
@@ -184,11 +179,7 @@ class FileCabinet
 		
 		protected void onPostExecute(Boolean success)
 		{
-			if (success)
-			{
-				Utils.showToast(mAppContext, "Customers saved to file");
-			}
-			else
+			if (!success)
 			{
 				Utils.showToast(mAppContext, "Error saving customer");
 			}

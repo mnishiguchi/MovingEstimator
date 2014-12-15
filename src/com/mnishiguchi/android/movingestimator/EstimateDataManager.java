@@ -29,8 +29,6 @@ class EstimateDataManager
 	 */
 	private EstimateDataManager(Context appContext)
 	{
-		Log.d(TAG, "EstimateDataManager constructor");
-		
 		// Remember the application context.
 		mAppContext = appContext;
 		

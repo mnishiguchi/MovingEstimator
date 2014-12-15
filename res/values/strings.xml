@@ -75,6 +75,7 @@
 	<string name="last_name">Last name</string>
 	<string name="first_name">First name</string>
 	<string name="organization">Organization</string>
+	<string name="org">Org</string>
 	<string name="email">E-mail</string>
 	<string name="home">Home</string>
 	<string name="work">Work</string>
@@ -96,7 +97,7 @@
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
 		DEVELOPED BY
-		\n---------------------------------------
+		\n----------------------------------------
 		\nMasatoshi Nishiguchi
 		\nmasatoshi.nishiguchi@udc.edu
 	</string>
@@ -211,6 +212,7 @@
 		<item>Pipe Cloting Rack</item>
 		<item>Towels</item>
 		<item>Pants Press</item>
+		<item>Shoe Rack</item>
 		<item>Shoes</item>
 		<item>Bags</item>
 		<item>Handbags</item>
@@ -222,7 +224,6 @@
 		<item>Gogatsu Ningyo</item>
 		<item>Ornaments</item>
 		<item>Dolls</item>
-		<item>Mirror</item>
 		<item>Xmas Tree</item>
 		<item>Books</item>
 		<item>Documents</item>
@@ -239,10 +240,10 @@
 		<item>Iron w/ Iron Board</item>
 		<item>Rice Cooker</item>
 		<item>Telephone</item>
-		<item>Bed King</item>
-		<item>Bed Queen</item>
-		<item>Bed Double/Full</item>
-		<item>Bed Single/Twin</item>
+		<item>King Bed</item>
+		<item>Queen Bed</item>
+		<item>Double/Full Bed</item>
+		<item>Single/Twin Bed</item>
 		<item>Headboard</item>
 		<item>Footboard</item>
 		<item>Bunk Bed</item>
@@ -301,6 +302,5 @@
 		<item>Cleaning Supplies</item>
 		<item>Bath Supplies</item>
 	</string-array>
-		<string name="org">Org</string>
 
 </resources>

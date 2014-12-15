@@ -52,8 +52,6 @@ public class EstimateOverviewFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
 			Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreateView()");
-		
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_estimate_overview, parent, false);
 	

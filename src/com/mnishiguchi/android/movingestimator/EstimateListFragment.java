@@ -55,8 +55,6 @@ public class EstimateListFragment extends Fragment implements
 	 */
 	public static EstimateListFragment newInstance(String room)
 	{
-		Log.d(TAG, "newInstance() - room=>" + room);
-		
 		// Prepare arguments.
 		Bundle args = new Bundle();  // Contains key-value pairs.
 		args.putString(EXTRA_ROOM, room);
@@ -75,7 +73,6 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Retrieve the arguments.
 		mRoom = getArguments().getString(EXTRA_ROOM);
-		Log.d(TAG, "onCreate() - mRoom=>" + mRoom);
 		
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
@@ -88,8 +85,6 @@ public class EstimateListFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
 			Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreateView()");
-		
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_estimatelist, parent, false);
 
@@ -144,6 +139,15 @@ public class EstimateListFragment extends Fragment implements
 		return v;
 	}
 	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		// Set the new page's title.
+		getActivity().setTitle(Customer.getCurrentCustomer().toString() + " | " + mRoom);
+	}
+	
 	/*
 	 * Remove the CAB when the pager is swiped.
 	 */
@@ -165,14 +169,10 @@ public class EstimateListFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id)
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
 		// Remember the selected position
 		mClickedPosition = position;
-		
-		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
-		getRowIdAtLastClickedPosition();
 	}
 	
 	// Long click => Contextual action for deleting room.
@@ -228,8 +228,6 @@ public class EstimateListFragment extends Fragment implements
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id)
 	{
-		Log.d(TAG, "onLongClick()");
-		
 		// Ignore the long click if already in the ActionMode.
 		if (mActionMode != null) return false;
 		
@@ -238,7 +236,7 @@ public class EstimateListFragment extends Fragment implements
 		
 		// Remember the selected position
 		mClickedPosition = position;
-		Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
+		//Log.d(TAG, "onItemClick() - position: " + mClickedPosition);
 		
 		// Show the Contexual Action Bar.
 		getActivity().startActionMode(actionModeCallback);
@@ -285,7 +283,6 @@ public class EstimateListFragment extends Fragment implements
 	{
 		// Get the row id.
 		final long rowId = getRowIdAtLastClickedPosition();
-		Log.d(TAG, "deleteEstimateItem() - rowId: " + rowId);
 		
 		// Delete animation.
 		final View view = mAdapter.getView(mClickedPosition - 1, null, mListView);
@@ -303,8 +300,7 @@ public class EstimateListFragment extends Fragment implements
 			});
 		
 		// Delete the item from database.
-		boolean success = EstimateDataManager.get(getActivity()).deleteSingleRow(rowId);
-		Log.d(TAG, "deleteEstimateItem() - success: " + success);
+		EstimateDataManager.get(getActivity()).deleteSingleRow(rowId);
 		
 		// Re-query to refresh the CursorAdapter.
 		EstimateDataManager.get(getActivity())
@@ -360,8 +356,6 @@ public class EstimateListFragment extends Fragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		//Intent i;
-		
 		// Check the selected menu item and respond to it.
 		switch (item.getItemId() )
 		{
@@ -373,13 +367,13 @@ public class EstimateListFragment extends Fragment implements
 				{
 					NavUtils.navigateUpFromSameTask(getActivity());
 				}
-				return true; // Indicate that no further processing is necessary.
+				return true; // no further processing is necessary.
 
 			case R.id.optionsmenu_new_item:
 				
 				// Show the delete dialog.
 				new AddItemDialog().show(getFragmentManager(), DIALOG_ADD_ITEM);
-				return true; // Indicate that no further processing is necessary.
+				return true; // no further processing is necessary.
 				
 			default:
 				return super.onOptionsItemSelected(item);
@@ -436,6 +430,7 @@ public class EstimateListFragment extends Fragment implements
 		/*
 		 * Configure the dialog.
 		 */
+		@SuppressLint("InflateParams")
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState)
 		{
@@ -448,14 +443,14 @@ public class EstimateListFragment extends Fragment implements
 					{ 
 						case DialogInterface.BUTTON_POSITIVE:
 							
-							// TODO Validation for the input.
+							// Validation for the input.
 							if (!isInputValid())
 							{
 								Utils.showToast(getActivity(), "Invalid input");
 								return;
 							}
 							
-							// Prepare the user-inputted data.
+							// Prepare the user-inputed data.
 							EstimateItem item = new EstimateItem(
 								Customer.getCurrentCustomer().getId(),
 								mName,       // validated

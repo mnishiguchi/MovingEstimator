@@ -9,14 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 public class EnterPasswordActivity extends FragmentActivity
 {
-	private static final String TAG = "movingestimator.EnterPasswordActivity";
+	//private static final String TAG = "movingestimator.EnterPasswordActivity";
 	
 	// For shared preferences
 	private static final String PREFS = "prefs"; // fileneme of sorts
@@ -29,8 +28,6 @@ public class EnterPasswordActivity extends FragmentActivity
 	{
 		mCurrentPassword = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 				.getString(PREF_PASSWORD, "");
-		
-		Log.d(TAG, "mCurrentPassword" + mCurrentPassword);
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_enter_password);

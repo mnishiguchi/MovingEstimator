@@ -75,24 +75,13 @@ public class CustomerEditFragment extends Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
-		
-		Log.d(TAG, "onCreate()");
-		
-		if (null == getArguments())
-		{
-			Log.e(TAG, "null == getArguments()");
-			return;
-		}
-		
 		// Retrieve the arguments.
 		String customerId = getArguments().getString(EXTRA_CUSTOMER_ID);
-		Log.e(TAG, "customerId=>" + customerId);
+		//Log.e(TAG, "customerId=>" + customerId);
 		
 		// Fetch the Customer based on the id.
 		mCustomer = FileCabinet.get(getActivity()).getCustomer(customerId);
-		
-		Log.e(TAG, "mCustomer=>" + mCustomer);
+		//Log.e(TAG, "mCustomer=>" + mCustomer);
 		
 		// Enable the options menu callback.
 		setHasOptionsMenu(true);
@@ -106,8 +95,6 @@ public class CustomerEditFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
 			Bundle savedInstanceState)
 	{
-		Log.d(TAG, "onCreateView()");
-		
 		// Get reference to the layout.
 		View v = inflater.inflate(R.layout.fragment_customeredit, parent, false);
 		
@@ -528,7 +515,6 @@ public class CustomerEditFragment extends Fragment
 	public void onPause()
 	{
 		super.onPause();
-		Log.d(TAG, "onPause()");
 		
 		FileCabinet.get(getActivity()).saveCustomers();
 	}

@@ -250,7 +250,6 @@
 		</TableRow>
 	</TableLayout>
 
-	
 	<!-- Home Description -->
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
@@ -265,7 +264,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
-		android:ems="10" />
+		android:ems="10"
+		android:gravity="center" />
 	
 	<!-- Special order -->
 	<TextView
@@ -281,7 +281,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
-		android:ems="10" />
+		android:ems="10"
+		android:gravity="center" />
 	
 	<!-- General Comment -->
 	<TextView
@@ -298,7 +299,8 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:layout_marginBottom ="32dp"
-		android:ems="10" />
+		android:ems="10"
+		android:gravity="center" />
 
 </LinearLayout>
 </ScrollView>

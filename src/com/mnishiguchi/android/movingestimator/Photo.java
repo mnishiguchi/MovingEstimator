@@ -19,10 +19,8 @@ class Photo
 	
 	// JSON keys
 	private static final String JSON_FILENAME ="filename";
-	//private static final String JSON_ORIENTATION = "orientation";
 	
 	private String mFilename;
-	//private final int mOrientation;
 	
 		/**
 		 * Constructor to create a Photo representing existing file on disk
@@ -30,7 +28,6 @@ class Photo
 		Photo(String filename)
 		{
 			mFilename = filename;
-			//mOrientation = orientation;
 		}
 	
 
@@ -86,7 +83,11 @@ class Photo
 		
 		// Delete the file and return success or fail.
 		boolean success = imageFile.delete();
-		Log.d(TAG, "deletePhoto success?: " + String.valueOf(success));
+		
+		if (!success)
+		{
+			Log.e(TAG, "deletePhoto(), success=>: " + String.valueOf(success));
+		}
 		
 		return success;
 	}
@@ -98,7 +99,7 @@ class Photo
 	{
 		String path = this.getAbsolutePath(activity);
 
-		Log.d(TAG, "Bitmap loaded from: " + path);
+		//Log.d(TAG, "Bitmap loaded from: " + path);
 		
 		// Get a scaled bitmap drawable based on the data in this file.
 		return ImageUtils.getScaledDrawable(activity, path);

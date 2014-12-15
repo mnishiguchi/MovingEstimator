@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONTokener;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * Utility class for loading and saving Customer objects to a JSON file
@@ -23,7 +22,7 @@ import android.util.Log;
  */
 public class MovingEstimatorJSONSerializer
 {
-	private static final String TAG = "movingestimator.MovingEstimatorJSONSerializer";
+	//private static final String TAG = "movingestimator.MovingEstimatorJSONSerializer";
 	private Context mContext;
 	private String mFileName;
 	
@@ -42,8 +41,6 @@ public class MovingEstimatorJSONSerializer
 	 */
 	public ArrayList<Customer> loadCustomers() throws IOException, JSONException
 	{
-		Log.d(TAG, "loadCustomers()");
-		
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		BufferedReader reader = null;
 		InputStream in = null;
@@ -64,9 +61,8 @@ public class MovingEstimatorJSONSerializer
 			}
 			
 			// Parse the JSON using JSONTokener.
-			JSONArray jsonArray = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
-			
-			Log.d(TAG, "jsonArray.length(): " + jsonArray.length());
+			JSONArray jsonArray = (JSONArray)
+					new JSONTokener(jsonString.toString()).nextValue();
 			
 			// Build the ArrayList of customers from JSONObjects.
 			for (int i = 0, size = jsonArray.length();
@@ -75,8 +71,6 @@ public class MovingEstimatorJSONSerializer
 				// Create a customer object from each JSONObject, and add it to the list.
 				customers.add(new Customer(jsonArray.getJSONObject(i)));
 			}
-			
-			Log.d(TAG, "customers.size(): " + customers.size());
 		}
 		catch (FileNotFoundException e)
 		{ } // Ignore this one; it happens when starting fresh.
@@ -94,8 +88,6 @@ public class MovingEstimatorJSONSerializer
 	
 	public void saveCustomers(ArrayList<Customer> customers) throws JSONException, IOException
 	{
-		Log.d(TAG, "saveCustomers()");
-		
 		// Build an array in JSON.
 		JSONArray array = new JSONArray();
 		for (Customer each : customers)
@@ -103,8 +95,6 @@ public class MovingEstimatorJSONSerializer
 			// Convert each crime to JSON and put it in the array.
 			array.put(each.toJSON());
 		}
-		
-		Log.d(TAG, "customers.size()" + customers.size());
 		
 		// Write the file to disk.
 		Writer writer = null;

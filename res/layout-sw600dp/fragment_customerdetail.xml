@@ -280,8 +280,8 @@
 		android:id="@+id/textViewHomeDescription"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginLeft="32dp"
+		android:layout_marginRight="32dp"
 		android:ems="10" />
 	
 	<!-- Special order -->
@@ -297,8 +297,8 @@
 		android:id="@+id/textViewSpecialOrder"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginLeft="32dp"
+		android:layout_marginRight="32dp"
 		android:ems="10" />
 	
 	<!-- General Comment -->
@@ -314,8 +314,8 @@
 		android:id="@+id/textViewGeneralComment"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginLeft="32dp"
+		android:layout_marginRight="32dp"
 		android:layout_marginBottom ="32dp"
 		android:ems="10" />
 
