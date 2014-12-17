@@ -69,7 +69,7 @@ public class DateTimeEditDialog extends DialogFragment
 		return new AlertDialog.Builder(getActivity() )
 				.setTitle((String) android.text.format.DateFormat
 						.format("yyyy-MM-dd hh:mma", mDate))
-				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) { } // Do nothing.
 				})

@@ -13,7 +13,7 @@
 		android:id="@+id/textViewListItemEstimateName"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Name"
+		android:text="@string/item_name"
 		android:layout_weight="3"
 		android:gravity="center"
 		android:textSize="12sp">
@@ -22,7 +22,7 @@
 		android:id="@+id/textViewListItemEstimateSize"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Size"
+		android:text="@string/size"
 		android:layout_weight="1"
 		android:gravity="center"
 		android:textSize="12sp">
@@ -31,7 +31,7 @@
 		android:id="@+id/textViewListItemEstimateQuantity"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Qty"
+		android:text="@string/qty"
 		android:layout_weight="1"
 		android:gravity="center"
 		android:textSize="12sp">
@@ -40,7 +40,7 @@
 		android:id="@+id/textViewListItemEstimateSubtotal"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Qty"
+		android:text="@string/qty"
 		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="12sp">
@@ -49,7 +49,7 @@
 		android:id="@+id/textViewListItemEstimateMode"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Mode"
+		android:text="@string/mode"
 		android:layout_weight="2"
 		android:gravity="center"
 		android:textSize="12sp">
@@ -58,7 +58,7 @@
 		android:id="@+id/textViewListItemEstimateComment"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="Comment"
+		android:text="@string/comment"
 		android:ellipsize="marquee"
 		android:layout_weight="3"
 		android:gravity="left"

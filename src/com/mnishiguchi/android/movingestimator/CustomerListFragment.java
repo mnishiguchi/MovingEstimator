@@ -592,10 +592,12 @@ public class CustomerListFragment extends ListFragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Deleting " + sSelectedItems.size() + " item(s)")
-				.setMessage("Are you sure?")
-				.setPositiveButton("Yes", listener)
-				.setNegativeButton("Cancel", listener)
+				.setTitle(getActivity().getString(R.string.deleting) + " "
+						+ sSelectedItems.size() + " "
+						+ getActivity().getString(R.string.items))
+				.setMessage(R.string.are_you_sure)
+				.setPositiveButton(android.R.string.ok, listener)
+				.setNegativeButton(android.R.string.cancel, listener)
 				.create();
 		}
 		
@@ -680,8 +682,9 @@ public class CustomerListFragment extends ListFragment
 								.commit();
 							
 							// Notify the user.
-							Utils.showToast(getActivity(), "New Password: "
-									+ prefs.getString(PREF_PASSWORD, ""));
+							Utils.showToast(getActivity(), 
+									getActivity().getString(R.string.new_password)
+									+ " " + prefs.getString(PREF_PASSWORD, ""));
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -704,11 +707,11 @@ public class CustomerListFragment extends ListFragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Change Password")
+				.setTitle(R.string.change_password)
 				.setView(v)
-				.setMessage("Currently : " + currentPassword + "")
-				.setPositiveButton("Change", listener)
-				.setNegativeButton("Cancel", listener)
+				.setMessage(getActivity().getString(R.string.currently) + " " + currentPassword)
+				.setPositiveButton(R.string.change, listener)
+				.setNegativeButton(android.R.string.cancel, listener)
 				.create();
 		}
 		

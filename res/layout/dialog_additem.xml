@@ -17,7 +17,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Item Name:" />
+			android:text="@string/item_name" />
 		<AutoCompleteTextView
 			android:id="@+id/AutoCompleteTextViewMovingItems"
 			android:layout_width="0dp"
@@ -39,7 +39,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Size:" />
+			android:text="@string/size" />
 		<EditText
 			android:id="@+id/editTextItemSize"
 			android:layout_width="0dp"
@@ -60,7 +60,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Quantity:" />
+			android:text="@string/quantity" />
 		<EditText
 			android:id="@+id/editTextItemQuantity"
 			android:layout_width="0dp"
@@ -81,7 +81,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Mode:" />
+			android:text="@string/mode" />
 		<Spinner
 			android:id="@+id/spinnerTransportMode"
 			android:layout_width="0dp"
@@ -101,7 +101,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="Comment:" />
+			android:text="@string/comment" />
 		<EditText
 			android:id="@+id/editTextItemComment"
 			android:layout_width="0dp"

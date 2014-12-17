@@ -73,7 +73,7 @@ class FileCabinet
 				return customer;
 			}
 		}
-		Utils.showToast(mAppContext, "No customer with this id found.");
+		Utils.showToast(mAppContext, mAppContext.getString(R.string.no_customer_with_this_id_found));
 		return null;
 	}
 	
@@ -108,7 +108,7 @@ class FileCabinet
 			// Delete the photo file on disk.
 			if (!customer.getPhoto().deletePhoto(mAppContext))
 			{
-				Utils.showToast(mAppContext, "Couldn't delete the photo");
+				Utils.showToast(mAppContext, mAppContext.getString(R.string.couldnt_delete_photo));
 			}
 		}
 		
@@ -118,11 +118,13 @@ class FileCabinet
 		// Delete this customer from the list.
 		if (mCustomers.remove(customer))
 		{
-			Utils.showToast(mAppContext, customer.toString() + " deleted");
+			Utils.showToast(mAppContext, mAppContext.getString(
+					R.string.toast_deleted_customer,
+					customer.toString()));
 		}
 		else
 		{
-			Utils.showToast(mAppContext, "Couldn't delete the customer");
+			Utils.showToast(mAppContext, mAppContext.getString(R.string.couldnt_delete_customer));
 		}
 	}
 	
@@ -156,7 +158,8 @@ class FileCabinet
 			}
 			else // Failure.
 			{
-				Utils.showToast(mAppContext, "Error loading customers.");
+				Utils.showToast(mAppContext,
+						mAppContext.getString(R.string.error_loading_customers));
 			}
 		}
 	}
@@ -181,7 +184,8 @@ class FileCabinet
 		{
 			if (!success)
 			{
-				Utils.showToast(mAppContext, "Error saving customer");
+				Utils.showToast(mAppContext,
+						mAppContext.getString(R.string.error_saving_customers));
 			}
 		}
 	}

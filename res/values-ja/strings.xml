@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Application -->
+	<string name="app_name">引越し見積り</string>
+	<string name="action_settings">設定</string>
+	
+	<!-- Action Bar -->
+	<string name="actionbar_title_list">顧客リスト</string>
+	<string name="actionbar_title_customer_info">顧客情報</string>
+	<string name="actionbar_title_estimate">見積り</string>
+	
+	<!-- Empty List -->
+	<string name="customerlist_empty">登録データなし。</string>
+	<string name="roomlist_empty">この部屋には何も登録されていません。</string>
+	<string name="estimatelist_empty">この部屋には何も登録されていません。</string>
+	<string name="estimate_overview_empty">本リストには何も登録されていません。</string>
+	<string name="modelist_empty">本リストには何も登録されていません。</string>
+	
+	<!-- Menu Items -->
+	<string name="menuitem_new">新規</string>	
+	<string name="menuitem_delete">削除</string>
+	<string name="menuitem_edit">編集</string>
+	<string name="menuitem_estimate">見積</string>
+	<string name="menuitem_report">見積データ送信</string>
+	<string name="menuitem_about">About</string>
+	<string name="menuitem_new_room">部屋追加</string>
+	<string name="menuitem_new_item">アイテム追加</string>
+	<string name="menuitem_edit_estimate">見積編集</string>
+	<string name="menuitem_settings">設定</string>
+	
+	<!-- Date/time picker -->
+	<string name="set_date">日付変更</string>
+	<string name="set_time">時間変更</string>
+	
+	<!-- Add dialog -->
+	<string name="invalid_room">不正入力エラー</string>
+	<string name="add_new_room">部屋追加</string>
+	<string name="add">追加</string>
+	<string name="add_new_item">アイテム追加</string>
+
+	<!-- Delete dialog -->
+	<string name="deleting">"削除："</string>
+	<string name="items">"アイテム"</string>
+	<string name="are_you_sure">大丈夫ですか?</string>
+	<string name="delete_room">ご指定の部屋を削除します。</string>
+	
+	<!-- Spinner Prefix -->
+	<string-array name="prefixes">
+		<item>様</item>
+	</string-array>
+	
+	<!-- Estimate Report -->
+	<string name="estimate_report_subject">引越し見積り | %1$s</string>
+	<string name="send_report">見積データ送信</string>
+	
+	<string name="customer_info">
+		\n氏名=>%1$s
+		\n会社=>%2$s
+		\nEmail=>%3$s
+		\nTel(自宅)=>%4$s
+		\nTel(会社)=>%5$s
+		\nTel(携帯)=>%6$s
+		\n
+	</string>
+	
+	<string name="moving_info">
+		\n旧住所=>%1$s
+		\n新住所=>%2$s
+		\n予定日=>%3$s
+		\nスケジュール=>%4$s
+		\n作業現場情報=>%5$s
+		\n特別指示事項=>%6$s
+		\nコメント=>%7$s
+		\n
+	</string>
+	
+	<!-- UI widgets -->
+	<string name="ref_number">顧客番号</string>
+	<string name="reference_number">顧客番号</string>
+	<string name="name">氏名</string>
+	<string name="last_name_first_name_prefix">姓名</string>
+	<string name="last_name">姓</string>
+	<string name="first_name">名</string>
+	<string name="organization">会社</string>
+	<string name="org">会社</string>
+	<string name="email">Email</string>
+	<string name="home">自宅</string>
+	<string name="work">会社</string>
+	<string name="cell">携帯</string>
+	<string name="phone_number">電話番号</string>
+	<string name="phone_home">Tel(自宅)</string>
+	<string name="phone_work">Tel(会社)</string>
+	<string name="phone_cell">Tel(携帯)</string>
+	<string name="moving_information">引越について</string>
+	<string name="from">旧住所</string>
+	<string name="to">新住所</string>
+	<string name="comment">コメント</string>
+	<string name="moving_date">予定日</string>
+	<string name="comment_on_schedule">スケジュール</string>
+	<string name="home_description">作業現場情報</string>
+	<string name="special_order">特別指示事項</string>
+	<string name="general_comment">コメント</string>
+	
+	<!-- AboutDialog -->
+	<string name="aboutdialog_text">
+		DEVELOPER
+		\n----------------------------------------
+		\nMasatoshi Nishiguchi
+		\nmasatoshi.nishiguchi@udc.edu
+		\nバージョン：1.1
+	</string>
+	
+	<!-- Estimate Overview -->
+	<string name="cu_ft"></string>
+	<string name="total_volume_">容積合計:</string>
+	
+	<!-- Transport Mode -->
+	<string-array name="transport_modes">
+		<item>船便1</item>
+		<item>船便2</item>
+		<item>航空便1</item>
+		<item>航空便2</item>
+		<item>市内1</item>
+		<item>市内2</item>
+		<item>廃棄</item>
+		<item>保管</item>
+	</string-array>
+	
+	<!-- Default Rooms -->
+	<string-array name="rooms_default">
+		<item>玄関</item>
+		<item>リビング</item>
+		<item>ダイニング</item>
+		<item>キッチン</item>
+	</string-array>
+		
+	<!-- Room Names -->
+	<string-array name="rooms">
+		<item>屋根裏部屋</item>
+		<item>裏庭</item>
+		<item>地下</item>
+		<item>トイレ</item>
+		<item>風呂</item>
+		<item>寝室1</item>
+		<item>寝室2</item>
+		<item>寝室3</item>
+		<item>寝室4</item>
+		<item>押入れ</item>
+		<item>ダイニング</item>
+		<item>玄関</item>
+		<item>庭</item>
+		<item>車庫</item>
+		<item>廊下</item>
+		<item>キッチン</item>
+		<item>洗濯場</item>
+		<item>リビング</item>
+		<item>オフィス</item>
+		<item>子供部屋</item>
+		<item>小屋</item>
+		<item>階段</item>
+		<item>クロゼット</item>
+	</string-array>
+	
+	<!-- Moving Items -->
+	<string-array name="moving_items">
+		<!-- Carton box -->
+		<item>S カートン</item>
+		<item>M カートン</item>
+		<item>L カートン</item>
+		<item>MM カートン</item>
+		<item>ハンガーボックス</item>
+
+		<!-- household items -->
+		<item>Sofa</item>
+		<item>Armcharir</item>
+		<item>Ottoman</item>
+		<item>Folding Table</item>
+		<item>Folding Chair</item>
+		<item>Coffee Table</item>
+		<item>Side Table</item>
+		<item>Display Shelf</item>
+		<item>Sideboard</item>
+		<item>China Cabinet</item>
+		<item>Dining Table</item>
+		<item>Dining Chair</item>
+		<item>High Chair</item>
+		<item>Garden Table</item>
+		<item>Garden Chair</item>
+		<item>Chest of Drawers</item>
+		<item>Dresser</item>
+		<item>Mirror</item>
+		<item>Floor lamp</item>
+		<item>TV</item>
+		<item>Entertainment Center</item>
+		<item>DVD Player</item>
+		<item>CD</item>
+		<item>DVD</item>
+		<item>Audio Player</item>
+		<item>Speaker</item>
+		<item>Desktop PC</item>
+		<item>Laptop</item>
+		<item>Printer</item>
+		<item>Scanner</item>
+		<item>Clothing</item>
+		<item>Stackable Drawer</item>
+		<item>3-drawer cabinet</item>
+		<item>Pipe Cloting Rack</item>
+		<item>Towels</item>
+		<item>Pants Press</item>
+		<item>Shoe Rack</item>
+		<item>Shoes</item>
+		<item>Bags</item>
+		<item>Handbags</item>
+		<item>Picture Frame</item>
+		<item>Photo Frame</item>
+		<item>Poster Frame</item>
+		<item>Decorative Frame</item>
+		<item>Hina Ningo</item>
+		<item>Gogatsu Ningyo</item>
+		<item>Ornaments</item>
+		<item>Dolls</item>
+		<item>Xmas Tree</item>
+		<item>Books</item>
+		<item>Documents</item>
+		<item>Files</item>
+		<item>Desk Lamp</item>
+		<item>Microwave</item>
+		<item>3-tier Shelf</item>
+		<item>4-tier Shelf</item>
+		<item>5-tier Shelf</item>
+		<item>Wall Shelf</item>
+		<item>Sewing Machine</item>
+		<item>Sewing Supplies</item>
+		<item>Vacuum Cleaner</item>
+		<item>Iron w/ Iron Board</item>
+		<item>Rice Cooker</item>
+		<item>Telephone</item>
+		<item>King Bed</item>
+		<item>Queen Bed</item>
+		<item>Double/Full Bed</item>
+		<item>Single/Twin Bed</item>
+		<item>Headboard</item>
+		<item>Footboard</item>
+		<item>Bunk Bed</item>
+		<item>Baby Crib</item>
+		<item>Futon</item>
+		<item>Desk</item>
+		<item>Chair</item>
+		<item>PC Desk</item>
+		<item>Bookshelf</item>
+		<item>Upright Piano</item>
+		<item>Electronic Piano</item>
+		<item>Electronic Keyboard</item>
+		<item>Golf Set</item>
+		<item>Ski</item>
+		<item>Ski Boots</item>
+		<item>Snowboard</item>
+		<item>Surfboard</item>
+		<item>Bicycle</item>
+		<item>Folding Bicycle</item>
+		<item>Toy</item>
+		<item>Suitcase</item>
+		<item>Rug</item>
+		<item>Carpet</item>
+		<item>Mat</item>
+		<item>China</item>
+		<item>Cooking Pots</item>
+		<item>Cooking Utensils</item>
+		<item>Cooking Supplies</item>
+		<item>Silverware</item>
+		<item>Glassware</item>
+		<item>Food Containers</item>
+		<item>Rocking Chair</item>
+		<item>Bean Bag</item>
+		<item>Recliner</item>
+		<item>Stool</item>
+		<item>Bench</item>
+		<item>Couch</item>
+		<item>Love Seat</item>
+		<item>Hammock</item>
+		<item>Mattress</item>
+		<item>Sofa Bed</item>
+		<item>Billiard Table</item>
+		<item>Chess Table</item>
+		<item>Video Game Console</item>
+		<item>Kotatsu</item>
+		<item>Coffee Table</item>
+		<item>Workbench</item>
+		<item>Nightstand</item>
+		<item>Safe</item>
+		<item>Wine Rack</item>
+		<item>Beddings</item>
+		<item>Cushions</item>
+		<item>Curtains</item>
+		<item>File Cabinet</item>
+		<item>Stationary</item>
+		<item>Cleaning Supplies</item>
+		<item>Bath Supplies</item>
+	</string-array>
+
+	<!-- Others -->
+	<string name="item_name">アイテム名</string>
+	<string name="size">容積</string>
+	<string name="quantity">数量</string>
+	<string name="mode">輸送形態</string>
+	<string name="qty">数量</string>
+	<string name="room">部屋</string>
+	<string name="subtotal">容積小計</string>
+	<string name="invalid_password">不正パスワードエラー</string>
+	<string name="enter_your_password">"パスワードを入力してください。"</string>
+	<string name="submit">提出</string>
+	<string name="new_password">"新パスワード　:"</string>
+	<string name="change_password">パスワード変更</string>
+	<string name="currently">"現状 :"</string>
+	<string name="change">変更</string>
+	<string name="tbd">未定</string>
+	<string name="actionbar_edit">"%1$s | 編集"</string>
+	<string name="actionbar_estimate">"%1$s | 見積り"</string>
+	<string name="actionbar_estimate_edit">"%1$s | 見積り | 編集"</string>
+	<string name="no_customer_with_this_id_found">このIDに一致する顧客は見つかりませんでした。</string>
+	<string name="couldnt_delete_photo">写真削除エラー</string>
+	<string name="toast_deleted_customer">"%1$sを削除しました。"</string>
+	<string name="couldnt_delete_customer">顧客削除エラー</string>
+	<string name="error_loading_customers">顧客読み込みエラー</string>
+	<string name="error_saving_customers">顧客書き込みエラー</string>
+	
+</resources>

@@ -45,7 +45,9 @@ public class EstimateOverviewFragment extends Fragment
 		setHasOptionsMenu(true);
 		
 		// Set the action bar title.
-		getActivity().setTitle(Customer.getCurrentCustomer().toString() + " | ESTIMATE");
+		getActivity().setTitle(getActivity().getString(
+				R.string.actionbar_estimate,
+				Customer.getCurrentCustomer().toString()));
 	}
 	
 	@Override

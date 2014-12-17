@@ -446,7 +446,8 @@ public class EstimateListFragment extends Fragment implements
 							// Validation for the input.
 							if (!isInputValid())
 							{
-								Utils.showToast(getActivity(), "Invalid input");
+								Utils.showToast(getActivity(),
+										getActivity().getString(R.string.invalid_room));
 								return;
 							}
 							
@@ -499,10 +500,10 @@ public class EstimateListFragment extends Fragment implements
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Adding an item")
+				.setTitle(R.string.add_new_item)
 				.setView(v)
-				.setPositiveButton("Add", listener)
-				.setNegativeButton("Cancel", listener)
+				.setPositiveButton(R.string.add, listener)
+				.setNegativeButton(android.R.string.cancel, listener)
 				.create();
 		}
 		

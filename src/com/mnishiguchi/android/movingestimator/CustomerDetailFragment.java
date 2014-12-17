@@ -153,13 +153,21 @@ public class CustomerDetailFragment extends Fragment
 		String prefix = (null == mCustomer.getPrefix()) ? "" : mCustomer.getPrefix();
 		String lastName = (null == mCustomer.getLastName()) ? "" : mCustomer.getLastName();
 		String firstName = (null == mCustomer.getFirstName()) ? "" : mCustomer.getFirstName();
+		
 		if (null == prefix && null == lastName && null == firstName)
 		{
 			temp = "";
 		}
 		else
 		{
-			temp = prefix + " " + lastName.toUpperCase(Locale.US) + ", " + firstName;
+			if (Locale.getDefault().getDisplayLanguage().equals("“ú–{Œê"))
+			{
+				temp = lastName + " " + firstName + " " + prefix;
+			}
+			else
+			{
+				temp = prefix + " " + lastName.toUpperCase(Locale.US) + ", " + firstName;
+			}
 		}
 		
 		mTvCustomerName.setText(temp);
@@ -705,9 +713,19 @@ public class CustomerDetailFragment extends Fragment
 	{
 		Customer customer = Customer.getCurrentCustomer();
 		
+		String nameString = "";
+		if (Locale.getDefault().getDisplayLanguage().equals("“ú–{Œê"))
+		{
+			nameString = customer.getLastName() + " " + customer.getFirstName() + " " + customer.getPrefix();
+		}
+		else
+		{
+			nameString = customer.toString() + ", " + customer.getFirstName();
+		}
+		
 		String report = "";
 		report += getString(R.string.customer_info,
-				customer.toString() + ", " + customer.getFirstName(),
+				nameString,
 				customer.getOrganization(),
 				customer.getEmail(),
 				customer.getPhoneHome(),

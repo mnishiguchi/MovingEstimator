@@ -161,7 +161,9 @@ public class EstimateRoomListFragment extends Fragment implements
 		setupActionBarUpButton();
 		
 		// Set the customer name on the Actionbar.
-		getActivity().setTitle(mCustomer.toString() + " | ESTIMATE | EDIT");
+		getActivity().setTitle(getActivity().getString(
+				R.string.actionbar_estimate_edit,
+				mCustomer.toString()));
 		
 		// Reload the list.
 		mAdapter.notifyDataSetChanged();
@@ -244,7 +246,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
 		{
-			mode.setTitle("Deleting the checked room");
+			mode.setTitle(R.string.delete_room);
 			return false;
 		}
 		
@@ -386,7 +388,8 @@ public class EstimateRoomListFragment extends Fragment implements
 	{
 		int lastIndex = mAdapter.getCount() - 1;
 		mListView.setItemChecked(lastIndex, true);
-		getActivity().getActionBar().setSubtitle(mAdapter.getItem(lastIndex));
+		
+		setActionBarTitle(mAdapter.getItem(lastIndex));
 	}
 	
 	/**
@@ -441,7 +444,8 @@ public class EstimateRoomListFragment extends Fragment implements
 							mRoomText = mTextView.getText().toString();
 							if (!isRoomValid())
 							{
-								Utils.showToast(getActivity(), "Invalid room");
+								Utils.showToast(getActivity(),
+										getActivity().getString(R.string.invalid_room));
 								return;
 							}
 							
@@ -468,10 +472,10 @@ public class EstimateRoomListFragment extends Fragment implements
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Adding a room")
+				.setTitle(R.string.add_new_room)
 				.setView(v)
-				.setPositiveButton("Add", listener)
-				.setNegativeButton("Cancel", listener)
+				.setPositiveButton(R.string.add, listener)
+				.setNegativeButton(android.R.string.cancel, listener)
 				.create();
 		}
 		
@@ -480,10 +484,10 @@ public class EstimateRoomListFragment extends Fragment implements
 		 */
 		private boolean isRoomValid()
 		{
-			// Check for duplicates.
+			// Check for duplicates and empty input.
 			for (String room : mCustomer.getRooms())
 			{
-				if (room.equalsIgnoreCase(mRoomText))
+				if (room.equalsIgnoreCase(mRoomText) || room.equals(""))
 				{
 					return false;
 				}

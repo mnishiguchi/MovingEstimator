@@ -181,20 +181,36 @@ public class Customer
 	
 	/**
 	 * Create a string representation of this Customer.
-	 * e.g. Mr. NISHIGUCHI
 	 */
 	@Override
 	public String toString()
 	{
 		// No last name => (No Name)
-		if (mLastName.equals("")) return "(No name)";
+		if (mLastName.equals(""))
+		{
+			return MyApp.getResourcesStatic().getString(android.R.string.unknownName);
+		}
 		
-		return mPrefix + " " + mLastName.toUpperCase(Locale.US);
+		String s = "";
+		if (Locale.getDefault().getDisplayLanguage().equals("“ú–{Œê")) // Japanese.
+		{
+			s = mLastName.toUpperCase(Locale.US) + mPrefix;
+		}
+		else // the other languages.
+		{
+			s = mPrefix + " " + mLastName.toUpperCase(Locale.US);
+		}
+		
+		return s;
 	}
 	
 	public String getMovingDateString()
 	{
-		if (null == mMovingDate) return "TBD";
+		if (null == mMovingDate)
+		{
+			// To be determined.
+			return MyApp.getResourcesStatic().getString(R.string.tbd);
+		}
 		return (String) android.text.format.DateFormat
 				.format("yyyy-MM-dd / hh:mma", mMovingDate);
 	}

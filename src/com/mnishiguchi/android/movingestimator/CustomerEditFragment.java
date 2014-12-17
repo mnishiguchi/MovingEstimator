@@ -475,7 +475,7 @@ public class CustomerEditFragment extends Fragment
 	private void showUpdatedDate()
 	{
 		String movingDateString = (null == mCustomer.getMovingDate()) ?
-				"TBD" : mCustomer.getMovingDateString();
+				getActivity().getString(R.string.tbd) : mCustomer.getMovingDateString();
 		mBtnMovingDate.setText(movingDateString);
 	}
 
@@ -499,7 +499,9 @@ public class CustomerEditFragment extends Fragment
 	private void setActionBarTitle()
 	{
 		// Set the ActionBar's title.
-		getActivity().setTitle(mCustomer.toString() + " | EDIT");
+		getActivity().setTitle(getActivity().getString(
+				R.string.actionbar_edit,
+				mCustomer.toString()));
 		getActivity().getActionBar().setSubtitle(mCustomer.getOrganization());
 	}
 	

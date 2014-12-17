@@ -34,6 +34,18 @@
 	<string name="set_date">Set date</string>
 	<string name="set_time">Set time</string>
 	
+	<!-- Add dialog -->
+	<string name="invalid_room">Invalid room</string>
+	<string name="add_new_room">Adding a room</string>
+	<string name="add">Add</string>
+	<string name="add_new_item">Adding an item</string>
+	
+	<!-- Delete dialog -->
+	<string name="deleting">"Deleting"</string>
+	<string name="items">"item(s)"</string>
+	<string name="are_you_sure">Are you sure?</string>
+	<string name="delete_room">Deleting the checked room</string>
+	
 	<!-- Spinner Prefix -->
 	<string-array name="prefixes">
 		<item>Mr.</item>
@@ -96,7 +108,7 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		DEVELOPED BY
+		DEVELOPER
 		\n----------------------------------------
 		\nMasatoshi Nishiguchi
 		\nmasatoshi.nishiguchi@udc.edu
@@ -302,5 +314,31 @@
 		<item>Cleaning Supplies</item>
 		<item>Bath Supplies</item>
 	</string-array>
-
+	
+	<!-- Others -->
+	<string name="item_name">Item Name</string>
+	<string name="size">Size</string>
+	<string name="quantity">Quantity</string>
+	<string name="mode">Mode</string>
+	<string name="qty">Qty</string>
+	<string name="room">Room</string>
+	<string name="subtotal">Subtotal</string>
+	<string name="invalid_password">Invalid password</string>
+	<string name="enter_your_password">"Enter your password "</string>
+	<string name="submit">Submit</string>
+	<string name="new_password">"New Password　:"</string>
+	<string name="change_password">Change Password</string>
+	<string name="currently">"Currently :"</string>
+	<string name="change">Change</string>
+	<string name="tbd">TBD</string>
+	<string name="actionbar_edit">"%1$s | EDIT"</string>
+	<string name="actionbar_estimate">"%1$s | ESTIMATE"</string>
+	<string name="actionbar_estimate_edit">"%1$s | ESTIMATE | EDIT"</string>
+	<string name="no_customer_with_this_id_found">No customer with this id found.</string>
+	<string name="couldnt_delete_photo">Couldn\'t delete the photo</string>
+	<string name="toast_deleted_customer">"%1$s deleted"</string>
+	<string name="couldnt_delete_customer">Couldn\'t delete the customer</string>
+	<string name="error_loading_customers">Error loading customers.</string>
+	<string name="error_saving_customers">Error saving customers.</string>
+	
 </resources>

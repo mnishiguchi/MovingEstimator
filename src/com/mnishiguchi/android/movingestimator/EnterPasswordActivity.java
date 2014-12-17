@@ -80,7 +80,8 @@ public class EnterPasswordActivity extends FragmentActivity
 							}
 							else
 							{
-								Utils.showToast(getActivity(), "Invalid password");
+								Utils.showToast(getActivity(), getActivity().getString(
+										R.string.invalid_password));
 								getActivity().finish();
 								return;
 							}
@@ -98,9 +99,9 @@ public class EnterPasswordActivity extends FragmentActivity
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Enter your password ")
+				.setTitle(R.string.enter_your_password)
 				.setView(v)
-				.setPositiveButton("Submit", listener)
+				.setPositiveButton(android.R.string.ok, listener)
 				.create();
 		}
 		
