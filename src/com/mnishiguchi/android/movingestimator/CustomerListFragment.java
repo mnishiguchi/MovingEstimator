@@ -336,7 +336,6 @@ public class CustomerListFragment extends ListFragment
 					i = new Intent(getActivity(), EstimateOverviewActivity.class);
 					startActivity(i);
 				}
-				
 				return true;
 				
 			case R.id.contextmenu_delete:

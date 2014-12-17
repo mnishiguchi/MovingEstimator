@@ -212,7 +212,7 @@ public class CustomerDetailFragment extends Fragment
 		mTvMovingDate = (TextView)v.findViewById(R.id.textViewMovingDate);
 		
 		temp = (null == mCustomer.getMovingDate()) ?
-				"TBD" : mCustomer.getMovingDateString();
+				getActivity().getString(R.string.tbd) : mCustomer.getMovingDateString();
 		mTvMovingDate.setText(temp);
 		
 		// --- mEtMovingDateComment ---

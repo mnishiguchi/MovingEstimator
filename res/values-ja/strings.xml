@@ -23,7 +23,7 @@
 	<string name="menuitem_edit">編集</string>
 	<string name="menuitem_estimate">見積</string>
 	<string name="menuitem_report">見積データ送信</string>
-	<string name="menuitem_about">About</string>
+	<string name="menuitem_about">about</string>
 	<string name="menuitem_new_room">部屋追加</string>
 	<string name="menuitem_new_item">アイテム追加</string>
 	<string name="menuitem_edit_estimate">見積編集</string>
@@ -93,7 +93,7 @@
 	<string name="phone_work">Tel(会社)</string>
 	<string name="phone_cell">Tel(携帯)</string>
 	<string name="moving_information">引越について</string>
-	<string name="from">旧住所</string>
+	<string name="from">現住所</string>
 	<string name="to">新住所</string>
 	<string name="comment">コメント</string>
 	<string name="moving_date">予定日</string>
