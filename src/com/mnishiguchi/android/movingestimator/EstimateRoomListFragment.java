@@ -160,15 +160,15 @@ public class EstimateRoomListFragment extends Fragment implements
 		// If a parent activity is registered in the manifest file, enable the Up button.
 		setupActionBarUpButton();
 		
-		// Set the customer name on the Actionbar.
-		getActivity().setTitle(getActivity().getString(
-				R.string.actionbar_estimate_edit,
-				mCustomer.toString()));
-		
 		// Reload the list.
 		mAdapter.notifyDataSetChanged();
 		
 		clearListSelection();
+		
+		// Set the customer name on the Actionbar.
+		getActivity().setTitle(getActivity().getString(
+				R.string.actionbar_estimate_edit,
+				mCustomer.toString()));
 	}
 	
 	@Override
@@ -182,27 +182,6 @@ public class EstimateRoomListFragment extends Fragment implements
 			mActionMode = null;
 		}
 		
-	}
-	
-	private void setActionBarTitle(String room)
-	{
-		getActivity().setTitle(mCustomer.toString() + " | " + room);
-	}
-	
-	/**
-	 * If a parent activity is registered in the manifest file,
-	 * enable the Up button.
-	 */
-	private void setupActionBarUpButton()
-	{
-		if (NavUtils.getParentActivityIntent(getActivity()) != null)
-		{
-			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-		else
-		{
-			Log.d(TAG, "Couldn't enable the Up button");
-		}
 	}
 	
 	/*
@@ -222,7 +201,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		
 		// Set the room on the Actionbar subtitle.
 		//setRoomOnActionBar(clickedRoom);
-		setActionBarTitle(clickedRoom);
+		setRoomOnActionBar(clickedRoom);
 		
 		// Notify the hosting Activity.
 		mCallbacks.onListItemClicked(clickedRoom);
@@ -296,30 +275,6 @@ public class EstimateRoomListFragment extends Fragment implements
 		return true; // Long click was consumed.
 	}
 	
-	@SuppressLint("NewApi")
-	private void deleteRoom()
-	{
-		// The clicked room.
-		String room = (String)mAdapter.getItem(mClickedPosition);
-
-		// Remove the data from model layer.
-		mCustomer.getRooms().remove(room);
-
-		// Update the listView.
-		mAdapter.notifyDataSetChanged();
-		
-		// Save the updated entire customers data to disk.
-		FileCabinet.get(getActivity()).saveCustomers();
-		
-		// Delete this room's estimate data from database.
-		EstimateDataManager.get(getActivity()).deleteRoom(mCustomer.getId(), room);
-		
-		clearListSelection();
-		
-		// Notyfy the hosting activity.
-		mCallbacks.onListItemDeleted(room);
-	}
-	
 	/* Options Menu on the ActionBar.
 	 * Creates the options menu and populates it with the items
 	 * defined in res/menu/fragment_customerlist.xml.
@@ -361,6 +316,27 @@ public class EstimateRoomListFragment extends Fragment implements
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	/**
+	 * If a parent activity is registered in the manifest file,
+	 * enable the Up button.
+	 */
+	private void setupActionBarUpButton()
+	{
+		if (NavUtils.getParentActivityIntent(getActivity()) != null)
+		{
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		else
+		{
+			Log.d(TAG, "Couldn't enable the Up button");
+		}
+	}
+
+	private void setRoomOnActionBar(String room)
+	{
+		getActivity().setTitle(mCustomer.toString() + " | " + room);
+	}
 
 	/**
 	 * Add the specified room to this customer's attributes.
@@ -381,6 +357,35 @@ public class EstimateRoomListFragment extends Fragment implements
 		setLastItemSelected();
 	}
 	
+	@SuppressLint("NewApi")
+	private void deleteRoom()
+	{
+		// The clicked room.
+		String room = (String)mAdapter.getItem(mClickedPosition);
+	
+		// Remove the data from model layer.
+		mCustomer.getRooms().remove(room);
+	
+		// Update the listView.
+		mAdapter.notifyDataSetChanged();
+		
+		// Save the updated entire customers data to disk.
+		FileCabinet.get(getActivity()).saveCustomers();
+		
+		// Delete this room's estimate data from database.
+		EstimateDataManager.get(getActivity()).deleteRoom(mCustomer.getId(), room);
+		
+		clearListSelection();
+		
+		// Set the customer name on the Actionbar.
+		getActivity().setTitle(getActivity().getString(
+				R.string.actionbar_estimate_edit,
+				mCustomer.toString()));
+		
+		// Notyfy the hosting activity.
+		mCallbacks.onListItemDeleted(room);
+	}
+
 	/**
 	 * Set the last list item selected.
 	 */
@@ -389,7 +394,7 @@ public class EstimateRoomListFragment extends Fragment implements
 		int lastIndex = mAdapter.getCount() - 1;
 		mListView.setItemChecked(lastIndex, true);
 		
-		setActionBarTitle(mAdapter.getItem(lastIndex));
+		setRoomOnActionBar(mAdapter.getItem(lastIndex));
 	}
 	
 	/**
@@ -408,6 +413,8 @@ public class EstimateRoomListFragment extends Fragment implements
 		getActivity().getActionBar().setSubtitle(null);
 		mListView.clearChoices();
 		mAdapter.notifyDataSetChanged();
+		
+		
 	}
 	
 	/**
