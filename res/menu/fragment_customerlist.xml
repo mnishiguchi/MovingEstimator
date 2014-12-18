@@ -8,6 +8,7 @@
 
 	<item android:id="@+id/optionsmenu_settings"
 		android:title="@string/menuitem_settings"
+		android:orderInCategory="9" 
 		android:showAsAction="never" />
 	
 	<item android:id="@+id/optionsmenu_about"

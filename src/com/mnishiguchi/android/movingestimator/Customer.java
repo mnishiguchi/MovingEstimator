@@ -200,7 +200,6 @@ public class Customer
 		{
 			s = mPrefix + " " + mLastName.toUpperCase(Locale.US);
 		}
-		
 		return s;
 	}
 	
@@ -277,7 +276,10 @@ public class Customer
 
 	public String getPhoneHome()
 	{
-		return mPhoneHome;
+		String s = (null == mPhoneHome) ?
+			MyApp.getResourcesStatic().getString(android.R.string.emptyPhoneNumber)
+			: mPhoneHome;
+		return s;
 	}
 
 	public void setPhoneHome(String phoneHome)
@@ -287,7 +289,10 @@ public class Customer
 
 	public String getPhoneWork()
 	{
-		return mPhoneWork;
+		String s = (null == mPhoneWork) ?
+			MyApp.getResourcesStatic().getString(android.R.string.emptyPhoneNumber)
+			: mPhoneWork;
+		return s;
 	}
 
 	public void setPhoneWork(String phoneWork)
@@ -297,7 +302,10 @@ public class Customer
 
 	public String getPhoneCell()
 	{
-		return mPhoneCell;
+		String s = (null == mPhoneCell) ?
+			MyApp.getResourcesStatic().getString(android.R.string.emptyPhoneNumber)
+			: mPhoneCell;
+		return s;
 	}
 
 	public void setPhoneCell(String phoneCell)

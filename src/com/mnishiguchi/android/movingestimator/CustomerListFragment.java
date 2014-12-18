@@ -675,15 +675,19 @@ public class CustomerListFragment extends ListFragment
 							
 							mPassword = mEtPassword.getText().toString();
 							
-							// Save the password.
+							// Save the new password.
 							prefs.edit()
 								.putString(PREF_PASSWORD, mPassword)
 								.commit();
 							
-							// Notify the user.
+							// Notify the user about the new password.
+							String s = prefs.getString(PREF_PASSWORD, "");
+							if (s.equals(""))
+							{
+								s = getActivity().getString(R.string.no_password_set);
+							}
 							Utils.showToast(getActivity(), 
-									getActivity().getString(R.string.new_password)
-									+ " " + prefs.getString(PREF_PASSWORD, ""));
+									getActivity().getString(R.string.new_password, s));
 							break; 
 							
 						case DialogInterface.BUTTON_NEGATIVE: 
@@ -704,11 +708,16 @@ public class CustomerListFragment extends ListFragment
 					.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 					.getString(PREF_PASSWORD, "");
 			
+			if (currentPassword.equals(""))
+			{
+				currentPassword = getActivity().getString(R.string.no_password_set);
+			}
+			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.change_password)
 				.setView(v)
-				.setMessage(getActivity().getString(R.string.currently) + " " + currentPassword)
+				.setMessage(getActivity().getString(R.string.current_password, currentPassword))
 				.setPositiveButton(R.string.change, listener)
 				.setNegativeButton(android.R.string.cancel, listener)
 				.create();

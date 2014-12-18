@@ -19,13 +19,14 @@ class FileCabinet
 	// Store an instance of the  FileCabinet. 
 	private static FileCabinet sFileCabinet;
 	
-	// Instance variables.
 	private Context mAppContext;
 	private ArrayList<Customer> mCustomers;
 	private MovingEstimatorJSONSerializer mSerializer;
 	
-	// Remember it for updating the CustomerListFragment when loading is completed.
+	// Remember the reference to CustomerListFragment so that we can update its
+	// UI when loading is completed.
 	private CustomerListFragment mListFragment;
+	
 	void registerForLoadingCustomers(CustomerListFragment f)
 	{
 		mListFragment = f;

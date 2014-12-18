@@ -56,23 +56,36 @@
 	<string name="send_report">見積データ送信</string>
 	
 	<string name="customer_info">
-		\n氏名=>%1$s
-		\n会社=>%2$s
-		\nEmail=>%3$s
-		\nTel(自宅)=>%4$s
-		\nTel(会社)=>%5$s
-		\nTel(携帯)=>%6$s
+		\n氏名 : %1$s
+		\n会社 : %2$s
+		\nEmail : %3$s
+		\nTel(自宅) : %4$s
+		\nTel(会社) : %5$s
+		\nTel(携帯) : %6$s
 		\n
 	</string>
 	
 	<string name="moving_info">
-		\n旧住所=>%1$s
-		\n新住所=>%2$s
-		\n予定日=>%3$s
-		\nスケジュール=>%4$s
-		\n作業現場情報=>%5$s
-		\n特別指示事項=>%6$s
-		\nコメント=>%7$s
+		\n旧住所 : %1$s
+		\n新住所 : %2$s
+		\n
+		\n予定日 : %3$s
+		\nスケジュール : %4$s
+		\n
+		\n-------------------------------
+		\n作業現場情報 
+		\n-------------------------------
+		\n %5$s
+		\n
+		\n-------------------------------
+		\n特別指示事項 
+		\n-------------------------------
+		\n %6$s
+		\n
+		\n-------------------------------
+		\nコメント
+		\n-------------------------------
+		\n %7$s
 		\n
 	</string>
 	
@@ -105,10 +118,11 @@
 	
 	<!-- AboutDialog -->
 	<string name="aboutdialog_text">
-		DEVELOPER
+		デベロッパー
 		\n----------------------------------------
-		\nMasatoshi Nishiguchi
+		\nにしぐちまさとし
 		\nmasatoshi.nishiguchi@udc.edu
+		\nversion: 1.2
 	</string>
 	
 	<!-- Estimate Overview -->
@@ -310,9 +324,9 @@
 	<string name="invalid_password">不正パスワードエラー</string>
 	<string name="enter_your_password">"パスワードを入力してください。"</string>
 	<string name="submit">提出</string>
-	<string name="new_password">"新パスワード　:"</string>
+	<string name="new_password">"新パスワード : %1$s"</string>
 	<string name="change_password">パスワード変更</string>
-	<string name="currently">"現在のパスワード :"</string>
+	<string name="current_password">"現在のパスワード : %1$s""</string>
 	<string name="change">変更</string>
 	<string name="tbd">未定</string>
 	<string name="actionbar_edit">"%1$s | 編集"</string>
@@ -325,5 +339,6 @@
 	<string name="error_loading_customers">顧客読み込みエラー</string>
 	<string name="error_saving_customers">顧客書き込みエラー</string>
 	<string name="deleting_checked_item">ご指定のアイテムを削除します。</string>
+	<string name="no_password_set">(未設定)</string>
 	
 </resources>

@@ -9,15 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 public class CustomerPagerActivity extends FragmentActivity
 	implements CustomerDetailFragment.DetailCallbacks
 {
-	private static final String TAG = "CriminalIntent.PagerActivity";
-	
 	private int mPosition;
-	
 	private ViewPager mViewPager;
 	
 	// Reference to the list of customers stored in the FileCabinet.
@@ -27,8 +23,6 @@ public class CustomerPagerActivity extends FragmentActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		Log.d(TAG, "onCreate()");
 		
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.viewPager);
@@ -47,15 +41,8 @@ public class CustomerPagerActivity extends FragmentActivity
 		setupPagerListener();
 	}
 	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-	
 	private void setupPagerAdapter()
 	{
-		Log.d(TAG, "setUpPagerAdapter()");
 		FragmentManager fm = getSupportFragmentManager();
 		mViewPager.setAdapter( new FragmentStatePagerAdapter(fm) {
 			
@@ -86,9 +73,9 @@ public class CustomerPagerActivity extends FragmentActivity
 	 */
 	private void setupInitialPagerItem()
 	{
-		Log.d(TAG, "setUpInitialPagerItem()");
 		String customerId = (String)getIntent()
 			.getStringExtra(CustomerDetailFragment.EXTRA_CUSTOMER_ID);
+		
 		for (int i = 0; i < mCustomers.size(); i++)
 		{
 			if (mCustomers.get(i).getId().equals(customerId))
@@ -104,7 +91,6 @@ public class CustomerPagerActivity extends FragmentActivity
 	
 	private void setupPagerListener()
 	{
-		Log.d(TAG, "setUpEventListener()");
 		mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			
 			// Invoked when a new page becomes selected.
@@ -112,8 +98,6 @@ public class CustomerPagerActivity extends FragmentActivity
 			@Override
 			public void onPageSelected(int position)
 			{
-				Log.d(TAG, "onPageSelected(...)");
-
 				mPosition = position;
 				
 				// Get the customer at the passed-in position.
@@ -122,7 +106,6 @@ public class CustomerPagerActivity extends FragmentActivity
 				// Set the new page's title.
 				if (customer.getLastName() != null || !customer.getLastName().equals(""))
 				{
-					Log.d(TAG, "onPageSelected");
 					setTitle(customer.toString());
 				}
 			}
@@ -130,15 +113,11 @@ public class CustomerPagerActivity extends FragmentActivity
 			// Invoked when the current page is scrolled
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-			{
-				// Required but not used in this implementation.
-			}
+			{ } // Required but not used in this implementation.
 			
 			@Override
 			public void onPageScrollStateChanged(int state)
-			{
-				// Required but not used in this implementation.
-			}
+			{ } // Required but not used in this implementation.
 		});
 	}
 	
@@ -149,25 +128,13 @@ public class CustomerPagerActivity extends FragmentActivity
 
 	@Override
 	public void onCustomerAdded(Customer customer)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{ } // Required but not used in this implementation.
 
 	@Override
 	public void onCustomerUpdated(Customer customer)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{ } // Required but not used in this implementation.
 
 	@Override
 	public void onCustomerDeleted(Customer customer)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
+	{ } // Required but not used in this implementation.
 }

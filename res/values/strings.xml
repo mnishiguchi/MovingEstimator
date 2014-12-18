@@ -60,23 +60,36 @@
 	<string name="send_report">Send estimate data</string>
 	
 	<string name="customer_info">
-		\nName=>%1$s
-		\nOrganization=>%2$s
-		\nEmail=>%3$s
-		\nHome=>%4$s
-		\nWork=>%5$s
-		\nCell=>%6$s
+		\nName : %1$s
+		\nOrganization : %2$s
+		\nEmail : %3$s
+		\nHome : %4$s
+		\nWork : %5$s
+		\nCell : %6$s
 		\n
 	</string>
 	
 	<string name="moving_info">
-		\nFrom=>%1$s
-		\nTo=>%2$s
-		\nDate=>%3$s
-		\nSchedule=>%4$s
-		\nHome Description=>%5$s
-		\nSpecial Order=>%6$s
-		\nGeneral Comment=>%7$s
+		\nFrom : %1$s
+		\nTo : %2$s
+		
+		\nDate : %3$s
+		\nSchedule : %4$s
+		\n
+		\n-------------------------------
+		\nHome Description
+		\n-------------------------------
+		\n %5$s
+		\n
+		\n-------------------------------
+		\nSpecial Order
+		\n-------------------------------
+		\n %6$s
+		\n
+		\n-------------------------------
+		\nGeneral Comment
+		\n-------------------------------
+		\n %7$s
 		\n
 	</string>
 	
@@ -113,6 +126,7 @@
 		\n----------------------------------------
 		\nMasatoshi Nishiguchi
 		\nmasatoshi.nishiguchi@udc.edu
+		\nversion: 1.2
 	</string>
 	
 	<!-- Estimate Overview -->
@@ -327,9 +341,9 @@
 	<string name="invalid_password">Invalid password</string>
 	<string name="enter_your_password">"Enter your password "</string>
 	<string name="submit">Submit</string>
-	<string name="new_password">"New Password　:"</string>
+	<string name="new_password">"New Password : %1$s"</string>
 	<string name="change_password">Change Password</string>
-	<string name="currently">"Currently :"</string>
+	<string name="current_password">"Currently : %1$s"</string>
 	<string name="change">Change</string>
 	<string name="tbd">TBD</string>
 	<string name="actionbar_edit">"%1$s | EDIT"</string>
@@ -342,5 +356,6 @@
 	<string name="error_loading_customers">Error loading customers.</string>
 	<string name="error_saving_customers">Error saving customers.</string>
 	<string name="deleting_checked_item">Deleting the checked item</string>
+	<string name="no_password_set">(None set)</string>
 
 </resources>
