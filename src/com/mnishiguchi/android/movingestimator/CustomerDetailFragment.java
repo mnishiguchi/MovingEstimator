@@ -714,11 +714,11 @@ public class CustomerDetailFragment extends Fragment
 		Customer customer = Customer.getCurrentCustomer();
 		
 		String nameString = "";
-		if (Locale.getDefault().getDisplayLanguage().equals("“ú–{Œê"))
+		if (Locale.getDefault().getDisplayLanguage().equals("“ú–{Œê")) // Japanese
 		{
 			nameString = customer.getLastName() + " " + customer.getFirstName() + " " + customer.getPrefix();
 		}
-		else
+		else // The other languages
 		{
 			nameString = customer.toString() + ", " + customer.getFirstName();
 		}
@@ -777,10 +777,10 @@ public class CustomerDetailFragment extends Fragment
 			
 			// Create and return a dialog.
 			return new AlertDialog.Builder(getActivity())
-				.setTitle("Deleting this customer")
-				.setMessage("Are you sure?")
-				.setPositiveButton("Yes", listener)
-				.setNegativeButton("Cancel", listener)
+				.setTitle(R.string.deleting_this_customer)
+				.setMessage(R.string.are_you_sure)
+				.setPositiveButton(android.R.string.ok, listener)
+				.setNegativeButton(android.R.string.cancel, listener)
 				.create();
 		}
 	}

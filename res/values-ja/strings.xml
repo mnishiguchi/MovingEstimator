@@ -44,6 +44,7 @@
 	<string name="items">"アイテム"</string>
 	<string name="are_you_sure">大丈夫ですか?</string>
 	<string name="delete_room">ご指定の部屋を削除します。</string>
+	<string name="deleting_this_customer">この顧客を削除します。</string>
 	
 	<!-- Spinner Prefix -->
 	<string-array name="prefixes">
@@ -108,7 +109,6 @@
 		\n----------------------------------------
 		\nMasatoshi Nishiguchi
 		\nmasatoshi.nishiguchi@udc.edu
-		\nバージョン：1.1
 	</string>
 	
 	<!-- Estimate Overview -->
@@ -312,7 +312,7 @@
 	<string name="submit">提出</string>
 	<string name="new_password">"新パスワード　:"</string>
 	<string name="change_password">パスワード変更</string>
-	<string name="currently">"現状 :"</string>
+	<string name="currently">"現在のパスワード :"</string>
 	<string name="change">変更</string>
 	<string name="tbd">未定</string>
 	<string name="actionbar_edit">"%1$s | 編集"</string>
@@ -324,5 +324,6 @@
 	<string name="couldnt_delete_customer">顧客削除エラー</string>
 	<string name="error_loading_customers">顧客読み込みエラー</string>
 	<string name="error_saving_customers">顧客書き込みエラー</string>
+	<string name="deleting_checked_item">ご指定のアイテムを削除します。</string>
 	
 </resources>

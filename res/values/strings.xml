@@ -45,6 +45,7 @@
 	<string name="items">"item(s)"</string>
 	<string name="are_you_sure">Are you sure?</string>
 	<string name="delete_room">Deleting the checked room</string>
+	<string name="deleting_this_customer">Deleting this customer</string>
 	
 	<!-- Spinner Prefix -->
 	<string-array name="prefixes">
@@ -340,5 +341,6 @@
 	<string name="couldnt_delete_customer">Couldn\'t delete the customer</string>
 	<string name="error_loading_customers">Error loading customers.</string>
 	<string name="error_saving_customers">Error saving customers.</string>
-	
+	<string name="deleting_checked_item">Deleting the checked item</string>
+
 </resources>

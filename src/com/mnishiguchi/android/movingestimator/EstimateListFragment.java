@@ -193,7 +193,7 @@ public class EstimateListFragment extends Fragment implements
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu)
 		{
-			mode.setTitle("Deleting the checked item");
+			mode.setTitle(R.string.deleting_checked_item);
 			return false;
 		}
 		
