@@ -38,7 +38,14 @@ public class EnterPasswordActivity extends FragmentActivity
 	{
 		super.onResume();
 		
-		new EnterPasswordDialog().show(getSupportFragmentManager(), DIALOG_PASSWORD);
+		if (mCurrentPassword.equals(""))
+		{
+			startCustomerListActivity();
+		}
+		else
+		{
+			new EnterPasswordDialog().show(getSupportFragmentManager(), DIALOG_PASSWORD);
+		}
 	}
 	
 	@Override
@@ -46,6 +53,13 @@ public class EnterPasswordActivity extends FragmentActivity
 	{
 		super.onBackPressed();
 		finish();
+	}
+	
+	private void startCustomerListActivity()
+	{
+		Intent i = new Intent(this, CustomerListActivity.class);
+		startActivity(i);
+		this.finish();
 	}
 	
 	class EnterPasswordDialog extends DialogFragment
@@ -74,9 +88,7 @@ public class EnterPasswordActivity extends FragmentActivity
 							
 							if (mPassword.equals(mCurrentPassword))
 							{
-								Intent i = new Intent(getActivity(), CustomerListActivity.class);
-								startActivity(i);
-								getActivity().finish();
+								startCustomerListActivity();
 							}
 							else
 							{

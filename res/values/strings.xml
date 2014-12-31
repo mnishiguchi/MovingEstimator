@@ -74,6 +74,7 @@
 		\nTo : %2$s
 		
 		\nDate : %3$s
+		\n
 		\nSchedule : %4$s
 		\n
 		\n-------------------------------
@@ -126,7 +127,7 @@
 		\n----------------------------------------
 		\nMasatoshi Nishiguchi
 		\nmasatoshi.nishiguchi@udc.edu
-		\nversion: 1.2
+		\nversion: 1.3
 	</string>
 	
 	<!-- Estimate Overview -->
